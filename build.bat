@@ -2,7 +2,8 @@ cls
 set pathB4=%cd%
 set app=phantomjs.exe runner.js
 
-pushd %USERPROFILE%\Google Drive\Work\Code\Web\FrimleyFlyers\sitePhantomjs
+pushd c:\git\FrimleyFlyers\sitePhantomjs
+rem pushd %USERPROFILE%\Google Drive\Work\Code\Web\FrimleyFlyers\sitePhantomjs
 rem pushd C:\Users\slop\Google Drive\Work\Code\Web\FrimleyFlyers\sitePhantomjs
 
 %app% ffchampionship

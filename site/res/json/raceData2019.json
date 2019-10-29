@@ -1,5 +1,5 @@
 ﻿{
-	"leagueTableColumnsToShow": [4],
+	"leagueTableColumnsToShow": [6],
 	"takeNBestScores": 5,
 	"pointsScheme": [
 		21,
@@ -1921,7 +1921,90 @@
 						20
 					],
 					"distance": 3,
-					"results": []
+						
+				"results": [
+					{
+						"name": "Em Howden",
+							"time": {
+							"hour": 1,
+							"minute": 2,
+							"second": 58
+						}
+					},
+					{
+						"name": "Alan Bush",
+							"time": {
+							"hour": 0,
+							"minute": 40,
+							"second": 8
+						}
+					},
+					{
+						"name": "Peta Revell",
+							"time": {
+							"hour": 0,
+							"minute": 53,
+							"second": 55
+						}
+					},
+					{
+						"name": "David Peddle",
+							"time": {
+							"hour": 0,
+							"minute": 46,
+							"second": 26
+						}
+					},
+					{
+						"name": "Oli Peddle",
+							"time": {
+							"hour": 0,
+							"minute": 50,
+							"second": 24
+						}
+					},
+					{
+						"name": "Susan Rodrigues",
+							"time": {
+							"hour": 0,
+							"minute": 48,
+							"second": 35
+						}
+					},
+					{
+						"name": "Bob Turner",
+							"time": {
+							"hour": 0,
+							"minute": 46,
+							"second": 37
+						}
+					},
+					{
+						"name": "Paul Williams",
+							"time": {
+							"hour": 0,
+							"minute": 59,
+							"second": 7
+						}
+					},
+					{
+						"name": "Jim Laidlaw",
+							"time": {
+							"hour": 0,
+							"minute": 40,
+							"second": 18
+						}
+					},
+					{
+						"name": "Tom Churchill",
+							"time": {
+							"hour": 0,
+							"minute": 53,
+							"second": 54
+						}
+					}																																																																																																																																								
+				
+					]
 				}
 			]
 		},
