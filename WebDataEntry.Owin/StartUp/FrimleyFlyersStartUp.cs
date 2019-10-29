@@ -12,7 +12,7 @@ namespace WebDataEntry.Owin.StartUp
 		/// </summary>
 		public static void Configuration(IAppBuilder app)
 		{
-			var physicalFileSystem = new PhysicalFileSystem(@"..\..\..\..\FrimleyFlyers\site");
+			var physicalFileSystem = new PhysicalFileSystem(@"..\..\..\site");
 
 			var options = new FileServerOptions
 			{

@@ -93,20 +93,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="StartUp\FrimleyFlyersStartUp.cs" />
-    <Compile Include="StartUp\MartinGayCoUkStartUp.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StartUp\WebEntryStartUp.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\WebDataEntry.Web\WebDataEntry.Web.csproj">
-      <Project>{0268ea67-a7ad-4e25-8838-22f725e58bc3}</Project>
-      <Name>WebDataEntry.Web</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
