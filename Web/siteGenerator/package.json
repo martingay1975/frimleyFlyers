@@ -1,0 +1,17 @@
+{
+  "_comment": "-- Install and save as a dependency in here.",
+  "_comment2": "    npm install <name> --save",
+  "_comment3": "       -- don't use the global -g flag as this will not add as a local dependency",
+  "_comment4": "       -- remember to 'cd' into the project's directory and not the solution's! Otherwise it will not work",
+  "name": "site-generator",
+  "version": "0.0.0",
+  "description": "siteGenerator",
+  "main": "app.js",
+  "author": {
+    "name": "mgay"
+  },
+  "dependencies": {
+    "fs": "0.0.1-security",
+    "pug": "^2.0.0-rc.3"    -- https://pugjs.org/api/getting-started.html
+  }
+}

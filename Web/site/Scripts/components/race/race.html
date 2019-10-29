@@ -1,0 +1,31 @@
+﻿<!-- $data is a RaceComponentViewModel -->
+
+<!-- ko if: $data.raceId -->
+
+<div style="height: 15px">
+    
+</div>
+<div class="panel">
+    
+    <div class="panel panel-heading">
+		<img data-bind="attr: {src: $data.race.image}" style="width: 120px" />
+        <h3 data-bind="text: $data.race.label"></h3>
+    </div>
+	<div class="panel panel-body">
+		
+		<p><span>Web Site:</span>&nbsp;&nbsp;<a data-bind="attr : {'href': $data.race.website}" target="_blank"><span class="glyphicon glyphicon-new-window" aria-hidden="true"></span></a></p>
+		<p><span>Distance: </span><span data-bind="text: $data.race.distanceString"></span></p>
+		Events:
+		<ul>
+			<!-- ko foreach: $data.race.raceEvents -->
+			<li data-bind="text: $data.dateString"></li>
+			<!-- /ko -->
+		</ul>
+	</div>
+</div>
+
+<!-- /ko -->
+
+<!-- ko ifnot: $data.raceId -->
+<races-main></races-main>
+<!-- /ko -->

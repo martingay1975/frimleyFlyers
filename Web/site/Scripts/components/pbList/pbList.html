@@ -1,0 +1,34 @@
+﻿<!-- $data is a ComponentViewModel -->
+<div class="panel">
+	<div class="panel panel-body">
+		<table class="table">
+			<tbody>
+				<tr>
+					<th>Name</th>
+					<th>5km</th>
+					<th>10km</th>
+					<th>Half Marathon</th>
+					<th>parkrun</th>
+					<th>Strava</th>
+				</tr>
+
+				<!-- ko foreach: $data.competitors -->
+				<tr>
+					<td data-bind="text: $data.name"></td>
+					<td data-bind="text: $data.time5km"></td>
+					<td data-bind="text: $data.time10km"></td>
+					<td data-bind="text: $data.timeHalf"></td>
+					<td><a target="link" data-bind="attr : {href : 'http://www.parkrun.org.uk/results/athleteresultshistory/?athleteNumber=' + $data.parkrunAthleteId} "><img style="width:24px" src="/images/parkrunIcon.jpg" /></a></td>
+					<td>
+						<!-- ko if:$data.stravaAthleteId -->
+						<a target="link" data-bind="attr : {href : 'https://www.strava.com/athletes/' + $data.stravaAthleteId}"><img style="width: 24px" src="/Scripts/components/navigation/images/strava.png"/></a>
+						<!-- /ko -->
+					</td>
+				</tr>
+				<!-- /ko -->
+			</tbody>
+			<caption data-bind="text: 'Correct as of 1st January ' + $component.seasonYear"></caption>
+		</table>
+	</div>
+</div>
+<span id="pbListEnd"></span>

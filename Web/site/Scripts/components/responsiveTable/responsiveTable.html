@@ -1,0 +1,14 @@
+﻿
+<ul class="list-as-table">
+	<!-- ko foreach: $component.rows -->
+	<li>
+		<dl>
+			<!-- ko foreach: $data.row -->
+			<!-- each cell is a ResponsiveTableCell -->
+			<dt data-bind="text: $data.heading"></dt>
+			<dd data-bind="text: $data.value"></dd>
+			<!-- /ko -->
+		</dl>
+	</li>
+	<!-- /ko -->
+</ul>

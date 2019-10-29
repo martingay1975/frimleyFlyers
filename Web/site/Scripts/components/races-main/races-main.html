@@ -1,0 +1,23 @@
+﻿<!-- $data is a RacesMainComponentViewModel -->
+
+<div id="races-main">
+	<h3>Races</h3>
+
+	<div class="panel panel-body">
+		<p>We have 7 races spread through out 2016, testing at 5km, 10km and Half Marathon distance:</p>
+	</div>
+
+<!-- ko foreach: $data.races -->
+<div class="panel">
+
+	<div class="panel panel-heading">
+		<a data-bind="attr: {'href': '/#race/' + $data.id }, text: $data.label"></a>
+	</div>
+	<div class="panel panel-body">
+		<p><span>Distance:</span><span data-bind="text: $data.distanceString"></span></p>
+		<p><span>Events:</span><span data-bind="text: $data.raceEvents.length"></span></p>
+		<p><span>First Event:</span><span data-bind="text: $data.raceEvents[0].dateString"></span></p>
+	</div>
+</div>
+<!-- /ko -->
+</div>

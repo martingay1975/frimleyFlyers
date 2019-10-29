@@ -1,0 +1,19 @@
+{
+	"_comment": "-- Install and save as a dependency in here.",
+	"_comment1": "-- Run nuget package manager console. 'cd' to the parkrunScraper folder and run.",
+	"_comment2": "    npm install <module> --save",
+	"name": "site",
+	"version": "1.0.1",
+	"description": "Scrapes an athletes run data",
+	"private": true,
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"child_process": "^1.0.2",
+		"gulp": "^4.0.0",
+		"gulp-cli": "^2.0.1",
+		"gulp-debug": "^3.2.0",
+		"gulp-sass": "^3.1.0",
+		"gulp-watch": "^5.0.1"
+	}
+}

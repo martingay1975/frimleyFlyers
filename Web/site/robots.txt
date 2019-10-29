@@ -1,0 +1,3 @@
+﻿User-agent: *
+Disallow: /Images/
+Sitemap: http://www.frimleyflyers.co.uk/sitemap.xml

@@ -1,0 +1,27 @@
+{
+	"_comment": "-- Install and save as a dependency in here.",
+	"_comment1": "-- Run nuget package manager console. 'cd' to the parkrunScraper folder and run.",
+	"_comment2": "    npm install <module> --save",
+	"name": "parkrun-scraper",
+	"version": "1.0.1",
+	"description": "Scrapes an athletes run data",
+	"main": "app.js",
+	"private": true,
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "node app.js"
+	},
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"cheerio": "^0.22.0",
+		"deferred": "^0.7.5",
+		"express": "^4.16.4",
+		"fs": "0.0.2",
+		"moment": "^2.23.0",
+		"puppeteer": "^1.11.0",
+		"request": "^2.88.0",
+		"request-rate-limiter": "^1.0.2",
+		"zlib": "^1.0.5"
+	}
+}

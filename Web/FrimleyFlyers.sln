@@ -1,0 +1,94 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2020
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "site", "http://localhost:61563", "{88CDA70E-0BC9-467E-8FD1-4A7CD42656A1}"
+	ProjectSection(WebsiteProperties) = preProject
+		UseIISExpress = "true"
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_53000"
+		Debug.AspNetCompiler.PhysicalPath = "site\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_53000\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_53000"
+		Release.AspNetCompiler.PhysicalPath = "site\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_53000\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		SlnRelativePath = "site\"
+	EndProjectSection
+EndProject
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "parkrunScraper", "parkrunScraper\parkrunScraper.njsproj", "{9E1ECBBE-4FA9-45F1-93B9-081877E0416F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sitePhantomJS", "sitePhantomJS", "{3B3BDEB9-D074-4E58-8033-ED3E5B55D38F}"
+	ProjectSection(SolutionItems) = preProject
+		build.bat = build.bat
+		sitePhantomjs\core.js = sitePhantomjs\core.js
+		sitePhantomjs\helper.js = sitePhantomjs\helper.js
+		sitePhantomjs\runner.js = sitePhantomjs\runner.js
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "pageHandlers", "pageHandlers", "{77E42974-29F2-4781-B545-C760A3E902A0}"
+	ProjectSection(SolutionItems) = preProject
+		sitePhantomjs\pageHandlers\endure24.js = sitePhantomjs\pageHandlers\endure24.js
+		sitePhantomjs\pageHandlers\ffchampionship.js = sitePhantomjs\pageHandlers\ffchampionship.js
+		sitePhantomjs\pageHandlers\ffchampionship2017.js = sitePhantomjs\pageHandlers\ffchampionship2017.js
+		sitePhantomjs\pageHandlers\fftrophy.js = sitePhantomjs\pageHandlers\fftrophy.js
+		sitePhantomjs\pageHandlers\index.js = sitePhantomjs\pageHandlers\index.js
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|ARM = Debug|ARM
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|ARM = Release|ARM
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{88CDA70E-0BC9-467E-8FD1-4A7CD42656A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88CDA70E-0BC9-467E-8FD1-4A7CD42656A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88CDA70E-0BC9-467E-8FD1-4A7CD42656A1}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{88CDA70E-0BC9-467E-8FD1-4A7CD42656A1}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{88CDA70E-0BC9-467E-8FD1-4A7CD42656A1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{88CDA70E-0BC9-467E-8FD1-4A7CD42656A1}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{88CDA70E-0BC9-467E-8FD1-4A7CD42656A1}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{88CDA70E-0BC9-467E-8FD1-4A7CD42656A1}.Release|ARM.ActiveCfg = Debug|Any CPU
+		{88CDA70E-0BC9-467E-8FD1-4A7CD42656A1}.Release|x64.ActiveCfg = Debug|Any CPU
+		{88CDA70E-0BC9-467E-8FD1-4A7CD42656A1}.Release|x86.ActiveCfg = Debug|Any CPU
+		{9E1ECBBE-4FA9-45F1-93B9-081877E0416F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E1ECBBE-4FA9-45F1-93B9-081877E0416F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E1ECBBE-4FA9-45F1-93B9-081877E0416F}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{9E1ECBBE-4FA9-45F1-93B9-081877E0416F}.Debug|ARM.Build.0 = Debug|Any CPU
+		{9E1ECBBE-4FA9-45F1-93B9-081877E0416F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{9E1ECBBE-4FA9-45F1-93B9-081877E0416F}.Debug|x64.Build.0 = Debug|Any CPU
+		{9E1ECBBE-4FA9-45F1-93B9-081877E0416F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9E1ECBBE-4FA9-45F1-93B9-081877E0416F}.Debug|x86.Build.0 = Debug|Any CPU
+		{9E1ECBBE-4FA9-45F1-93B9-081877E0416F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E1ECBBE-4FA9-45F1-93B9-081877E0416F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E1ECBBE-4FA9-45F1-93B9-081877E0416F}.Release|ARM.ActiveCfg = Release|Any CPU
+		{9E1ECBBE-4FA9-45F1-93B9-081877E0416F}.Release|ARM.Build.0 = Release|Any CPU
+		{9E1ECBBE-4FA9-45F1-93B9-081877E0416F}.Release|x64.ActiveCfg = Release|Any CPU
+		{9E1ECBBE-4FA9-45F1-93B9-081877E0416F}.Release|x64.Build.0 = Release|Any CPU
+		{9E1ECBBE-4FA9-45F1-93B9-081877E0416F}.Release|x86.ActiveCfg = Release|Any CPU
+		{9E1ECBBE-4FA9-45F1-93B9-081877E0416F}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{77E42974-29F2-4781-B545-C760A3E902A0} = {3B3BDEB9-D074-4E58-8033-ED3E5B55D38F}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3C23BF9F-A209-48B4-B0B5-4F862C8CBF6B}
+	EndGlobalSection
+EndGlobal

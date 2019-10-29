@@ -1,0 +1,72 @@
+﻿
+nav {
+    border-radius: 0px !important;
+    
+    
+    background-color: $purple;
+
+    .icon-bar {
+        background-color: $yellow;
+    }
+
+    svg {
+        width: 24px;
+        height: 24px;
+        margin-left: 15px;
+        margin-right: 15px;
+        border-radius: 3px;
+        fill: $yellow;
+    }
+
+    .nav > li {
+
+        /*inverse*/
+        :hover {
+            background-color: $yellow;
+            color: $purple;
+
+            svg {
+                fill:$purple;
+            }
+        }
+
+        /* override the white background when the menu item is selected. */
+        :focus {
+            background-color: $purple !important;
+            color: $yellow !important;
+        }
+
+
+        > a {
+            padding: 5px;
+            color: $yellow;
+
+            :hover {
+                color: $purple;
+            }
+        }
+
+        text-align: center;
+    }
+    
+    /*just the drop down part*/
+    .dropdown-menu {
+        background-color: $purple;
+        color: $yellow;
+        
+        li > a {
+            background-image: none !important;  /* otherwise when hovering selected item goes white. strangely this is not on the hover! */
+            background-color: $purple;
+            color: $yellow;
+
+            :hover {
+                /*inverse*/
+                background-color: $yellow;
+                color: $purple;
+            }
+        }
+    }
+
+    min-height: auto !important;
+    margin-bottom: 0px !important;
+}

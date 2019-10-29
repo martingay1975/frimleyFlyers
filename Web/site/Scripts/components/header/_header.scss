@@ -1,0 +1,25 @@
+﻿
+#page-header {
+
+    background: url("/images/jumbotron2.jpg") center center;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    overflow: hidden;
+    padding: 30px;
+    margin-bottom: -30px;
+    z-index: 2;
+
+    .page-last-updated {
+        display:inline-block;
+
+        span {
+            color: white
+        }
+    }
+
+    
+
+
+}
+
