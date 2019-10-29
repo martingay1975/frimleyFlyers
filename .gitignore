@@ -1,0 +1,13 @@
+bower_components/
+node_modules/
+obj/
+bin/
+packages/
+
+
+.vscode/
+.vs/
+.idea/
+*.iml
+
+npm-debug.log
