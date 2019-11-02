@@ -1,5 +1,5 @@
 ﻿{
-	"leagueTableColumnsToShow": [6],
+	"leagueTableColumnsToShow": [7],
 	"takeNBestScores": 5,
 	"pointsScheme": [
 		21,
@@ -2021,7 +2021,89 @@
 						2
 					],
 					"distance": 3,
-					"results": []
+					
+				"results": [
+					{
+						"name": "Em Howden",
+							"time": {
+							"hour": 0,
+							"minute": 33,
+							"second": 23
+						}
+					},
+					{
+						"name": "David Peddle",
+							"time": {
+							"hour": 0,
+							"minute": 22,
+							"second": 51
+						}
+					},
+					{
+						"name": "Susan Rodrigues",
+							"time": {
+							"hour": 0,
+							"minute": 24,
+							"second": 40
+						}
+					},
+					{
+						"name": "Andy Poulter",
+							"time": {
+							"hour": 0,
+							"minute": 24,
+							"second": 39
+						}
+					},
+					{
+						"name": "Bob Turner",
+							"time": {
+							"hour": 0,
+							"minute": 23,
+							"second": 45
+						}
+					},
+					{
+						"name": "Alex Longmuir",
+							"time": {
+							"hour": 0,
+							"minute": 26,
+							"second": 26
+						}
+					},
+					{
+						"name": "Martin Gay",
+							"time": {
+							"hour": 0,
+							"minute": 30,
+							"second": 9
+						}
+					},
+					{
+						"name": "Alfred Boese",
+							"time": {
+							"hour": 0,
+							"minute": 20,
+							"second": 38
+						}
+					},
+					{
+						"name": "Bruno Silva",
+							"time": {
+							"hour": 0,
+							"minute": 21,
+							"second": 50
+						}
+					},
+					{
+						"name": "Tom Churchill",
+							"time": {
+							"hour": 0,
+							"minute": 26,
+							"second": 11
+						}
+					}																																																																																																																																								
+				]
 				},
 				{
 					"date": [
