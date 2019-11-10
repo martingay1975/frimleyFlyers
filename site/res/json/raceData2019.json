@@ -2112,7 +2112,129 @@
 						9
 					],
 					"distance": 3,
-					"results": []
+
+					"results": [
+						{
+							"name": "Em Howden",
+								"time": {
+								"hour": 0,
+								"minute": 31,
+								"second": 47
+							}
+						},
+						{
+							"name": "Alan Bush",
+								"time": {
+								"hour": 0,
+								"minute": 19,
+								"second": 50
+							}
+						},
+						{
+							"name": "Peta Revell",
+								"time": {
+								"hour": 0,
+								"minute": 27,
+								"second": 57
+							}
+						},
+						{
+							"name": "David Peddle",
+								"time": {
+								"hour": 0,
+								"minute": 22,
+								"second": 1
+							}
+						},
+						{
+							"name": "Susan Rodrigues",
+								"time": {
+								"hour": 0,
+								"minute": 24,
+								"second": 35
+							}
+						},
+						{
+							"name": "Bob Turner",
+								"time": {
+								"hour": 0,
+								"minute": 23,
+								"second": 18
+							}
+						},
+						{
+							"name": "Louise McIntosh",
+								"time": {
+								"hour": 0,
+								"minute": 25,
+								"second": 22
+							}
+						},
+						{
+							"name": "Alex Longmuir",
+								"time": {
+								"hour": 0,
+								"minute": 24,
+								"second": 59
+							}
+						},
+						{
+							"name": "Paul Williams",
+								"time": {
+								"hour": 0,
+								"minute": 21,
+								"second": 28
+							}
+						},
+						{
+							"name": "Duncan Ball",
+								"time": {
+								"hour": 0,
+								"minute": 29,
+								"second": 31
+							}
+						},
+						{
+							"name": "Martin Gay",
+								"time": {
+								"hour": 0,
+								"minute": 26,
+								"second": 10
+							}
+						},
+						{
+							"name": "Fiona Keane-Munday",
+								"time": {
+								"hour": 0,
+								"minute": 37,
+								"second": 45
+							}
+						},
+						{
+							"name": "Alfred Boese",
+								"time": {
+								"hour": 0,
+								"minute": 20,
+								"second": 51
+							}
+						},
+						{
+							"name": "Darren Stone",
+								"time": {
+								"hour": 0,
+								"minute": 25,
+								"second": 22
+							}
+						},
+						{
+							"name": "Tom Churchill",
+								"time": {
+								"hour": 0,
+								"minute": 26,
+								"second": 4
+							}
+						}																																																																																																																																								
+					]
 				},
 				{
 					"date": [
