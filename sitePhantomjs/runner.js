@@ -20,6 +20,7 @@ var IndexPageHandlers = require("./pageHandlers/index.js");
 var FFChampionshipPageHandlers = require("./pageHandlers/ffchampionship.js");
 var FFChampionship2017PageHandlers = require("./pageHandlers/ffchampionship2017.js");
 var FFChampionship2018PageHandlers = require("./pageHandlers/ffchampionship2018.js");
+var FFChampionship2019PageHandlers = require("./pageHandlers/ffchampionship2019.js");
 var FFTrophy2018PageHandlers = require("./pageHandlers/fftrophy2018.js");
 var Endure24PageHandlers = require("./pageHandlers/endure24.js");
 var PbListPageHandlers = require("./pageHandlers/pbList.js");
@@ -35,6 +36,7 @@ var RunsPageHandlers = require("./pageHandlers/runs.js");
 		ffchampionship: new FFChampionshipPageHandlers(),
 		ffchampionship2017: new FFChampionship2017PageHandlers(),
 		ffchampionship2018: new FFChampionship2018PageHandlers(),
+		ffchampionship2019: new FFChampionship2019PageHandlers(),
 		fftrophy2018: new FFTrophy2018PageHandlers(),
 		endure24: new Endure24PageHandlers(),
 		pbList: new PbListPageHandlers(),

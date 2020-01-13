@@ -151,9 +151,9 @@
 				var fionaKeaneMunday = new Person(46, "Fiona Keane-Munday", "", "4607674");
 				var lewisWhatley = new Person(47, "Lewis Whatley", "", "911642");
 				var chelseaKnight = new Person(48, "Chelsea Knight", "", "145938");
-
+				var christineScally = new Person(49, "Christine Scally", "", "77879");
+				var richardFyvie = new Person(50, "Richard Fyvie", "", "75992")
 				
-
 				self.competitors.push(martingay,
 					jamesball,
 					chrispeddle,
@@ -200,7 +200,9 @@
 					louiseMcIntosh,
 					fionaKeaneMunday,
 					lewisWhatley,
-					chelseaKnight);
+					chelseaKnight,
+					christineScally,
+					richardFyvie);
 
 				self.sortByName();
 			};

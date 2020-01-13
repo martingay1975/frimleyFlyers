@@ -91,7 +91,12 @@ define(["jquery", "timeSpan", "race", "competitorsData", "siteOptions"], functio
 						twohalfKm = new TimeSpan(recordJson.twohalfKm.hour, recordJson.twohalfKm.minute, recordJson.twohalfKm.second);
 					}
 
-					person.setRecords(self.seasonYear, twohalfKm, fiveKm, tenKm, halfMarathon);
+					var tenMiles = null;
+					if (recordJson.tenMiles) {
+						tenMiles = new TimeSpan(recordJson.tenMiles.hour, recordJson.tenMiles.minute, recordJson.tenMiles.second);
+					}
+
+					person.setRecords(self.seasonYear, twohalfKm, fiveKm, tenKm, halfMarathon, tenMiles);
 
 					personCounter++;
 

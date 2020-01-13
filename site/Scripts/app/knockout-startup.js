@@ -46,6 +46,7 @@ define(["knockout", "siteViewModel"], function (ko, siteViewModel) {
 	registerViewModelAndTemplate("ffchampionship");
 	registerViewModelAndTemplate("ffchampionship2017");
 	registerViewModelAndTemplate("ffchampionship2018");
+	registerViewModelAndTemplate("ffchampionship2019");
 	registerViewModelAndTemplate("fftrophy2018");
 	registerTemplate("svg-images");
 	registerViewModelAndTemplate("rules");

@@ -48,7 +48,7 @@ define(function() {
 				params: {
 				},
 				rules: {
-					subOptionName: ["home", "endure24", "ffchampionship", "ffchampionship2017", "ffchampionship2018", "fftrophy2018", "club", "runs", "pbList"],
+					subOptionName: ["home", "endure24", "ffchampionship", "ffchampionship2017", "ffchampionship2018", "ffchampionship2019", "fftrophy2018", "club", "runs", "pbList"],
 					normalize_: setParams
 				}
 			},

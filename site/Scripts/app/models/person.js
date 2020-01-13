@@ -13,11 +13,12 @@
 			return records[distance];
 		};
 
-		this.setRecords = function (twohalfKmTime, fiveKmTime, tenKmTime, halfMarathonTime) {
+		this.setRecords = function (twohalfKmTime, fiveKmTime, tenKmTime, halfMarathonTime, tenMiles) {
 			records[raceDistance.twohalfKm] = twohalfKmTime;
 			records[raceDistance.fiveKm] = fiveKmTime;
 			records[raceDistance.tenKm] = tenKmTime;
 			records[raceDistance.halfMarathon] = halfMarathonTime;
+			records[raceDistance.tenMiles] = tenMiles;
 		};
 	};
 
@@ -50,10 +51,10 @@
 			return season;
 		};
 
-		this.setRecords = function (year, twohalfKmTime, fiveKmTime, tenKmTime, halfMarathonTime) {
+		this.setRecords = function (year, twohalfKmTime, fiveKmTime, tenKmTime, halfMarathonTime, tenMileTime) {
 			var newSeason = new Season(year);
 			self.seasons.push(newSeason);
-			newSeason.setRecords(twohalfKmTime, fiveKmTime, tenKmTime, halfMarathonTime);
+			newSeason.setRecords(twohalfKmTime, fiveKmTime, tenKmTime, halfMarathonTime, tenMileTime);
 		};
 	};
 

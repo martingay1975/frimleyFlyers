@@ -1,5 +1,5 @@
 ﻿{
-	"leagueTableColumnsToShow": [7],
+	"leagueTableColumnsToShow": [1,2,3,4,5,6,7],
 	"takeNBestScores": 5,
 	"pointsScheme": [
 		21,
@@ -2243,7 +2243,169 @@
 						16
 					],
 					"distance": 3,
-					"results": []
+					
+				"results": [
+					{
+						"name": "Em Howden",
+							"time": {
+							"hour": 0,
+							"minute": 32,
+							"second": 42
+						}
+					},
+					{
+						"name": "Alan Bush",
+							"time": {
+							"hour": 0,
+							"minute": 20,
+							"second": 14
+						}
+					},
+					{
+						"name": "Peta Revell",
+							"time": {
+							"hour": 0,
+							"minute": 27,
+							"second": 1
+						}
+					},
+					{
+						"name": "David Peddle",
+							"time": {
+							"hour": 0,
+							"minute": 22,
+							"second": 13
+						}
+					},
+					{
+						"name": "Chris Peddle",
+							"time": {
+							"hour": 0,
+							"minute": 22,
+							"second": 48
+						}
+					},
+					{
+						"name": "Susan Rodrigues",
+							"time": {
+							"hour": 0,
+							"minute": 27,
+							"second": 35
+						}
+					},
+					{
+						"name": "Andy Poulter",
+							"time": {
+							"hour": 0,
+							"minute": 27,
+							"second": 33
+						}
+					},
+					{
+						"name": "Bob Turner",
+							"time": {
+							"hour": 0,
+							"minute": 25,
+							"second": 56
+						}
+					},
+					{
+						"name": "Louise McIntosh",
+							"time": {
+							"hour": 0,
+							"minute": 38,
+							"second": 24
+						}
+					},
+					{
+						"name": "Alex Longmuir",
+							"time": {
+							"hour": 0,
+							"minute": 25,
+							"second": 30
+						}
+					},
+					{
+						"name": "Paul Williams",
+							"time": {
+							"hour": 0,
+							"minute": 22,
+							"second": 49
+						}
+					},
+					{
+						"name": "Duncan Ball",
+							"time": {
+							"hour": 0,
+							"minute": 30,
+							"second": 4
+						}
+					},
+					{
+						"name": "James Ball",
+							"time": {
+							"hour": 0,
+							"minute": 38,
+							"second": 22
+						}
+					},
+					{
+						"name": "Martin Gay",
+							"time": {
+							"hour": 0,
+							"minute": 31,
+							"second": 47
+						}
+					},
+					{
+						"name": "Chelsea Knight",
+							"time": {
+							"hour": 0,
+							"minute": 26,
+							"second": 53
+						}
+					},
+					{
+						"name": "Fiona Keane-Munday",
+							"time": {
+							"hour": 0,
+							"minute": 41,
+							"second": 33
+						}
+					},
+					{
+						"name": "Alfred Boese",
+							"time": {
+							"hour": 0,
+							"minute": 22,
+							"second": 28
+						}
+					},
+					{
+						"name": "Darren Stone",
+							"time": {
+							"hour": 0,
+							"minute": 23,
+							"second": 22
+						}
+					},
+					{
+						"name": "Kirstie Stone",
+							"time": {
+							"hour": 0,
+							"minute": 41,
+							"second": 33
+						}
+					},
+					{
+						"name": "Tom Churchill",
+							"time": {
+							"hour": 0,
+							"minute": 25,
+							"second": 8
+						}
+					}																																																																																																																																								
+				]
 				},
 				{
 					"date": [
@@ -2252,7 +2414,113 @@
 						23
 					],
 					"distance": 3,
-					"results": []
+					
+				"results": [
+					{
+						"name": "Alan Bush",
+							"time": {
+							"hour": 0,
+							"minute": 20,
+							"second": 24
+						}
+					},
+					{
+						"name": "David Peddle",
+							"time": {
+							"hour": 0,
+							"minute": 22,
+							"second": 31
+						}
+					},
+					{
+						"name": "Susan Rodrigues",
+							"time": {
+							"hour": 0,
+							"minute": 24,
+							"second": 33
+						}
+					},
+					{
+						"name": "Andy Poulter",
+							"time": {
+							"hour": 0,
+							"minute": 24,
+							"second": 33
+						}
+					},
+					{
+						"name": "Bob Turner",
+							"time": {
+							"hour": 0,
+							"minute": 23,
+							"second": 15
+						}
+					},
+					{
+						"name": "Alex Longmuir",
+							"time": {
+							"hour": 0,
+							"minute": 27,
+							"second": 26
+						}
+					},
+					{
+						"name": "Paul Williams",
+							"time": {
+							"hour": 0,
+							"minute": 20,
+							"second": 35
+						}
+					},
+					{
+						"name": "Chelsea Knight",
+							"time": {
+							"hour": 0,
+							"minute": 25,
+							"second": 18
+						}
+					},
+					{
+						"name": "Adrian Keane-Munday",
+							"time": {
+							"hour": 0,
+							"minute": 29,
+							"second": 1
+						}
+					},
+					{
+						"name": "Fiona Keane-Munday",
+							"time": {
+							"hour": 0,
+							"minute": 36,
+							"second": 14
+						}
+					},
+					{
+						"name": "Alfred Boese",
+							"time": {
+							"hour": 0,
+							"minute": 20,
+							"second": 30
+						}
+					},
+					{
+						"name": "Darren Stone",
+							"time": {
+							"hour": 0,
+							"minute": 32,
+							"second": 52
+						}
+					},
+					{
+						"name": "Kirstie Stone",
+							"time": {
+							"hour": 0,
+							"minute": 32,
+							"second": 51
+						}
+					}
+				]
 				},
 				{
 					"date": [
@@ -2261,7 +2529,121 @@
 						30
 					],
 					"distance": 3,
-					"results": []
+
+					"results": [
+						{
+							"name": "Rich Howden",
+								"time": {
+								"hour": 0,
+								"minute": 26,
+								"second": 38
+							}
+						},
+						{
+							"name": "Alan Bush",
+								"time": {
+								"hour": 0,
+								"minute": 20,
+								"second": 22
+							}
+						},
+						{
+							"name": "David Peddle",
+								"time": {
+								"hour": 0,
+								"minute": 24,
+								"second": 12
+							}
+						},
+						{
+							"name": "Oli Peddle",
+								"time": {
+								"hour": 0,
+								"minute": 28,
+								"second": 50
+							}
+						},
+						{
+							"name": "Susan Rodrigues",
+								"time": {
+								"hour": 0,
+								"minute": 24,
+								"second": 3
+							}
+						},
+						{
+							"name": "Andy Poulter",
+								"time": {
+								"hour": 0,
+								"minute": 24,
+								"second": 3
+							}
+						},
+						{
+							"name": "Bob Turner",
+								"time": {
+								"hour": 0,
+								"minute": 23,
+								"second": 20
+							}
+						},
+						{
+							"name": "Alex Longmuir",
+								"time": {
+								"hour": 0,
+								"minute": 25,
+								"second": 50
+							}
+						},
+						{
+							"name": "Paul Williams",
+								"time": {
+								"hour": 0,
+								"minute": 20,
+								"second": 43
+							}
+						},
+						{
+							"name": "Martin Gay",
+								"time": {
+								"hour": 0,
+								"minute": 25,
+								"second": 15
+							}
+						},
+						{
+							"name": "Chelsea Knight",
+								"time": {
+								"hour": 0,
+								"minute": 24,
+								"second": 11
+							}
+						},
+						{
+							"name": "Adrian Keane-Munday",
+								"time": {
+								"hour": 0,
+								"minute": 29,
+								"second": 41
+							}
+						},
+						{
+							"name": "Fiona Keane-Munday",
+								"time": {
+								"hour": 0,
+								"minute": 38,
+								"second": 41
+							}
+						},
+						{
+							"name": "Tom Churchill",
+								"time": {
+								"hour": 0,
+								"minute": 26,
+								"second": 37
+							}
+						}																																																																																																																																								
+					]
 				}
 			]
 		}

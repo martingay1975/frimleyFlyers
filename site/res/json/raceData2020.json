@@ -1,0 +1,296 @@
+﻿{
+	"leagueTableColumnsToShow": [0,1,2,3,4,5,6,7],
+	"takeNBestScores": 5,
+	"pointsScheme": [
+		21,
+		17,
+		14,
+		12,
+		10,
+		8,
+		6,
+		4,
+		2,
+		1
+	],
+	"pointsPbBonus": 5,
+	"entryCost": 15.00,
+	"records": [
+		{
+			"name": "Martin Gay",
+			"fiveKm": {
+				"hour": 0,
+				"minute": 23,
+				"second": 49
+			},
+			"tenKm": {
+				"hour": 0,
+				"minute": 49,
+				"second": 18
+			},
+			"tenMiles": {
+				"hour": 1,
+				"minute": 21,
+				"second": 38
+			},
+			"halfMarathon": {
+				"hour": 1,
+				"minute": 48,
+				"second": 46
+			}
+		},
+		{
+			"name": "Christine Scally",
+			"fiveKm": {
+				"hour": 0,
+				"minute": 26,
+				"second": 7
+			},
+			"tenKm": {
+				"hour": 0,
+				"minute": 55,
+				"second": 47
+			},
+			"tenMiles": {
+				"hour": 1,
+				"minute": 27,
+				"second": 38
+			},
+			"halfMarathon": {
+				"hour": 1,
+				"minute": 56,
+				"second": 47
+			}
+		},
+		{
+			"name": "Richard Fyvie",
+			"fiveKm": {
+				"hour": 0,
+				"minute": 21,
+				"second": 1
+			},
+			"tenKm": {
+				"hour": 0,
+				"minute": 44,
+				"second": 38
+			},
+			"tenMiles": {
+				"hour": 1,
+				"minute": 14,
+				"second": 9
+			},
+			"halfMarathon": {
+				"hour": 1,
+				"minute": 39,
+				"second": 48
+			}
+		},
+		{
+			"name": "Jodie Raynsford",
+			"fiveKm": {
+				"hour": 0,
+				"minute": 26,
+				"second": 36
+			},
+			"tenKm": {
+				"hour": 0,
+				"minute": 53,
+				"second": 59
+			},
+			"tenMiles": {
+				"hour": 1,
+				"minute": 29,
+				"second": 23
+			},
+			"halfMarathon": {
+				"hour": 1,
+				"minute": 59,
+				"second": 6
+			}
+		}
+	],
+	"races": [
+		{
+			"label": "parkrun Tourist",
+			"distance": 0,
+			"website": "",
+			"icon": "",
+			"events": [
+				{
+					"date": [
+						2020,
+						1,
+						1
+					],
+					"distance": 0,
+					"results": [
+					]
+				}
+			]
+		},
+		{
+			"label": "Reading Half",
+			"distance": 2,
+			"website": "",
+			"icon": "",
+			"events": [
+				{
+					"date": [
+						2020,
+						3,
+						5
+					],
+					"distance": 2,
+					"results": [
+
+					]
+				}
+			]
+		},
+		{
+			"label": "Frimley Park Hospital",
+			"distance": 1,
+			"website": "",
+			"icon": "",
+			"events": [
+				{
+					"date": [
+						2020,
+						4,
+						3
+					],
+					"distance": 1,
+					"results": [
+																																																																																	
+					]
+				}
+			]
+		},
+		{
+			"label": "Yateley Series",
+			"distance": 1,
+			"website": "http://www.yateley10kseries.info/",
+			"icon": "yateley10km.jpg",
+			"events": [
+				{
+					"date": [
+						2020,
+						5,
+						3
+					],
+					"distance": 1,
+					"results": [
+																																																																																																																																							
+					]
+				},
+				{
+					"date": [
+						2020,
+						6,
+						1
+					],
+					"distance": 1,
+					"results": [
+
+					]
+				},
+				{
+					"date": [
+						2020,
+						7,
+						5
+					],
+					"distance": 1,
+					"results": [
+
+					]						
+				}
+			]
+		},
+		{
+			"label": "Rushmoor",
+			"distance": 1,
+			"website": "",
+			"icon": "",
+			"events": [
+				{
+					"date": [
+						2020,
+						9,
+						1
+					],
+					"distance": 1,
+					"results": [
+
+					]
+				}
+			]
+		},
+		{
+			"label": "Great South",
+			"distance": 4,
+			"website": "",
+			"icon": "",
+			"events": [
+				{
+					"date": [
+						2020,
+						9,
+						18
+					],
+					"distance": 4,
+					"results": [
+					]
+				}
+			]
+		},
+		{
+			"label": "parkrun November",
+			"distance": 0,
+			"website": "",
+			"icon": "",
+			"events": [
+				{
+					"date": [
+						2020,
+						10,
+						7
+					],
+					"distance": 0,
+					"results": [
+					]
+				},
+				{
+					"date": [
+						2020,
+						10,
+						14
+					],
+					"distance": 0,
+					"results": [
+					]
+				},
+				{
+					"date": [
+						2020,
+						10,
+						21
+					],
+					"distance": 0,
+					"results": [
+					]
+				},
+				{
+					"date": [
+						2020,
+						10,
+						28
+					],
+					"distance": 0,
+					"results": [
+					]
+				}
+			]
+		}
+	]
+}

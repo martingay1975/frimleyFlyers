@@ -7,6 +7,7 @@
 		tenKm : 1,
 		halfMarathon: 2,
 		twohalfKm: 3,
+		tenMiles: 4,
 
 		getName: function (index) {
 			switch (index) 
@@ -19,6 +20,8 @@
 					return "Half Marathon";
 				case 3:
 					return "2.5km";
+				case 4:
+					return "10 miles";
 				default:
 					throw "Unsupported value";
 			}

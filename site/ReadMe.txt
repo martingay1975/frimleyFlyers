@@ -1,5 +1,7 @@
 ﻿# New year
 Add to routerconfig.js
+update ffchampionship to pass the current season/year
+add new ko component for the previous year. The html passes the season/year
 add to sitemap.xml
 add new json file - raceDataXXXX.json
 add to navigation menu - local and normal
