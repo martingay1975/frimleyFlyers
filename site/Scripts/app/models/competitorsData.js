@@ -152,7 +152,9 @@
 				var lewisWhatley = new Person(47, "Lewis Whatley", "", "911642");
 				var chelseaKnight = new Person(48, "Chelsea Knight", "", "145938");
 				var christineScally = new Person(49, "Christine Scally", "", "77879");
-				var richardFyvie = new Person(50, "Richard Fyvie", "", "75992")
+				var richardFyvie = new Person(50, "Richard Fyvie", "", "75992");
+				var samBenson = new Person(51, "Sam Benson", "", "3435693");
+				var garethHopkins = new Person(51, "Gareth Hopkins", "", "3583073");
 				
 				self.competitors.push(martingay,
 					jamesball,
@@ -202,7 +204,9 @@
 					lewisWhatley,
 					chelseaKnight,
 					christineScally,
-					richardFyvie);
+					richardFyvie,
+					samBenson,
+					garethHopkins);
 
 				self.sortByName();
 			};
