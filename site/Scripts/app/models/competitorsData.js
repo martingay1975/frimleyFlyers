@@ -154,8 +154,13 @@
 				var christineScally = new Person(49, "Christine Scally", "", "77879");
 				var richardFyvie = new Person(50, "Richard Fyvie", "", "75992");
 				var samBenson = new Person(51, "Sam Benson", "", "3435693");
-				var garethHopkins = new Person(51, "Gareth Hopkins", "", "3583073");
-				
+				var garethHopkins = new Person(52, "Gareth Hopkins", "", "3583073");
+				var hayleyPhillipsHart = new Person(53, "Hayley Phillips-Hart", "", "2262112");
+				var maryWilliams = new Person(54, "Mary Williams", "", "780136");
+				var hannahWilliams = new Person(55, "Hannah Williams", "", "780142");
+				var karenPhillips = new Person(56, "Karen Phillips", "", "");
+				var jessRaynsford = new Person(57, "Jess Raynsford", "", "3912467");
+
 				self.competitors.push(martingay,
 					jamesball,
 					chrispeddle,
@@ -206,7 +211,12 @@
 					christineScally,
 					richardFyvie,
 					samBenson,
-					garethHopkins);
+					garethHopkins,
+					hayleyPhillipsHart,
+					maryWilliams,
+					hannahWilliams,
+					karenPhillips,
+					jessRaynsford);
 
 				self.sortByName();
 			};

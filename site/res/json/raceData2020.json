@@ -245,6 +245,420 @@
 				"minute": 35,
 				"second": 40
 			}
+		},
+		{
+			"name": "Hayley Phillips-Hart",
+			"fiveKm": {
+				"hour": 0,
+				"minute": 22,
+				"second": 45
+			},
+			"tenKm": {
+				"hour": 0,
+				"minute": 49,
+				"second": 26
+			},
+			"tenMiles": {
+				"hour": 1,
+				"minute": 19,
+				"second": 46
+			},
+			"halfMarathon": {
+				"hour": 1,
+				"minute": 46,
+				"second": 4
+			}
+		},
+		{
+			"name": "Alan Bush",
+			"fiveKm": {
+				"hour": 0,
+				"minute": 19,
+				"second": 38
+			},
+			"tenKm": {
+				"hour": 0,
+				"minute": 40,
+				"second": 8
+			},
+			"tenMiles": {
+				"hour": 1,
+				"minute": 8,
+				"second": 43
+			},
+			"halfMarathon": {
+				"hour": 1,
+				"minute": 31,
+				"second": 34
+			}
+		},
+		{
+			"name": "Bruno Silva",
+			"fiveKm": {
+				"hour": 0,
+				"minute": 20,
+				"second": 14
+			},
+			"tenKm": {
+				"hour": 0,
+				"minute": 40,
+				"second": 52
+			},
+			"tenMiles": {
+				"hour": 1,
+				"minute": 12,
+				"second": 48
+			},
+			"halfMarathon": {
+				"hour": 1,
+				"minute": 37,
+				"second": 0
+			}
+		},
+		{
+			"name": "Susan Rodrigues",
+			"fiveKm": {
+				"hour": 0,
+				"minute": 22,
+				"second": 14
+			},
+			"tenKm": {
+				"hour": 0,
+				"minute": 45,
+				"second": 40
+			},
+			"tenMiles": {
+				"hour": 1,
+				"minute": 21,
+				"second": 22
+			},
+			"halfMarathon": {
+				"hour": 1,
+				"minute": 48,
+				"second": 25
+			}
+		},
+		{
+			"name": "Rich Howden",
+			"fiveKm": {
+				"hour": 0,
+				"minute": 23,
+				"second": 8
+			},
+			"tenKm": {
+				"hour": 1,
+				"minute": 1,
+				"second": 18
+			},
+			"tenMiles": {
+				"hour": 1,
+				"minute": 41,
+				"second": 30
+			},
+			"halfMarathon": {
+				"hour": 2,
+				"minute": 18,
+				"second": 12
+			}
+		},
+		{
+			"name": "Em Howden",
+			"fiveKm": {
+				"hour": 0,
+				"minute": 28,
+				"second": 46
+			},
+			"tenKm": {
+				"hour": 1,
+				"minute": 1,
+				"second": 18
+			},
+			"tenMiles": {
+				"hour": 1,
+				"minute": 41,
+				"second": 30
+			},
+			"halfMarathon": {
+				"hour": 2,
+				"minute": 18,
+				"second": 12
+			}
+		},
+		{
+			"name": "Paul Williams",
+			"fiveKm": {
+				"hour": 0,
+				"minute": 20,
+				"second": 33
+			},
+			"tenKm": {
+				"hour": 0,
+				"minute": 42,
+				"second": 47
+			},
+			"tenMiles": {
+				"hour": 1,
+				"minute": 12,
+				"second": 9
+			},
+			"halfMarathon": {
+				"hour": 1,
+				"minute": 36,
+				"second": 8
+			}
+		},
+		{
+			"name": "Mary Williams",
+			"fiveKm": {
+				"hour": 0,
+				"minute": 27,
+				"second": 49
+			},
+			"tenKm": {
+				"hour": 0,
+				"minute": 56,
+				"second": 53
+			},
+			"tenMiles": {
+				"hour": 1,
+				"minute": 36,
+				"second": 45
+			},
+			"halfMarathon": {
+				"hour": 2,
+				"minute": 8,
+				"second": 55
+			}
+		},
+		{
+			"name": "Hannah Williams",
+			"fiveKm": {
+				"hour": 0,
+				"minute": 28,
+				"second": 23
+			},
+			"tenKm": {
+				"hour": 0,
+				"minute": 59,
+				"second": 4
+			},
+			"tenMiles": {
+				"hour": 1,
+				"minute": 37,
+				"second": 48
+			},
+			"halfMarathon": {
+				"hour": 2,
+				"minute": 10,
+				"second": 19
+			}
+		},
+		{
+			"name": "David Peddle",
+			"fiveKm": {
+				"hour": 0,
+				"minute": 21,
+				"second": 19
+			},
+			"tenKm": {
+				"hour": 0,
+				"minute": 44,
+				"second": 57 
+			},
+			"tenMiles": {
+				"hour": 1,
+				"minute": 15,
+				"second": 17
+			},
+			"halfMarathon": {
+				"hour": 1,
+				"minute": 40,
+				"second": 19
+			}
+		},
+		{
+			"name": "Oli Peddle",
+			"fiveKm": {
+				"hour": 0,
+				"minute": 22,
+				"second": 5
+			},
+			"tenKm": {
+				"hour": 0,
+				"minute": 50,
+				"second": 37
+			},
+			"tenMiles": {
+				"hour": 1,
+				"minute": 23,
+				"second": 49
+			},
+			"halfMarathon": {
+				"hour": 1,
+				"minute": 51,
+				"second": 40
+			}
+		},
+		{
+			"name": "Karen Peddle",
+			"fiveKm": {
+				"hour": 0,
+				"minute": 36,
+				"second": 33
+			},
+			"tenKm": {
+				"hour": 1,
+				"minute": 16,
+				"second": 12
+			},
+			"tenMiles": {
+				"hour": 2,
+				"minute": 6,
+				"second": 11
+			},
+			"halfMarathon": {
+				"hour": 2,
+				"minute": 48,
+				"second": 8
+			}
+		},
+		{
+			"name": "Louise McIntosh",
+			"fiveKm": {
+				"hour": 0,
+				"minute": 25,
+				"second": 22
+			},
+			"tenKm": {
+				"hour": 0,
+				"minute": 55,
+				"second": 0
+			},
+			"tenMiles": {
+				"hour": 1,
+				"minute": 45,
+				"second": 17
+			},
+			"halfMarathon": {
+				"hour": 2,
+				"minute": 6,
+				"second": 32
+			}
+		},
+		{
+			"name": "Karen Phillips",
+			"fiveKm": {
+				"hour": 0,
+				"minute": 22,
+				"second": 56
+			},
+			"tenKm": {
+				"hour": 0,
+				"minute": 49,
+				"second": 18
+			},
+			"tenMiles": {
+				"hour": 1,
+				"minute": 20,
+				"second": 7
+			},
+			"halfMarathon": {
+				"hour": 1,
+				"minute": 49,
+				"second": 55
+			}
+		},
+		{
+			"name": "Jess Raynsford",
+			"fiveKm": {
+				"hour": 0,
+				"minute": 39,
+				"second": 35
+			},
+			"tenKm": {
+				"hour": 1,
+				"minute": 22,
+				"second": 31
+			},
+			"tenMiles": {
+				"hour": 2,
+				"minute": 16,
+				"second": 39
+			},
+			"halfMarathon": {
+				"hour": 3,
+				"minute": 2,
+				"second": 5
+			}
+		},
+		{
+			"name": "Chris Peddle",
+			"fiveKm": {
+				"hour": 0,
+				"minute": 21,
+				"second": 59
+			},
+			"tenKm": {
+				"hour": 0,
+				"minute": 46,
+				"second": 9
+			},
+			"tenMiles": {
+				"hour": 1,
+				"minute": 34,
+				"second": 29
+			},
+			"halfMarathon": {
+				"hour": 2,
+				"minute": 5,
+				"second": 54
+			}
+		},
+		{
+			"name": "Chelsea Knight",
+			"fiveKm": {
+				"hour": 0,
+				"minute": 24,
+				"second": 11
+			},
+			"tenKm": {
+				"hour": 0,
+				"minute": 52,
+				"second": 52
+			},
+			"tenMiles": {
+				"hour": 1,
+				"minute": 29,
+				"second": 17
+			},
+			"halfMarathon": {
+				"hour": 1,
+				"minute": 58,
+				"second": 59
+			}
+		},
+		{
+			"name": "Ben Gay",
+			"fiveKm": {
+				"hour": 0,
+				"minute": 23,
+				"second": 0
+			},
+			"tenKm": {
+				"hour": 0,
+				"minute": 47,
+				"second": 57
+			},
+			"tenMiles": {
+				"hour": 1,
+				"minute": 19,
+				"second": 24
+			},
+			"halfMarathon": {
+				"hour": 1,
+				"minute": 45,
+				"second": 48
+			}
 		}
 	],
 	"races": [
