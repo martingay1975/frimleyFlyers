@@ -1,4 +1,31 @@
-﻿
+﻿		{
+			"name": "",
+			"fiveKm": {
+				"hour": 0,
+				"minute": ,
+				"second": 
+			},
+			"tenKm": {
+				"hour": 0,
+				"minute": ,
+				"second": 
+			},
+			"tenMiles": {
+				"hour": 1,
+				"minute": ,
+				"second": 
+			},
+			"halfMarathon": {
+				"hour": 1,
+				"minute": ,
+				"second": 
+			}
+		}
+
+
+
+
+
 				"results": [
 					{
 						"name": "Em Howden",

@@ -751,6 +751,98 @@
 				"minute": 2,
 				"second": 45
 			}
+		},
+		{
+			"name": "Peta Revell",
+			"fiveKm": {
+				"hour": 0,
+				"minute": 26,
+				"second": 13
+			},
+			"tenKm": {
+				"hour": 0,
+				"minute": 53,
+				"second": 16
+			},
+			"tenMiles": {
+				"hour": 1,
+				"minute": 32,
+				"second": 8
+			},
+			"halfMarathon": {
+				"hour": 2,
+				"minute": 2,
+				"second": 46
+			}
+		},
+		{
+			"name": "Jim Laidlaw",
+			"fiveKm": {
+				"hour": 0,
+				"minute": 20,
+				"second": 47
+			},
+			"tenKm": {
+				"hour": 0,
+				"minute": 40,
+				"second": 4
+			},
+			"tenMiles": {
+				"hour": 1,
+				"minute": 9,
+				"second": 19
+			},
+			"halfMarathon": {
+				"hour": 1,
+				"minute": 29,
+				"second": 15
+			}
+		},
+		{
+			"name": "Duncan Ball",
+			"fiveKm": {
+				"hour": 0,
+				"minute": 24,
+				"second": 51
+			},
+			"tenKm": {
+				"hour": 0,
+				"minute": 52,
+				"second": 50
+			},
+			"tenMiles": {
+				"hour": 1,
+				"minute": 30,
+				"second": 0
+			},
+			"halfMarathon": {
+				"hour": 1,
+				"minute": 58,
+				"second": 0
+			}
+		},
+		{
+			"name": "Fiona Keane-Munday",
+			"fiveKm": {
+				"hour": 0,
+				"minute": 28,
+				"second": 14
+			},
+			"tenKm": {
+				"hour": 0,
+				"minute": 58,
+				"second": 51
+			},
+			"tenMiles": {
+				"hour": 1,
+				"minute": 37,
+				"second": 28
+			},
+			"halfMarathon": {
+				"hour": 2,
+				"minute": 9,
+				"second": 52
+			}
 		}
 	],
 	"races": [
