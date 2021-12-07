@@ -14,7 +14,7 @@
 		1
 	],
 	"pointsPbBonus": 5,
-	"entryCost": 15.00,
+	"entryCost": 10.00,
 	"records": [
 		{
 			"name": "Martin Gay",
@@ -847,83 +847,19 @@
 	],
 	"races": [
 		{
-			"label": "parkrun Tourist",
+			"label": "parkrun Tourist (not FLP) Feb-Oct",
 			"distance": 0,
 			"website": "",
 			"icon": "",
 			"events": [
 				{
 					"date": [
-						2020,
+						2022,
 						1,
 						1
 					],
 					"distance": 0,
 					"results": [
-						{
-							"name": "Chelsea Knight",
-								"time": {
-								"hour": 0,
-								"minute": 27,
-								"second": 31
-							}
-						},
-						{
-							"name": "Gareth Hopkins",
-								"time": {
-								"hour": 0,
-								"minute": 44,
-								"second": 32
-							}
-						},
-						{
-							"name": "Hannah Williams",
-								"time": {
-								"hour": 0,
-								"minute": 28,
-								"second": 22
-							}
-						},
-						{
-							"name": "James Ball",
-								"time": {
-								"hour": 0,
-								"minute": 25,
-								"second": 53
-							}
-						},
-						{
-							"name": "Martin Gay",
-								"time": {
-								"hour": 0,
-								"minute": 25,
-								"second": 14
-							}
-						},
-						{
-							"name": "Gareth Hopkins",
-								"time": {
-								"hour": 0,
-								"minute": 44,
-								"second": 32
-							}
-						},
-						{
-							"name": "Paul Williams",
-								"time": {
-								"hour": 0,
-								"minute": 20,
-								"second": 47
-							}
-						},
-						{
-							"name": "Sam Benson",
-								"time": {
-								"hour": 0,
-								"minute": 29,
-								"second": 47
-							}
-						}
 					]
 				}
 			]
@@ -936,174 +872,44 @@
 			"events": [
 				{
 					"date": [
-						2020,
+						2022,
 						5,
-						7
+						1
 					],
 					"distance": 1,
-					"results": [
-						{
-							"name": "Bob Turner",
-								"time": {
-								"hour": 0,
-								"minute": 50,
-								"second": 49
-							}
-						},
-						{
-							"name": "Chelsea Knight",
-								"time": {
-								"hour": 0,
-								"minute": 56,
-								"second": 46
-							}
-						},
-						{
-							"name": "Alan Bush",
-								"time": {
-								"hour": 0,
-								"minute": 43,
-								"second": 10
-							}
-						},
-						{
-							"name": "Chris Peddle",
-								"time": {
-								"hour": 0,
-								"minute": 47,
-								"second": 1
-							}
-						},
-						{
-							"name": "Christine Scally",
-								"time": {
-								"hour": 0,
-								"minute": 52,
-								"second": 16
-							}
-						},
-						{
-							"name": "Darren Stone",
-								"time": {
-								"hour": 0,
-								"minute": 46,
-								"second": 53
-							}
-						},
-						{
-							"name": "Em Howden",
-								"time": {
-								"hour": 1,
-								"minute": 10,
-								"second": 48
-							}
-						},
-						{
-							"name": "Hannah Williams",
-								"time": {
-								"hour": 0,
-								"minute": 59,
-								"second": 3
-							}
-						},
-						{
-							"name": "Hayley Phillips-Hart",
-								"time": {
-								"hour": 0,
-								"minute": 57,
-								"second": 58
-							}
-						},
-						{
-							"name": "Jim Laidlaw",
-								"time": {
-								"hour": 0,
-								"minute": 38,
-								"second": 57
-							}
-						},
-						{
-							"name": "Jodie Raynsford",
-								"time": {
-								"hour": 0,
-								"minute": 55,
-								"second": 1
-							}
-						},
-						{
-							"name": "Karen Phillips",
-								"time": {
-								"hour": 0,
-								"minute": 57,
-								"second": 58
-							}
-						},
-						{
-							"name": "Kirstie Stone",
-								"time": {
-								"hour": 0,
-								"minute": 63,
-								"second": 52
-							}
-						},
-						{
-							"name": "Louise McIntosh",
-								"time": {
-								"hour": 0,
-								"minute": 54,
-								"second": 23
-							}
-						},
-						{
-							"name": "Mary Williams",
-								"time": {
-								"hour": 0,
-								"minute": 58,
-								"second": 46
-							}
-						},
-						{
-							"name": "Rich Howden",
-								"time": {
-								"hour": 0,
-								"minute": 52,
-								"second": 19
-							}
-						},
-						{
-							"name": "Richard Fyvie",
-								"time": {
-								"hour": 0,
-								"minute": 45,
-								"second": 51
-							}
-						}
-					]
+					"results": []
 				},
 				{
 					"date": [
-						2020,
-						7,
-						5
+						2022,
+						6,
+						6
 					],
 					"distance": 1,
-					"results": [
-
-					]						
+					"results": []
+				},
+				{
+					"date": [
+						2022,
+						7,
+						3
+					],
+					"distance": 1,
+					"results": []
 				}
 			]
 		},
 		{
-			"label": "Reading Half",
+			"label": "Wokingham Half",
 			"distance": 2,
 			"website": "",
 			"icon": "",
 			"events": [
 				{
 					"date": [
-						2020,
-						3,
-						5
+						2022,
+						1,
+						27
 					],
 					"distance": 2,
 					"results": [
@@ -1120,9 +926,9 @@
 			"events": [
 				{
 					"date": [
-						2020,
+						2022,
 						4,
-						3
+						1
 					],
 					"distance": 1,
 					"results": [
@@ -1132,14 +938,14 @@
 			]
 		},
 		{
-			"label": "Rushmoor",
+			"label": "Rushmoor or Fleet",
 			"distance": 1,
 			"website": "",
 			"icon": "",
 			"events": [
 				{
 					"date": [
-						2020,
+						2022,
 						9,
 						1
 					],
@@ -1158,9 +964,9 @@
 			"events": [
 				{
 					"date": [
-						2020,
-						9,
-						18
+						2022,
+						8,
+						11
 					],
 					"distance": 4,
 					"results": [
@@ -1176,9 +982,9 @@
 			"events": [
 				{
 					"date": [
-						2020,
+						2022,
 						10,
-						7
+						5
 					],
 					"distance": 0,
 					"results": [
@@ -1186,9 +992,9 @@
 				},
 				{
 					"date": [
-						2020,
+						2022,
 						10,
-						14
+						12
 					],
 					"distance": 0,
 					"results": [
@@ -1196,9 +1002,9 @@
 				},
 				{
 					"date": [
-						2020,
+						2022,
 						10,
-						21
+						19
 					],
 					"distance": 0,
 					"results": [
@@ -1206,9 +1012,9 @@
 				},
 				{
 					"date": [
-						2020,
+						2022,
 						10,
-						28
+						26
 					],
 					"distance": 0,
 					"results": [
