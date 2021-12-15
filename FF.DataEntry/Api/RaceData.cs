@@ -4,11 +4,6 @@ namespace FF.DataEntry.Api
 {
     internal static class RaceData
     {
-        private static readonly JsonSerializerOptions options = new JsonSerializerOptions
-        {
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-        };
-
         public static async Task<Root> ReadAsync(string filepath)
         {
             using FileStream openStream = File.OpenRead(filepath);
@@ -40,5 +35,10 @@ namespace FF.DataEntry.Api
             await JsonSerializer.SerializeAsync(createStream, root, options);
             await createStream.DisposeAsync();
         }
+
+        private static readonly JsonSerializerOptions options = new JsonSerializerOptions
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        };
     }
 }

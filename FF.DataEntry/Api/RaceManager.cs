@@ -2,10 +2,12 @@
 {
     public class RaceManager
     {
+        public Root Root { get; }
         private Finder RaceFinder { get; }
 
-        public RaceManager(Finder raceFinder)
+        public RaceManager(Root root, Finder raceFinder)
         {
+            Root = root;
             RaceFinder = raceFinder;
         }
 
