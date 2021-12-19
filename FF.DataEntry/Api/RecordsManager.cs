@@ -13,7 +13,5 @@ namespace FF.DataEntry.Api
             Records = records;
         }
         public List<Record> Records { get; }
-
-
     }
 }

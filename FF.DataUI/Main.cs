@@ -1,3 +1,4 @@
+using FF.DataEntry;
 using FF.DataEntry.Api;
 using FF.DataUI.Forms;
 
@@ -27,7 +28,7 @@ namespace FF.DataUI
 
         private void btnRecords_Click(object sender, EventArgs e)
         {
-            var recordsForm = new frmRecords(this.manager.RecordsManager.Records);
+            var recordsForm = new frmRecords(this.manager.RecordsManager?.Records ?? new List<Record>());
             recordsForm.ShowDialog();
         }
 
