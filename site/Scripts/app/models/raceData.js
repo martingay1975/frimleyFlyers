@@ -117,10 +117,12 @@ define(["jquery", "timeSpan", "race", "competitorsData", "siteOptions"], functio
 										raceEventsJson.distance);
 
 						// Add each of the competitors results
-						raceEventsJson.results.forEach(function (raceEventResultJson) {
-							event.addCompetitorResult(raceEventResultJson.name,
-													new TimeSpan(raceEventResultJson.time.hour, raceEventResultJson.time.minute, raceEventResultJson.time.second));
-						});
+						if (raceEventsJson.results) {
+							raceEventsJson.results.forEach(function (raceEventResultJson) {
+								event.addCompetitorResult(raceEventResultJson.name,
+														new TimeSpan(raceEventResultJson.time.hour, raceEventResultJson.time.minute, raceEventResultJson.time.second));
+							});
+						}
 					});
 
 					self.races.push(race);

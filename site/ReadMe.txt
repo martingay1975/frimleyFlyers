@@ -1,11 +1,16 @@
 ﻿# New year
 Add to routerconfig.js
-update ffchampionship to pass the current season/year
+update ffchampionship to pass the current season/year (this is always the current year)
 add new ko component for the previous year. The html passes the season/year
 add to sitemap.xml
 add new json file - raceDataXXXX.json
 add to navigation menu - local and normal
 add to knockout-startup.js
+
+update competitorsData.js with new people (same name competitorsData.js & AthletesManager.cs)
+update AthletesManager.cs with the same new people (same name competitorsData.js & AthletesManager.cs)
+
+In sitePhantomjs
 add siteGenerator
     build.bat
     new pageHandler

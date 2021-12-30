@@ -58,7 +58,7 @@ namespace FF.DataEntry.Utils
 				createAthlete(45, "Chelsea Knight", "", "145938"),
 				createAthlete(46, "Louise McIntosh", "", "47519"),
 				createAthlete(47, "Gareth Hopkins", "", "3583073"),
-				createAthlete(48, "Jodie Raynesford", "", "491932"),
+				createAthlete(48, "Jodie Raynsford", "", "491932"),
 				createAthlete(49, "Hannah Williams", "", "780142"),
 				createAthlete(50, "Fiona Keane-Munday", "", "4607674"),
 				createAthlete(51, "Emily Benson", "", "4022877"),

@@ -13,22 +13,33 @@
 	<url>
 		<loc>http://www.frimleyflyers.co.uk/fftrophy2018.html</loc>
 		<changefreq>monthly</changefreq>
-		<priority>0.8</priority>
+		<priority>0.1</priority>
 	</url>
 	<url>
 		<loc>http://www.frimleyflyers.co.uk/ffchampionship2017.html</loc>
 		<changefreq>yearly</changefreq>
-		<priority>0.3</priority>
+		<priority>0.1</priority>
 	</url>
 	<url>
 		<loc>http://www.frimleyflyers.co.uk/ffchampionship2018.html</loc>
 		<changefreq>yearly</changefreq>
+		<priority>0.1</priority>
+	</url>
+	<url>
+		<loc>http://www.frimleyflyers.co.uk/ffchampionship2019.html</loc>
+		<changefreq>yearly</changefreq>
+		<priority>0.2</priority>
+	</url>
+		<url>
+		<loc>http://www.frimleyflyers.co.uk/ffchampionship2022.html</loc>
+		<changefreq>yearly</changefreq>
 		<priority>0.3</priority>
 	</url>
+
 	<url>
 		<loc>http://www.frimleyflyers.co.uk/endure24.html</loc>
 		<changefreq>yearly</changefreq>
-		<priority>0.3</priority>
+		<priority>0.1</priority>
 	</url>
 	<url>
 		<loc>http://www.frimleyflyers.co.uk/runs.html</loc>
