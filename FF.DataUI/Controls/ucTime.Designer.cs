@@ -43,6 +43,7 @@
             this.txtHours.Size = new System.Drawing.Size(33, 27);
             this.txtHours.TabIndex = 0;
             this.txtHours.Text = "0";
+            this.txtHours.TextChanged += new System.EventHandler(this.txtHours_TextChanged);
             // 
             // label1
             // 
@@ -69,6 +70,7 @@
             this.txtMinutes.Size = new System.Drawing.Size(33, 27);
             this.txtMinutes.TabIndex = 2;
             this.txtMinutes.Text = "0";
+            this.txtMinutes.TextChanged += new System.EventHandler(this.txtMinutes_TextChanged);
             // 
             // label3
             // 
@@ -86,6 +88,7 @@
             this.txtSeconds.Size = new System.Drawing.Size(33, 27);
             this.txtSeconds.TabIndex = 4;
             this.txtSeconds.Text = "0";
+            this.txtSeconds.TextChanged += new System.EventHandler(this.txtSeconds_TextChanged);
             // 
             // ucTime
             // 

@@ -1,119 +1,100 @@
 ﻿using PuppeteerSharp;
-using System;
-using System.Threading.Tasks;
-using System.Web;
 
 namespace FF.DataEntry.Utils
 {
-    internal class PuppeteerHelper
+    internal class PuppeteerHelper : IDisposable
+    {
+        private Browser browser;
+
+        public async Task StartAsync()
         {
-            public async Task StartAsync()
+            await new BrowserFetcher().DownloadAsync(BrowserFetcher.DefaultRevision);
+            Console.WriteLine("Got Chrome Driver");
+
+            // Create an instance of the browser and configure launch options
+            this.browser = await Puppeteer.LaunchAsync(new LaunchOptions
             {
-                Console.WriteLine("Using Browser to get Authorization Code from Strava");
+                Headless = true,
+                Timeout = (int)TimeSpan.FromSeconds(10).TotalMilliseconds
+            });
+            Console.WriteLine("Created Browser Instance");
+        }
 
-                await new BrowserFetcher().DownloadAsync(BrowserFetcher.DefaultRevision);
-                Console.WriteLine("Got Chrome Driver");
-
-                // Create an instance of the browser and configure launch options
-                Browser browser = await Puppeteer.LaunchAsync(new LaunchOptions
+        public async Task OpenAsync(string url, Func<Page, Response, Task> run)
+        {
+            // Create a new page and go to Bing Maps
+            using (var page = await this.browser.NewPageAsync())
+            {
+                await page.SetExtraHttpHeadersAsync(new Dictionary<string, string>
                 {
-                    Headless = true,
-                    Timeout = (int)TimeSpan.FromSeconds(10).TotalMilliseconds
+                    { "Accept" , "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8"},
+                    //"Accept-Language": "en-GB,en-US;q=0.9,en;q=0.8",
+                    {"Accept-Language", "en-US,en;q=0.9" },
+                    {"Cache-Control", "no-cache" },
+                    {"Connection", "keep-alive" },
+                    //{"Cookie" cookie },
+                    //{"Host", host },
+                    {"Pragma", "no-cache" },
+				    //"Proxy-Connection": "keep-alive",
+				    {"Upgrade-Insecure-Requests", "1" },
+                    //"User-Agent": "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36"
+                    {"User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36" }
                 });
-                Console.WriteLine("Created Browser Instance");
+
+                var response = await page.GoToAsync(url);
+                await run(page, response);
             }
-
-
-        private async Task Start()
-        {
-            try
-            {
-
-                // Create a new page and go to Bing Maps
-                using (var page = await browser.NewPageAsync())
-                {
-
-                    var response = await page.GoToAsync("http://www.strava.com/oauth/authorize?client_id=9912&response_type=code&redirect_uri=http://localhost/exchange_token&approval_prompt=auto&scope=profile:read_all,profile:write,activity:write,activity:read_all");
-                    Console.WriteLine("Logging In");
-                    await LoginPageAsync(page);
-                    Console.WriteLine("Logged In");
-                    Console.WriteLine("Authorization");
-                    await AuthorizePageAsync(page);
-                }
-            }
-            catch (Exception)
-            {
-                Console.ReadKey();
-                throw;
-            }
-            finally
-            {
-                await browser.CloseAsync();
-                await browser.DisposeAsync();
-            }
-
         }
 
-        private async Task LoginPageAsync(Page page)
+        public async Task HitButtonAsync(Page page, string selector, bool wait = true)
+        {
+            await page.WaitForSelectorAsync(selector);
+            await page.ClickAsync(selector);
+
+            if (wait)
             {
-                await EnterTextAsync(page, "#email", "martingay1975@googlemail.com");
-                await EnterTextAsync(page, "#password", "weston2184Strava.");
-                await HitButtonAsync(page, ".btn-accept-cookie-banner");
-                await HitButtonAsync(page, "#login-button");
+                await Task.Delay(500);
             }
-
-            private async Task AuthorizePageAsync(Page page)
-            {
-                page.RequestFailed += Page_RequestFailed;
-                await HitButtonAsync(page, "#authorize");
-            }
-
-            private void Page_RequestFailed(object sender, RequestEventArgs e)
-            {
-                Console.WriteLine($"{e.Request.Url}");
-
-                // e.g. http://localhost/exchange_token?state=&code=8e8df3e9b313d18981095d7f18ab8dffaaf75344&scope=read,activity:write,activity:read_all,profile:write,profile:read_all
-                var code = HttpUtility.ParseQueryString(e.Request.Url).Get("code");
-                if (!string.IsNullOrWhiteSpace(code))
-                {
-                    OnAutorizationCodeObtained(new AutorizationCodeObtainedEventArgs { Code = code });
-                }
-            }
-
-            private async Task HitButtonAsync(Page page, string selector, bool wait = true)
-            {
-                await page.WaitForSelectorAsync(selector);
-                await page.ClickAsync(selector);
-
-                if (wait)
-                {
-                    await Task.Delay(500);
-                }
-            }
-
-            private async Task EnterTextAsync(Page page, string selector, string value)
-            {
-                await page.WaitForSelectorAsync(selector);
-                await page.FocusAsync(selector);
-                await page.Keyboard.TypeAsync(value);
-            }
-
-
-            protected virtual void OnAutorizationCodeObtained(AutorizationCodeObtainedEventArgs e)
-            {
-                AutorizationCodeObtainedEventHandler handler = AutorizationCodeObtained;
-                if (handler != null)
-                {
-                    handler(this, e);
-                }
-            }
-
-            public delegate void AutorizationCodeObtainedEventHandler(object sender, AutorizationCodeObtainedEventArgs e);
-            public event AutorizationCodeObtainedEventHandler AutorizationCodeObtained;
         }
 
-        public class AutorizationCodeObtainedEventArgs : EventArgs
+        public async Task<string> GetInnerHtmlAsync(Page page, string selector)
         {
-            public string Code { get; set; }
+            await page.WaitForSelectorAsync(selector);
+            await Task.Delay(1000);
+            //await page.EvaluateExpressionAsync<string>("window.scroll(0,1500);");
+            //await page.ScreenshotAsync("c:\\temp\\abc.jpg");
+            var innerHTMLjs = $"document.querySelector('{selector}').innerHTML;";
+            var innerHTML = await page.EvaluateExpressionAsync<string>(innerHTMLjs);
+            return innerHTML;
+        }
+
+        public async Task<string> GetHtmlBodyAsync(Page page)
+        {
+            await Task.Delay(1000);
+            var innerHTMLjs = $"document.body.outerHTML;";
+            var innerHTML = await page.EvaluateExpressionAsync<string>(innerHTMLjs);
+            return innerHTML;
+        }
+
+        public async Task SelectOptionAsync(Page page, string selector, string value)
+        {
+            await page.WaitForSelectorAsync(selector);
+            await page.FocusAsync(selector);
+            var select = await page.QuerySelectorAsync(selector);
+            await select.SelectAsync(value);
+        }
+
+        public async Task EnterTextAsync(Page page, string selector, string value)
+        {
+            await page.WaitForSelectorAsync(selector);
+            await page.FocusAsync(selector);
+            await page.Keyboard.TypeAsync(value);
+        }
+
+        public void Dispose()
+        {
+            browser.CloseAsync().Wait();
+            browser.DisposeAsync();
         }
     }
+}

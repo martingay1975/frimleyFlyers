@@ -6,7 +6,7 @@ namespace FF.DataEntry
     {
         public RaceEvent()
         {
-
+            Results = new List<RacePersonTime>();
         }
 
         //public RaceEvent(DateTime date, RaceDistance raceDistance)

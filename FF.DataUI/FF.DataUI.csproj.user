@@ -8,6 +8,9 @@
     <Compile Update="Controls\ucTime.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Update="Forms\frmRaces.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Forms\frmRecords.cs">
       <SubType>Form</SubType>
     </Compile>

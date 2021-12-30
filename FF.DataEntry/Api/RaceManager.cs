@@ -2,12 +2,11 @@
 {
     public class RaceManager
     {
-        public Root Root { get; }
-        private Finder RaceFinder { get; }
+        //public Root Root { get; }
+        public Finder RaceFinder { get; }
 
-        public RaceManager(Root root, Finder raceFinder)
+        public RaceManager(Finder raceFinder)
         {
-            Root = root;
             RaceFinder = raceFinder;
         }
 
@@ -24,6 +23,11 @@
         {
             var race = RaceFinder.FindRace(label);
             race.Events.Add(newEvent);
+        }
+
+        public Race GetRace(string label)
+        {
+            return RaceFinder.FindRace(label);
         }
     }
 }

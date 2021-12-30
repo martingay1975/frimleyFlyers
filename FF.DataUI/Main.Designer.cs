@@ -32,6 +32,8 @@
             this.btnRecords = new System.Windows.Forms.Button();
             this.btnRaces = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
+            this.btnGetLastYearParkrun = new System.Windows.Forms.Button();
+            this.btnNewSeason = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // ucOpenFile1
@@ -44,6 +46,7 @@
             // 
             // btnRecords
             // 
+            this.btnRecords.Enabled = false;
             this.btnRecords.Location = new System.Drawing.Point(14, 113);
             this.btnRecords.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnRecords.Name = "btnRecords";
@@ -55,6 +58,7 @@
             // 
             // btnRaces
             // 
+            this.btnRaces.Enabled = false;
             this.btnRaces.Location = new System.Drawing.Point(106, 113);
             this.btnRaces.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnRaces.Name = "btnRaces";
@@ -62,9 +66,11 @@
             this.btnRaces.TabIndex = 2;
             this.btnRaces.Text = "Races";
             this.btnRaces.UseVisualStyleBackColor = true;
+            this.btnRaces.Click += new System.EventHandler(this.btnRaces_Click);
             // 
             // btnSave
             // 
+            this.btnSave.Enabled = false;
             this.btnSave.Location = new System.Drawing.Point(589, 113);
             this.btnSave.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnSave.Name = "btnSave";
@@ -74,11 +80,33 @@
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
+            // btnGetLastYearParkrun
+            // 
+            this.btnGetLastYearParkrun.Location = new System.Drawing.Point(14, 151);
+            this.btnGetLastYearParkrun.Name = "btnGetLastYearParkrun";
+            this.btnGetLastYearParkrun.Size = new System.Drawing.Size(178, 29);
+            this.btnGetLastYearParkrun.TabIndex = 4;
+            this.btnGetLastYearParkrun.Text = "Get Parkrun Last Year";
+            this.btnGetLastYearParkrun.UseVisualStyleBackColor = true;
+            this.btnGetLastYearParkrun.Click += new System.EventHandler(this.btnGetLastYearParkrun_Click);
+            // 
+            // btnNewSeason
+            // 
+            this.btnNewSeason.Location = new System.Drawing.Point(218, 151);
+            this.btnNewSeason.Name = "btnNewSeason";
+            this.btnNewSeason.Size = new System.Drawing.Size(178, 29);
+            this.btnNewSeason.TabIndex = 5;
+            this.btnNewSeason.Text = "New Season";
+            this.btnNewSeason.UseVisualStyleBackColor = true;
+            this.btnNewSeason.Click += new System.EventHandler(this.btnNewSeason_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(687, 199);
+            this.Controls.Add(this.btnNewSeason);
+            this.Controls.Add(this.btnGetLastYearParkrun);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.btnRaces);
             this.Controls.Add(this.btnRecords);
@@ -86,7 +114,6 @@
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "Main";
             this.Text = "Form1";
-            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
 
         }
@@ -97,5 +124,7 @@
         private Button btnRecords;
         private Button btnRaces;
         private Button btnSave;
+        private Button btnGetLastYearParkrun;
+        private Button btnNewSeason;
     }
 }
