@@ -35,9 +35,22 @@ namespace FF.DataUI
             await this.manager.SaveAsync($"{this.filePath}-1.json");
         }
 
-        private async void btnGetLastYearParkrun_Click(object sender, EventArgs e)
+        private void UpdateProgress(string value)
         {
-            await this.manager.AthletesManager.PopulateWithParkrunList(this.manager.GetBasePath(this.filePath), true);
+            this.lblProgress.Text = value;
+        }
+
+        private void ProgressHandler(int num, int outOf, string value)
+        {
+            var text = $"{num} / {outOf} - {value}";
+            UpdateProgress(text);
+        }
+
+        private async void btnRefreshParkrunData_Click(object sender, EventArgs e)
+        {
+            UpdateProgress("Getting parkrun data");
+            await this.manager.AthletesManager.PopulateWithParkrunList(this.manager.GetBasePath(this.filePath), true, this.ProgressHandler);
+            UpdateProgress("Got parkrun data");
         }
 
         private async void btnNewSeason_Click(object sender, EventArgs e)

@@ -28,16 +28,11 @@ namespace FF.DataEntry.Utils
                 await page.SetExtraHttpHeadersAsync(new Dictionary<string, string>
                 {
                     { "Accept" , "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8"},
-                    //"Accept-Language": "en-GB,en-US;q=0.9,en;q=0.8",
                     {"Accept-Language", "en-US,en;q=0.9" },
                     {"Cache-Control", "no-cache" },
                     {"Connection", "keep-alive" },
-                    //{"Cookie" cookie },
-                    //{"Host", host },
                     {"Pragma", "no-cache" },
-				    //"Proxy-Connection": "keep-alive",
 				    {"Upgrade-Insecure-Requests", "1" },
-                    //"User-Agent": "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36"
                     {"User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36" }
                 });
 

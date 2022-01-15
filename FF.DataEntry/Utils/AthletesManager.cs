@@ -3,6 +3,16 @@ using System.Text.Json;
 
 namespace FF.DataEntry.Utils
 {
+    public static class EnumerableExtension
+    {
+		public static void ForEachWithIndex<T>(this IEnumerable<T> enumerable, Action<T, int> handler)
+		{
+			int idx = 0;
+			foreach (T item in enumerable)
+				handler(item, idx++);
+		}
+	}
+
     public class AthletesManager
     {
 		public List<Athlete> Athletes { get; private set; }
@@ -155,7 +165,8 @@ namespace FF.DataEntry.Utils
 			return this.Athletes.SingleOrDefault(athlete => athlete.Name == name);
         }
 
-		public async Task PopulateWithParkrunList(string athletesPath, bool overwrite = false)
+		
+		public async Task PopulateWithParkrunList(string athletesPath, bool overwrite = false, Action<int, int, string>? progress = null)
         {
 			if (string.IsNullOrWhiteSpace(athletesPath))
             {
@@ -163,10 +174,11 @@ namespace FF.DataEntry.Utils
             }
 
 			athletesPath = Path.Combine(athletesPath, "Athletes");
-
+			var totalAthletes = this.Athletes.Count;
+			var done = 0;
 			foreach (var athlete in this.Athletes)
-            {
-                var athletePath = Path.Combine(athletesPath, athlete.Name + ".json");
+			{
+				var athletePath = Path.Combine(athletesPath, athlete.Name + ".json");
 				if (File.Exists(athletePath) && !overwrite)
 				{
 					using (var stream = File.OpenRead(athletePath))
@@ -190,7 +202,10 @@ namespace FF.DataEntry.Utils
 						}
 					}
 				}
-            }
+
+				done++;
+				progress?.Invoke(done, totalAthletes, athlete.Name);
+			}
         }
 	}
 }
