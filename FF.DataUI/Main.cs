@@ -32,7 +32,8 @@ namespace FF.DataUI
 
         private async void btnSave_Click(object sender, EventArgs e)
         {
-            await this.manager.SaveAsync($"{this.filePath}-1.json");
+            await this.manager.SaveAsync($"{this.filePath}");
+            await this.manager.SaveAsync($"{this.filePath}-{DateTime.Now.Ticks}.json");
         }
 
         private void UpdateProgress(string value)

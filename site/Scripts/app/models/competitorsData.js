@@ -160,8 +160,10 @@
 				var hannahWilliams = new Person(55, "Hannah Williams", "", "780142");
 				var karenPhillips = new Person(56, "Karen Phillips", "", "");
 				var jessRaynsford = new Person(57, "Jess Raynsford", "", "3912467");
-				var stevePage = new Person(58, "Steve Page", "", "");
-				var emilyBenson = new Person(51, "Emily Benson", "", "4022877");
+				var stevePage = new Person(58, "Steve Page", "", "1255112");
+				var emilyBenson = new Person(59, "Emily Benson", "", "4022877");
+				var rebeccaWilliams = new Person(60, "Rebecca Williams", "", "59915");
+				var simonHarvey  = new Person(61, "Simon Harvey", "", "76882");
 
 				self.competitors.push(martingay,
 					jamesball,
@@ -220,7 +222,9 @@
 					karenPhillips,
 					jessRaynsford,
 					stevePage,
-					emilyBenson);
+					emilyBenson,
+					rebeccaWilliams,
+					simonHarvey);
 
 				self.sortByName();
 			};

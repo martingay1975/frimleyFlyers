@@ -1,4 +1,10 @@
-﻿# New year
+﻿# Constructing
+Run the FF Web Server
+run /build.bat - This uses Phatomn to scrape the output and place into the folder site/output
+Use FileZilla to upload the site/output to the root of the FF web host
+Debugging can be done via http://localhost:53002.
+
+# New year
 Add to routerconfig.js
 update ffchampionship to pass the current season/year (this is always the current year)
 add new ko component for the previous year. The html passes the season/year

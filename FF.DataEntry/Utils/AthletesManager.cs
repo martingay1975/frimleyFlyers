@@ -27,7 +27,7 @@ namespace FF.DataEntry.Utils
 				createAthlete(4, "David Peddle", "3927231", "79200"),
 				createAthlete(5, "Duncan Ball", "12896333", "56739"),
 				createAthlete(6, "Bob Turner", "381428", "289659"),
-				//createAthlete(7, "Alasdair Nuttall", "1106175", "220582"),
+				createAthlete(7, "Alasdair Nuttall", "1106175", "220582"),
 				//createAthlete(8, "Sarah Erskine", "4751449", "569008"),
 				//createAthlete(9, "Alex Halfacre", "7880452", "912484"),
 				//createAthlete(10, "Richard Boese", "19591034", "37186"),
@@ -37,7 +37,7 @@ namespace FF.DataEntry.Utils
 				//createAthlete(14, "Nicholas Yewings", "", "107892"),
 				createAthlete(15, "Jim Laidlaw", "379140", "1013712"),
 				//createAthlete(16, "Lee Marshall", "", "76667"),
-				//createAthlete(17, "Helen Hart", "", "94048"),
+				createAthlete(17, "Helen Hart", "", "94048"),
 				createAthlete(18, "Darren Stone", "5460853", "523541"),
 				//createAthlete(19, "Alfie Boese", "", "83588"),
 				//createAthlete(20, "Emma Malcolm", "1717915", "344643"),
@@ -55,11 +55,11 @@ namespace FF.DataEntry.Utils
 				//createAthlete(32, "Bruno Silva", "", "3201689"),
 				//createAthlete(33, "Derek Peddle", "", "3174383"),
 				createAthlete(34, "Susan Rodrigues", "", "3414380"),
-				//createAthlete(35, "Ashton Peddle", "", "676392"),
+				createAthlete(35, "Ashton Peddle", "", "676392"),
 				createAthlete(36, "Karen Peddle", "", "116038"),
 				createAthlete(37, "Kirstie Stone", "", "3506857"),
 				createAthlete(38, "Em Howden", "", "3506857"),
-				//createAthlete(39, "Charmaine Long", "", "2914203")
+				createAthlete(39, "Charmaine Long", "", "2914203"),
 				createAthlete(40, "Sam Benson", "", "3435693"),
 				createAthlete(41, "Paul Williams", "", "41533"),
 				createAthlete(42, "Richard Fyvie", "", "75992"),
@@ -72,7 +72,10 @@ namespace FF.DataEntry.Utils
 				createAthlete(49, "Hannah Williams", "", "780142"),
 				createAthlete(50, "Fiona Keane-Munday", "", "4607674"),
 				createAthlete(51, "Emily Benson", "", "4022877"),
-
+				createAthlete(52, "Rebecca Williams", "", "59915"),
+				createAthlete(53, "Jess Raynsford", "", "3912467"),
+				createAthlete(54, "Mary Williams", "", "780136"),
+				createAthlete(55, "Simon Harvey", "", "76882"),
 			};
 
 			Athlete createAthlete(int id, string name, string stravaId, string parkrunId)

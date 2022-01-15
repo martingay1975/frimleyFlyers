@@ -14,7 +14,7 @@ define(['knockout', 'siteViewModel', 'raceData', 'text!./pbList.html', 'bindingH
 
 		var self = this;
 
-		self.seasonYear = parseInt(params.seasonYear || "2019", 10);
+		self.seasonYear = parseInt(params.seasonYear || "2022", 10);
 		siteViewModel.pageTitleObservable("Compertitors " + self.seasonYear);
 		self.raceData = new RaceData(this.seasonYear, true);
 		self.competitors = ko.observableArray();
@@ -27,12 +27,12 @@ define(['knockout', 'siteViewModel', 'raceData', 'text!./pbList.html', 'bindingH
 			allCompetitors.forEach(function (competitor) {
 				var seasonResults = {};
 				seasonResults.name = competitor.name;
-				seasonResults.stravaAthleteId = competitor.stravaAthleteId;
-				seasonResults.parkrunAthleteId = competitor.parkrunAthleteId;
 				var pbListForSesaon = competitor.seasons[0];
 				seasonResults.time5km = pbListForSesaon.getTime(0);
 				seasonResults.time10km = pbListForSesaon.getTime(1);
+				seasonResults.time10miles = pbListForSesaon.getTime(4);
 				seasonResults.timeHalf = pbListForSesaon.getTime(2);
+				seasonResults.parkrunLink = 'https://www.parkrun.org.uk/parkrunner/' + competitor.parkrunAthleteId + '/all/'
 
 				self.competitors.push(seasonResults);
 			});
