@@ -76,6 +76,8 @@ namespace FF.DataEntry.Utils
 				createAthlete(53, "Jess Raynsford", "", "3912467"),
 				createAthlete(54, "Mary Williams", "", "780136"),
 				createAthlete(55, "Simon Harvey", "", "76882"),
+				createAthlete(56, "Susan Harvey", "", "77851"),
+				createAthlete(57, "Jo Longmuir", "", "74484")
 			};
 
 			Athlete createAthlete(int id, string name, string stravaId, string parkrunId)

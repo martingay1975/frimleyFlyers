@@ -164,6 +164,7 @@
 				var emilyBenson = new Person(59, "Emily Benson", "", "4022877");
 				var rebeccaWilliams = new Person(60, "Rebecca Williams", "", "59915");
 				var simonHarvey  = new Person(61, "Simon Harvey", "", "76882");
+				var susanHarvey  = new Person(62, "Susan Harvey", "", "77851");
 
 				self.competitors.push(martingay,
 					jamesball,
@@ -224,7 +225,8 @@
 					stevePage,
 					emilyBenson,
 					rebeccaWilliams,
-					simonHarvey);
+					simonHarvey,
+					susanHarvey);
 
 				self.sortByName();
 			};
