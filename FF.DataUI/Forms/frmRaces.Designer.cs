@@ -39,6 +39,9 @@
             this.columnHeader3 = new System.Windows.Forms.ColumnHeader();
             this.ucTime1 = new FF.DataUI.Controls.ucTime();
             this.helpProvider1 = new System.Windows.Forms.HelpProvider();
+            this.txtNotes = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lstRaces
@@ -121,17 +124,46 @@
             // 
             // ucTime1
             // 
-            this.ucTime1.Location = new System.Drawing.Point(480, 46);
+            this.ucTime1.Location = new System.Drawing.Point(480, 70);
             this.ucTime1.Name = "ucTime1";
             this.ucTime1.Size = new System.Drawing.Size(201, 44);
             this.ucTime1.TabIndex = 6;
             this.ucTime1.Time = System.TimeSpan.Parse("00:00:00");
+            // 
+            // txtNotes
+            // 
+            this.txtNotes.Location = new System.Drawing.Point(482, 140);
+            this.txtNotes.Name = "txtNotes";
+            this.txtNotes.Size = new System.Drawing.Size(199, 27);
+            this.txtNotes.TabIndex = 7;
+            this.txtNotes.TextChanged += new System.EventHandler(this.txtNotes_TextChanged);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(480, 117);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(51, 20);
+            this.label4.TabIndex = 8;
+            this.label4.Text = "Notes:";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(480, 47);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(81, 20);
+            this.label5.TabIndex = 9;
+            this.label5.Text = "Race Time:";
             // 
             // frmRaces
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(693, 282);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.txtNotes);
             this.Controls.Add(this.ucTime1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.lstAthlete);
@@ -160,5 +192,8 @@
         private ColumnHeader columnHeader2;
         private ColumnHeader columnHeader3;
         private HelpProvider helpProvider1;
+        private TextBox txtNotes;
+        private Label label4;
+        private Label label5;
     }
 }

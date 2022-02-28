@@ -6,7 +6,7 @@ namespace FF.DataEntry
     {
         public RaceEvent()
         {
-            Results = new List<RacePersonTime>();
+            this.ResetResults();
         }
 
         //public RaceEvent(DateTime date, RaceDistance raceDistance)
@@ -22,5 +22,10 @@ namespace FF.DataEntry
 
         public void SetDate(DateTime date) => this.Date = new int[] { date.Year, date.Month -1, date.Day};
         public DateTime GetDate() => new DateTime(Date[0], Date[1] + 1, Date[2]);
+
+        public void ResetResults()
+        {
+            Results = new List<RacePersonTime>();
+        }
     }
 }

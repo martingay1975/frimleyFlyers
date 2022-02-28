@@ -1,8 +1,9 @@
-﻿namespace FF.DataEntry.Api
+﻿using FF.DataEntry.Utils;
+
+namespace FF.DataEntry.Api
 {
     public class RaceManager
     {
-        //public Root Root { get; }
         public Finder RaceFinder { get; }
 
         public RaceManager(Finder raceFinder)

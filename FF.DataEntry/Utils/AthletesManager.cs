@@ -149,7 +149,10 @@ namespace FF.DataEntry.Utils
 				.First();
 		}
 
-		public ParkrunRun GetTouristQuickest(string name, DateTime startDate, DateTime endDate)
+		/// <summary>
+		/// Gets the quickest non Frimley Lodge parkrun within the start and end dates. If no parkruns then returns null
+		/// </summary>
+		public ParkrunRun? GetTouristQuickest(string name, DateTime startDate, DateTime endDate)
         {
 			if (startDate == null || endDate == null)
 			{
@@ -162,7 +165,7 @@ namespace FF.DataEntry.Utils
 			return inSeasonForAthlete
 				.Where(parkrunRun => parkrunRun.Event != "Frimley Lodge")
 				.OrderBy(parkrunRun => parkrunRun.RaceTime)
-				.First();
+				.FirstOrDefault();
 		}
 
 		public Athlete FindAthleteByName(string name)
@@ -171,7 +174,7 @@ namespace FF.DataEntry.Utils
         }
 
 		
-		public async Task PopulateWithParkrunList(string athletesPath, bool overwrite = false, Action<int, int, string>? progress = null)
+		public async Task PopulateWithParkrunListAsync(string athletesPath, bool overwrite = false, Action<int, int, string>? progress = null)
         {
 			if (string.IsNullOrWhiteSpace(athletesPath))
             {
@@ -188,8 +191,15 @@ namespace FF.DataEntry.Utils
 				{
 					using (var stream = File.OpenRead(athletePath))
 					{
-						var loadedAthlete = await JsonSerializer.DeserializeAsync<Athlete>(stream, JsonSerializerDefaultOptions.Options);
-						athlete.ParkrunRunList = loadedAthlete?.ParkrunRunList ?? throw new InvalidOperationException();
+						try
+						{
+							var loadedAthlete = await JsonSerializer.DeserializeAsync<Athlete>(stream, JsonSerializerDefaultOptions.Options);
+							athlete.ParkrunRunList = loadedAthlete?.ParkrunRunList ?? throw new InvalidOperationException();
+						}
+						catch (Exception ex)
+                        {
+							Console.WriteLine(ex);
+                        }
 					}
 				}
 				else

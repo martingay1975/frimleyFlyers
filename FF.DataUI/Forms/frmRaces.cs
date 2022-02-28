@@ -32,18 +32,22 @@ namespace FF.DataUI.Forms
             var selected = GetSelected();
             if (selected.IsValidResult)
             {
-                if (selected.RacePersonTime == null)
-                {
-                    if (selected.RaceEvent.Results == null)
-                    {
-                        selected.RaceEvent.Results = new List<RacePersonTime>();
-                    }
+                PrepareRacePersonTime(selected);
+                selected.RacePersonTime.Time.SetTime(timeChangedEventArgs.Time);
+            }
+        }
 
-                    selected.RacePersonTime = new RacePersonTime() { Name = selected.SelectedAthleteName };
-                    selected.RaceEvent.Results.Add(selected.RacePersonTime);
+        private static void PrepareRacePersonTime(GetSelectedResults selected)
+        {
+            if (selected.RacePersonTime == null)
+            {
+                if (selected.RaceEvent.Results == null)
+                {
+                    selected.RaceEvent.Results = new List<RacePersonTime>();
                 }
 
-                selected.RacePersonTime.Time.SetTime(timeChangedEventArgs.Time);
+                selected.RacePersonTime = new RacePersonTime() { Name = selected.SelectedAthleteName };
+                selected.RaceEvent.Results.Add(selected.RacePersonTime);
             }
         }
 
@@ -83,7 +87,6 @@ namespace FF.DataUI.Forms
             return lstAthlete.SelectedItems[0].Text;
         }
 
-
         private void PopulateEvents(string raceLabel)
         {
             lstEvents.Items.Clear();
@@ -112,21 +115,29 @@ namespace FF.DataUI.Forms
                 PopulateEvents(raceLabel);
                 lstEvents.Items[0].Selected = true;
             }
+
+            SetTimeAndNotesUI();
         }
 
-        private void lstAthlete_SelectedIndexChanged(object sender, EventArgs e)
+        private void SetTimeAndNotesUI()
         {
             var selected = GetSelected();
 
-            if (selected.RacePersonTime != null)
+            if (selected?.RacePersonTime != null)
             {
                 ucTime1.Time = selected.RacePersonTime.Time.GetTime();
+                txtNotes.Text = selected.RacePersonTime.Notes.ToString();
             }
             else
             {
                 ucTime1.Time = TimeSpan.Zero;
+                txtNotes.Text = "";
             }
+        }
 
+        private void lstAthlete_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SetTimeAndNotesUI();
             ucTime1.SetFocus();
         }
 
@@ -171,6 +182,16 @@ namespace FF.DataUI.Forms
             public string? SelectedAthleteName { get; set; }
             public RaceEvent RaceEvent { get; set; }
             public RacePersonTime RacePersonTime { get; set; }
+        }
+
+        private void txtNotes_TextChanged(object sender, EventArgs e)
+        {
+            var selected = GetSelected();
+            if (selected.IsValidResult)
+            {
+                PrepareRacePersonTime(selected);
+                selected.RacePersonTime.Notes = string.IsNullOrWhiteSpace(txtNotes.Text) ? null : txtNotes.Text;
+            }
         }
     }
 }

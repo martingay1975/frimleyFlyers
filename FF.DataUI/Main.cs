@@ -15,11 +15,20 @@ namespace FF.DataUI
         {
             InitializeComponent();
             this.ucOpenFile1.NewFileOpenedEvent += UcOpenFile1_NewFileOpenedEvent;
+
+            this.filePath = @"C:\git\frimleyFlyers\site\res\json\raceData2022.json";
+            //LoadFilePath().Wait();
+
         }
 
         private async void UcOpenFile1_NewFileOpenedEvent(object sender, Controls.NewFileOpenedEventArgs e)
         {
             this.filePath = e.FilePath;
+            await LoadFilePath();
+        }
+
+        private async Task LoadFilePath()
+        {
             await this.manager.InitAsync(this.filePath);
             EnableButtons();
         }
@@ -50,7 +59,8 @@ namespace FF.DataUI
         private async void btnRefreshParkrunData_Click(object sender, EventArgs e)
         {
             UpdateProgress("Getting parkrun data");
-            await this.manager.AthletesManager.PopulateWithParkrunList(this.manager.GetBasePath(this.filePath), true, this.ProgressHandler);
+            await this.manager.AthletesManager.PopulateWithParkrunListAsync(this.manager.GetBasePath(this.filePath), true, this.ProgressHandler);
+            this.manager.CalculateParkrunTourist();
             UpdateProgress("Got parkrun data");
         }
 
