@@ -21,7 +21,7 @@
 <script type="text/html" id="renderTDCell">
 	<!-- $data is a Cell -->
 	<td data-bind="attr: { 'colspan': $data.colSpan(), 'rowSpan' : $data.rowSpan }, css: $data.css, style: {'background-color': $data.backgroundColor ? $data.backgroundColor.toHexString(false) : null}">
-		<span data-bind="text: $data.text"></span>
+		<span data-bind="text: $data.text, attr: { title:  $data.notes } "></span>
 	</td>
 </script>
 

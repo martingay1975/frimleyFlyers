@@ -3,16 +3,6 @@ using System.Text.Json;
 
 namespace FF.DataEntry.Utils
 {
-    public static class EnumerableExtension
-    {
-		public static void ForEachWithIndex<T>(this IEnumerable<T> enumerable, Action<T, int> handler)
-		{
-			int idx = 0;
-			foreach (T item in enumerable)
-				handler(item, idx++);
-		}
-	}
-
     public class AthletesManager
     {
 		public List<Athlete> Athletes { get; private set; }
@@ -174,7 +164,7 @@ namespace FF.DataEntry.Utils
         }
 
 		
-		public async Task PopulateWithParkrunListAsync(string athletesPath, bool overwrite = false, Action<int, int, string>? progress = null)
+		public async Task PopulateWithParkrunListAsync(string athletesPath, IReadOnlyList<string> recordNames, bool overwrite = false, Action<int, int, string>? progress = null)
         {
 			if (string.IsNullOrWhiteSpace(athletesPath))
             {
@@ -182,24 +172,19 @@ namespace FF.DataEntry.Utils
             }
 
 			athletesPath = Path.Combine(athletesPath, "Athletes");
-			var totalAthletes = this.Athletes.Count;
+
+			var athletes = this.Athletes.Where(athlete => recordNames.Contains(athlete.Name)).ToList();
+			var totalAthletes = athletes.Count;
 			var done = 0;
-			foreach (var athlete in this.Athletes)
+			foreach (var athlete in athletes)
 			{
 				var athletePath = Path.Combine(athletesPath, athlete.Name + ".json");
 				if (File.Exists(athletePath) && !overwrite)
 				{
 					using (var stream = File.OpenRead(athletePath))
 					{
-						try
-						{
-							var loadedAthlete = await JsonSerializer.DeserializeAsync<Athlete>(stream, JsonSerializerDefaultOptions.Options);
-							athlete.ParkrunRunList = loadedAthlete?.ParkrunRunList ?? throw new InvalidOperationException();
-						}
-						catch (Exception ex)
-                        {
-							Console.WriteLine(ex);
-                        }
+						var loadedAthlete = await JsonSerializer.DeserializeAsync<Athlete>(stream, JsonSerializerDefaultOptions.Options);
+						athlete.ParkrunRunList = loadedAthlete?.ParkrunRunList ?? throw new InvalidOperationException();
 					}
 				}
 				else

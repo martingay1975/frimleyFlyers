@@ -25,7 +25,6 @@ namespace FF.DataEntry.Api
         {
             GetBasePath(seasonFilePath);
             this.AthletesManager = new AthletesManager();
-            await this.AthletesManager.PopulateWithParkrunListAsync(this.basePath, false);
 
             this.root = Root.CreateDefault(Year);
             this.RaceFinder = new Finder(this.root);
@@ -37,9 +36,6 @@ namespace FF.DataEntry.Api
         public async Task InitAsync(string seasonFilePath)
         {
             GetBasePath(seasonFilePath);
-            this.AthletesManager = new AthletesManager();
-            await this.AthletesManager.PopulateWithParkrunListAsync(this.basePath, false);
-
             this.root = await RaceData.ReadAsync(seasonFilePath);
             if (this.root == null)
             {
@@ -50,6 +46,10 @@ namespace FF.DataEntry.Api
             this.RaceManager = new RaceManager(raceFinder);
             this.RecordsManager = new RecordsManager(this.root.Records);
             this.RaceFinder = new Finder(this.root);
+
+            this.AthletesManager = new AthletesManager();
+            var seasonsAthletes = this.RecordsManager.Records.Select(record => record.Name).ToList();
+            await this.AthletesManager.PopulateWithParkrunListAsync(this.basePath, seasonsAthletes, false);
 
             CalculateParkrunTourist();
         }

@@ -59,7 +59,8 @@ namespace FF.DataUI
         private async void btnRefreshParkrunData_Click(object sender, EventArgs e)
         {
             UpdateProgress("Getting parkrun data");
-            await this.manager.AthletesManager.PopulateWithParkrunListAsync(this.manager.GetBasePath(this.filePath), true, this.ProgressHandler);
+            var seasonsAthletes = this.manager.RecordsManager.Records.Select(record => record.Name).ToList();
+            await this.manager.AthletesManager.PopulateWithParkrunListAsync(this.manager.GetBasePath(this.filePath), seasonsAthletes, true, this.ProgressHandler);
             this.manager.CalculateParkrunTourist();
             UpdateProgress("Got parkrun data");
         }

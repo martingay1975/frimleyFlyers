@@ -101,7 +101,7 @@ namespace FF.DataUI.Forms
         private void PopulateAthletes()
         {
             lstAthlete.Items.Clear();
-            foreach (var athlete in manager.AthletesManager.Athletes.OrderBy(athlete => athlete.Name))
+            foreach (var athlete in manager.RecordsManager.Records.OrderBy(record => record.Name))
             {
                 lstAthlete.Items.Add(athlete.Name);
             }
