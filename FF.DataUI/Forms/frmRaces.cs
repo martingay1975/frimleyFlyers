@@ -126,7 +126,7 @@ namespace FF.DataUI.Forms
             if (selected?.RacePersonTime != null)
             {
                 ucTime1.Time = selected.RacePersonTime.Time.GetTime();
-                txtNotes.Text = selected.RacePersonTime.Notes.ToString();
+                txtNotes.Text = selected.RacePersonTime.Notes?.ToString();
             }
             else
             {
