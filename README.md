@@ -1,7 +1,8 @@
 "# Frimley Flyers" 
 
 # Constructing
-Run the FF Web Server
+Run the FF Web Server. e.g. C:\git\frimleyFlyers\WebDataEntry.Owin\bin\Debug\WebDataEntry.Owin.exe
+
 run /build.bat - This uses Phatomn to scrape the output and place into the folder site/output
 Use FileZilla to upload the site/output to the root of the FF web host
 Debugging can be done via http://localhost:53002.

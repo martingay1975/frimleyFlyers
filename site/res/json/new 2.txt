@@ -1,0 +1,77 @@
+Fixtures:
+
+Overall
+list | points
+
+
+parkrun Tourist:
+date
+venue
+website
+
+ordered by points
+points | name | time | pb | % difference | pos points | pb bonus points
+
+
+fleet marathon
+
+list
+
+
+PERSON
+collection of people
+personId
+name
+strava id
+parkrun id
+.....
+
+PERSONSEASON
+people in that year
+personId
+season
+5km pb
+10km pb
+.....
+
+SEASONS
+season
+competition
+seasoncalculator routine
+
+RACES
+pre loaded races for  year X
+raceId
+season
+list of eventIds
+
+EVENTS
+pre loaded at the start of year
+eventId
+event name e.g. Yateley run 2
+date
+distance
+
+EVENTRESULTS
+Added when the results come in.
+personId
+eventId
+time
+
+Calculate tables for year
+
+loop around RACES for season
+  loop around EVENTS for each race
+    loop around the EVENTRESULTS
+	
+       === SeasonCalculator = classify this. ====
+	   get the person's pb for that distance and calculate the % difference.
+	sort based on % difference. Award points for positions
+	Award points for PB broken
+
+output
+for each race in season
+RACE Yateley
+Distance
+Array Details
+Points Name Event1 Event2 Event3 PB %
