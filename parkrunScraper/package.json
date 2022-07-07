@@ -18,7 +18,7 @@
 		"deferred": "^0.7.5",
 		"express": "^4.16.4",
 		"fs": "0.0.2",
-		"moment": "^2.23.0",
+		"moment": "^2.29.4",
 		"puppeteer": "^1.11.0",
 		"request": "^2.88.0",
 		"request-rate-limiter": "^1.0.2",
