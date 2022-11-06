@@ -3,8 +3,8 @@ using System.Text.Json;
 
 namespace FF.DataEntry.Utils
 {
-    public class AthletesManager
-    {
+	public class AthletesManager
+	{
 		public List<Athlete> Athletes { get; private set; }
 
 		public AthletesManager()
@@ -95,7 +95,7 @@ namespace FF.DataEntry.Utils
 		}
 
 		public TimeSpan GetQuickestParkrunLastYear(Athlete athlete, int year)
-        {
+		{
 			try
 			{
 				var startDate = new DateTime(year - 1, 1, 1);
@@ -105,14 +105,14 @@ namespace FF.DataEntry.Utils
 				return selected;
 			}
 			catch (Exception ex)
-            {
+			{
 				Console.WriteLine($"{athlete.Name} does not have a parkrun time");
 				return TimeSpan.Zero;
-            }
+			}
 		}
 
 		public TimeSpan GetQuickestParkrun(string name, DateTime startDate, DateTime endDate)
-        {
+		{
 			var athlete = FindAthleteByName(name);
 			var inSeasonForAthlete = GetParkrunInDate(athlete.ParkrunRunList, startDate, endDate);
 			var selected = inSeasonForAthlete.Select(parkrunRun => parkrunRun.RaceTime).Min();
@@ -120,30 +120,41 @@ namespace FF.DataEntry.Utils
 		}
 
 		public IEnumerable<ParkrunRun> GetParkrunInDate(IEnumerable<ParkrunRun> parkrunRunList, DateTime startTime, DateTime endTime)
-        {
+		{
 			return parkrunRunList.Where(parkrunRun => parkrunRun.Date >= startTime && parkrunRun.Date <= endTime);
 		}
 
-		public ParkrunRun GetFrimleyLodgeQuickest(string name, DateTime startDate, DateTime endDate)
-        {
+		public ParkrunRun? GetFrimleyLodgeQuickest(string name, DateTime startDate, DateTime endDate)
+		{
 			if (startDate == null || endDate == null)
-            {
+			{
 				throw new ArgumentNullException(nameof(startDate));
-            }
+			}
+
+			if (string.IsNullOrWhiteSpace(name))
+			{
+				throw new Exception(name);
+			}
 
 			var athlete = FindAthleteByName(name);
+			if (athlete == null)
+			{
+				throw new ArgumentNullException(nameof(name));
+			}
+
 			var inSeasonForAthlete = GetParkrunInDate(athlete.ParkrunRunList, startDate, endDate);
+
 			return inSeasonForAthlete
 				.Where(parkrunRun => parkrunRun.Event == "Frimley Lodge")
 				.OrderBy(parkrunRun => parkrunRun.RaceTime)
-				.First();
+				.FirstOrDefault();
 		}
 
 		/// <summary>
 		/// Gets the quickest non Frimley Lodge parkrun within the start and end dates. If no parkruns then returns null
 		/// </summary>
 		public ParkrunRun? GetTouristQuickest(string name, DateTime startDate, DateTime endDate)
-        {
+		{
 			if (startDate == null || endDate == null)
 			{
 				throw new ArgumentNullException(nameof(startDate));
@@ -159,17 +170,16 @@ namespace FF.DataEntry.Utils
 		}
 
 		public Athlete FindAthleteByName(string name)
-        {
+		{
 			return this.Athletes.SingleOrDefault(athlete => athlete.Name == name);
-        }
+		}
 
-		
 		public async Task PopulateWithParkrunListAsync(string athletesPath, IReadOnlyList<string> recordNames, bool overwrite = false, Action<int, int, string>? progress = null)
-        {
+		{
 			if (string.IsNullOrWhiteSpace(athletesPath))
-            {
+			{
 				throw new ArgumentNullException(nameof(athletesPath));
-            }
+			}
 
 			athletesPath = Path.Combine(athletesPath, "Athletes");
 
@@ -206,6 +216,6 @@ namespace FF.DataEntry.Utils
 				done++;
 				progress?.Invoke(done, totalAthletes, athlete.Name);
 			}
-        }
+		}
 	}
 }

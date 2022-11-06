@@ -52,6 +52,7 @@ namespace FF.DataEntry.Api
             await this.AthletesManager.PopulateWithParkrunListAsync(this.basePath, seasonsAthletes, false);
 
             CalculateParkrunTourist();
+            CalculateFLPNovember();
         }
 
         public async Task SaveAsync(string filePath)
@@ -62,6 +63,35 @@ namespace FF.DataEntry.Api
             }
 
             await RaceData.WriteAsync(this.root, filePath);
+        }
+
+        public void CalculateFLPNovember()
+        {
+            const string raceEvent = "FLP November";
+            var parkrunNovemer1stEvent = new DateTime(2022, 11, 5);
+
+            // found the event - effectively scrub whats there and recalculate.
+            for (var currentDate = parkrunNovemer1stEvent; currentDate < new DateTime(2022, 12, 1); currentDate = currentDate.AddDays(7))
+            {
+                var parkrunRaceEvent = this.RaceFinder.FindEvent(raceEvent, currentDate);
+                if (parkrunRaceEvent == null)
+                {
+                    throw new ArgumentNullException(nameof(parkrunRaceEvent));
+                }
+
+
+                parkrunRaceEvent.ResetResults();
+                foreach (var record in this.RecordsManager.Records)
+                {
+                    var name = record.Name;
+                    var quickestTourestForYear = this.AthletesManager.GetFrimleyLodgeQuickest(name, currentDate, currentDate);
+                    if (quickestTourestForYear != null)
+                    {
+                        var racePersonTime = new RacePersonTime(name, quickestTourestForYear.RaceTime, $"{quickestTourestForYear.Event} - {quickestTourestForYear.Date:d}");
+                        parkrunRaceEvent.Results.Add(racePersonTime);
+                    }
+                }
+            }
         }
 
         public void CalculateParkrunTourist()
@@ -77,7 +107,7 @@ namespace FF.DataEntry.Api
                 var name = record.Name;
                 var quickestTourestForYear = this.AthletesManager.GetTouristQuickest(name, new DateTime(Year, 2, 1), new DateTime(Year, 10, 30));
                 if (quickestTourestForYear != null)
-                { 
+                {
                     var racePersonTime = new RacePersonTime(name, quickestTourestForYear.RaceTime, $"{quickestTourestForYear.Event} - {quickestTourestForYear.Date:d}");
                     parkrunRaceEvent.Results.Add(racePersonTime);
                 }
