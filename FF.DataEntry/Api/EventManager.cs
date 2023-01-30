@@ -1,4 +1,6 @@
-﻿namespace FF.DataEntry.Api
+﻿using FF.DataEntry.Dto;
+
+namespace FF.DataEntry.Api
 {
     internal class EventManager
     {

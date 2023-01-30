@@ -1,4 +1,4 @@
-﻿namespace FF.DataEntry
+﻿namespace FF.DataEntry.Dto
 {
     public class Race
     {
@@ -7,8 +7,8 @@
             Events = new List<RaceEvent>();
             Label = string.Empty;
             Distance = RaceDistance.FiveKm;
-            Website = String.Empty;
-            Icon = String.Empty;
+            Website = string.Empty;
+            Icon = string.Empty;
         }
 
         public string Label { get; set; }

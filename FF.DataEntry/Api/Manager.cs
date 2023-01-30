@@ -5,8 +5,8 @@ namespace FF.DataEntry.Api
 {
     public class Manager
     {
-        public const int Year = 2022;
-        private Root root;
+        public const int Year = 2023;
+        private Root2023 root;
         private Finder RaceFinder;
         private string basePath;
 
@@ -21,22 +21,28 @@ namespace FF.DataEntry.Api
             return this.basePath;
         }
 
-        public async Task CreateNewAsync(string seasonFilePath)
+        public async Task CreateNewAsync(string seasonFilePath, Func<Task>? updateParkrunFor5kmTimes)
         {
             GetBasePath(seasonFilePath);
             this.AthletesManager = new AthletesManager();
 
-            this.root = Root.CreateDefault(Year);
+            this.root = Root2023.CreateDefault();
             this.RaceFinder = new Finder(this.root);
             this.RaceManager = new RaceManager(this.RaceFinder);
             this.RecordsManager = new RecordsManager(this.root.Records);
+
+            if (updateParkrunFor5kmTimes != null)
+            {
+                await updateParkrunFor5kmTimes.Invoke();
+            }
+
             await RecordsManager.PopulateWithAthletesAsync(this.AthletesManager, Year);
         }
 
         public async Task InitAsync(string seasonFilePath)
         {
             GetBasePath(seasonFilePath);
-            this.root = await RaceData.ReadAsync(seasonFilePath);
+            this.root = await RaceDataSerializer<Root2023>.ReadAsync(seasonFilePath);
             if (this.root == null)
             {
                 throw new Exception($"Unable to set the root object from '{seasonFilePath}'");
@@ -51,8 +57,9 @@ namespace FF.DataEntry.Api
             var seasonsAthletes = this.RecordsManager.Records.Select(record => record.Name).ToList();
             await this.AthletesManager.PopulateWithParkrunListAsync(this.basePath, seasonsAthletes, false);
 
-            CalculateParkrunTourist();
-            CalculateFLPNovember();
+            //CalculateParkrunTourist();
+            //CalculateFLPNovember();
+            Calculate2023();
         }
 
         public async Task SaveAsync(string filePath)
@@ -62,7 +69,36 @@ namespace FF.DataEntry.Api
                 throw new NullReferenceException(nameof(RaceManager));
             }
 
-            await RaceData.WriteAsync(this.root, filePath);
+            await RaceDataSerializer<Root2023>.WriteAsync(this.root, filePath);
+        }
+
+        public void Calculate2023()
+        {
+            foreach (var ffRace in this.root.Races)
+            {
+                var raceEvent = ffRace.Events[0];
+                raceEvent.ResetResults();
+                var isFlp = ffRace.Label.StartsWith(Root2023.labelFlp);
+
+                foreach (var record in this.RecordsManager.Records)
+                {
+                    var athlete = this.AthletesManager.FindAthleteByName(record.Name);
+
+                    // get all the parkruns for the athlete for the specific dates.
+                    var raceEventDate = raceEvent.GetDate();
+                    var athlete2023ParkrunForDate = this.AthletesManager.GetParkrunInDate(athlete.ParkrunRunList, raceEventDate, raceEventDate).FirstOrDefault();
+                    if (athlete2023ParkrunForDate == null)
+                    {
+                        // The athlete has not run any parkrun on this qualifying date, so can skip onto the next athlete.
+                        continue;
+                    }
+
+                    // We have the athlete, we have the parkrun data and we have the FF event.
+                    var comment = isFlp ? "" : $"{athlete2023ParkrunForDate.Event}"; // no need for a comment on FLP
+                    var racePersonTime = new RacePersonTime(athlete.Name, athlete2023ParkrunForDate.RaceTime, comment);
+                    raceEvent.Results?.Add(racePersonTime);
+                }
+            }
         }
 
         public void CalculateFLPNovember()
@@ -78,7 +114,6 @@ namespace FF.DataEntry.Api
                 {
                     throw new ArgumentNullException(nameof(parkrunRaceEvent));
                 }
-
 
                 parkrunRaceEvent.ResetResults();
                 foreach (var record in this.RecordsManager.Records)

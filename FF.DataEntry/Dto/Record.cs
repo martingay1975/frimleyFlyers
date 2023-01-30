@@ -1,16 +1,14 @@
-﻿using FF.DataEntry.Dto;
-
-namespace FF.DataEntry
+﻿namespace FF.DataEntry.Dto
 {
     public class Record
     {
         public Record(string name)
         {
-            this.Name = name;
-            this.FiveKm = new Time();
-            this.TenKm = new Time();
-            this.TenMiles = new Time();
-            this.HalfMarathon = new Time();
+            Name = name;
+            FiveKm = new Time();
+            TenKm = new Time();
+            TenMiles = new Time();
+            HalfMarathon = new Time();
         }
 
         public string Name { get; set; }

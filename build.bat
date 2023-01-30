@@ -7,6 +7,7 @@ rem pushd %USERPROFILE%\Google Drive\Work\Code\Web\FrimleyFlyers\sitePhantomjs
 rem pushd C:\Users\slop\Google Drive\Work\Code\Web\FrimleyFlyers\sitePhantomjs
 
 %app% ffchampionship
+%app% ffchampionship2022
 %app% ffchampionship2019
 %app% ffchampionship2018
 %app% fftrophy2018

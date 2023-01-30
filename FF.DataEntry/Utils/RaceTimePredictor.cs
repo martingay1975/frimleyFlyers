@@ -1,6 +1,4 @@
-﻿
-
-using FF.DataEntry;
+﻿using FF.DataEntry.Dto;
 using FF.DataEntry.Utils;
 
 public class RaceTimePredictor

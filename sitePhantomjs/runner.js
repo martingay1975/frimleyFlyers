@@ -21,6 +21,7 @@ var FFChampionshipPageHandlers = require("./pageHandlers/ffchampionship.js");
 var FFChampionship2017PageHandlers = require("./pageHandlers/ffchampionship2017.js");
 var FFChampionship2018PageHandlers = require("./pageHandlers/ffchampionship2018.js");
 var FFChampionship2019PageHandlers = require("./pageHandlers/ffchampionship2019.js");
+var FFChampionship2022PageHandlers = require("./pageHandlers/ffchampionship2022.js");
 var FFTrophy2018PageHandlers = require("./pageHandlers/fftrophy2018.js");
 var Endure24PageHandlers = require("./pageHandlers/endure24.js");
 var PbListPageHandlers = require("./pageHandlers/pbList.js");
@@ -37,18 +38,24 @@ var RunsPageHandlers = require("./pageHandlers/runs.js");
 		ffchampionship2017: new FFChampionship2017PageHandlers(),
 		ffchampionship2018: new FFChampionship2018PageHandlers(),
 		ffchampionship2019: new FFChampionship2019PageHandlers(),
+		ffchampionship2022: new FFChampionship2022PageHandlers(),
 		fftrophy2018: new FFTrophy2018PageHandlers(),
 		endure24: new Endure24PageHandlers(),
 		pbList: new PbListPageHandlers(),
-		runs: new RunsPageHandlers()
+		runs: new RunsPageHandlers(),
 	};
 
 	var helper1 = new Helper();
 	if (system.args.length > 1) {
 		var handlerProperty = system.args[1];
-		core.start("http://localhost:53002", handlers[handlerProperty], helper1);
+		core.start(
+			"http://localhost:53002",
+			handlers[handlerProperty],
+			helper1
+		);
 	} else {
-		console.log("Must pass first parameter which denotes which page to build");
+		console.log(
+			"Must pass first parameter which denotes which page to build"
+		);
 	}
-
-}());
+})();

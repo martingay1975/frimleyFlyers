@@ -5,8 +5,9 @@ namespace FF.DataEntry.Utils
 {
     public class ParkrunWebsite
     {
-        public async Task<List<ParkrunRun>> GetAllAsync(string parkrunId)
+        public async Task<List<ParkrunRun>> GetAllAsync(string parkrunId, Action<string>? updateProgressAction)
         {
+            updateProgressAction?.Invoke("Getting parkrun page");
             var parkrunRunList = new List<ParkrunRun>();
             var url = $"https://www.parkrun.org.uk/parkrunner/{parkrunId}/all/";
             using (var puppeteer = new PuppeteerHelper())
@@ -14,6 +15,7 @@ namespace FF.DataEntry.Utils
                 await puppeteer.StartAsync();
                 await puppeteer.OpenAsync(url, async (page, response) =>
                 {
+                    updateProgressAction?.Invoke("Got parkrun page");
                     //var innerHtml = await puppeteer.GetInnerHtmlAsync(page, "table :last-of-type");
                     var htmlBody = await puppeteer.GetHtmlBodyAsync(page);
                     var html = $"<!DOCTYPE html><html>{htmlBody}</html>";
@@ -27,10 +29,12 @@ namespace FF.DataEntry.Utils
                         throw new InvalidOperationException("Unable to see the parkrunners content");
                     }
 
-                    
-                    var rows = htmlTBody.Elements("tr");
-                    foreach (var row in rows)
+
+                    var rows = htmlTBody.Elements("tr").ToList();
+                    for (var rowIndex = 0; rowIndex < rows.Count(); rowIndex++)
                     {
+                        var row = rows[rowIndex];
+                        updateProgressAction?.Invoke($" {rowIndex + 1} of {rows.Count()}");
                         var columns = row.Elements("td").ToList();
                         var parkrunRun = new ParkrunRun();
 
@@ -45,7 +49,7 @@ namespace FF.DataEntry.Utils
                             parkrunRun.Pb = !string.IsNullOrEmpty(columns[6].InnerText);
                         }
                         catch (Exception ex)
-                        { 
+                        {
                             Console.Error.WriteLine(ex.Message);
                         }
                         parkrunRunList.Add(parkrunRun);

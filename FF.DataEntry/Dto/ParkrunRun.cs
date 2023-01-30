@@ -2,6 +2,8 @@
 {
     public class ParkrunRun
     {
+        public const string FRIMLEYLODGE_EVENTNAME = "Frimley Lodge";
+
         public string Event { get; set; }
         public DateTime Date { get; set; }
         public int EventNo { get; set; }

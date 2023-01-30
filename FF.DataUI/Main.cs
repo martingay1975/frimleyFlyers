@@ -1,7 +1,4 @@
-using FF.DataEntry;
 using FF.DataEntry.Api;
-using FF.DataEntry.Dto;
-using FF.DataEntry.Utils;
 using FF.DataUI.Forms;
 
 namespace FF.DataUI
@@ -43,6 +40,7 @@ namespace FF.DataUI
         {
             await this.manager.SaveAsync($"{this.filePath}");
             await this.manager.SaveAsync($"{this.filePath}-{DateTime.Now.Ticks}.json");
+            UpdateProgress($"Saved {this.filePath}");
         }
 
         private void UpdateProgress(string value)
@@ -58,19 +56,26 @@ namespace FF.DataUI
 
         private async void btnRefreshParkrunData_Click(object sender, EventArgs e)
         {
-            UpdateProgress("Getting parkrun data");
+            UpdateProgress("Getting parkrun data for each athlete");
+            await GetParkrunData();
+            this.manager.Calculate2023();
+            UpdateProgress("Got parkrun data");
+        }
+
+        private async Task GetParkrunData()
+        {
             var seasonsAthletes = this.manager.RecordsManager.Records.Select(record => record.Name).ToList();
             await this.manager.AthletesManager.PopulateWithParkrunListAsync(this.manager.GetBasePath(this.filePath), seasonsAthletes, true, this.ProgressHandler);
-            this.manager.CalculateParkrunTourist();
-            UpdateProgress("Got parkrun data");
         }
 
         private async void btnNewSeason_Click(object sender, EventArgs e)
         {
-            this.filePath = @"C:\git\frimleyFlyers\site\res\json\raceData2022.json";
-            await this.manager.CreateNewAsync(this.filePath);
+            this.filePath = @"C:\git\frimleyFlyers\site\res\json\raceData2023.json";
+            await this.manager.CreateNewAsync(this.filePath, async () => await this.GetParkrunData());
             await this.manager.SaveAsync(this.filePath);
             EnableButtons();
+
+            UpdateProgress($"Created new file '{this.filePath}' with {this.manager.AthletesManager.Athletes.Count()} athletes and {this.manager.RaceManager.RaceFinder.GetAllEvents().Count()} events");
         }
 
         private void EnableButtons()
