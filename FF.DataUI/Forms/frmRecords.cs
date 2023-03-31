@@ -1,7 +1,6 @@
 ﻿using FF.DataEntry.Api;
 using FF.DataEntry.Dto;
 using FF.DataEntry.Utils;
-using System.Linq;
 
 namespace FF.DataUI.Forms
 {
@@ -9,15 +8,18 @@ namespace FF.DataUI.Forms
     {
         private readonly AthletesManager athletesManager;
         private int year;
+        private string basePath;
         public RecordsManager RecordsManager { get; }
 
-        public frmRecords(RecordsManager recordsManager, AthletesManager athletesManager, int year)
+
+        public frmRecords(RecordsManager recordsManager, AthletesManager athletesManager, int year, string basePath)
         {
             InitializeComponent();
             this.RecordsManager = recordsManager;
             this.athletesManager = athletesManager ?? throw new ArgumentNullException(nameof(athletesManager));
             this.year = year;
             this.ucAthletesCombo1.Initialize(athletesManager);
+            this.basePath = basePath;
             RefreshAthleteList();
 
         }
@@ -63,6 +65,9 @@ namespace FF.DataUI.Forms
                 return;
             }
 
+            await this.athletesManager.PopulateWithParkrunListAsync(this.basePath, new List<string> { record.Name }, true, null);
+
+
             var fastestParkrun5km = this.ucTime5km.Time;
             if (fastestParkrun5km == TimeSpan.Zero)
             {
@@ -100,10 +105,10 @@ namespace FF.DataUI.Forms
             }
 
             this.txtName.Text = record.Name;
-            this.ucTime5km.Time = record.FiveKm?.GetTime() ?? TimeSpan.Zero;
-            this.ucTime10km.Time = record.TenKm?.GetTime() ?? TimeSpan.Zero;
-            this.ucTime10m.Time = record.TenMiles?.GetTime() ?? TimeSpan.Zero;
-            this.ucTimeHalfM.Time = record.HalfMarathon?.GetTime() ?? TimeSpan.Zero;
+            this.ucTime5km.Time = record.FiveKm?.GetTimeSpan() ?? TimeSpan.Zero;
+            this.ucTime10km.Time = record.TenKm?.GetTimeSpan() ?? TimeSpan.Zero;
+            this.ucTime10m.Time = record.TenMiles?.GetTimeSpan() ?? TimeSpan.Zero;
+            this.ucTimeHalfM.Time = record.HalfMarathon?.GetTimeSpan() ?? TimeSpan.Zero;
         }
 
         private void btnResetAllTimes_Click(object sender, EventArgs e)

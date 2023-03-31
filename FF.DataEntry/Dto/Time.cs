@@ -16,7 +16,7 @@
         public int Minute { get; set; }
         public int Second { get; set; }
 
-        public TimeSpan GetTime()
+        public TimeSpan GetTimeSpan()
         {
             return new TimeSpan(Hour, Minute, Second);
         }

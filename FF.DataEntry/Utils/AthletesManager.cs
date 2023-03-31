@@ -34,6 +34,7 @@ namespace FF.DataEntry.Utils
 				//createAthlete(21, "Elinor Boese", "", "125634"),
 				createAthlete(22, "Adrian Keane-Munday", "", "2272640"),
                 createAthlete(23, "Oli Peddle", "13197801", "953039"),
+                createAthlete(24, "Lewis Whatley", "", "911642"),
 				//createAthlete(24, "Dave Bartlett", "", "2087676"),
 				createAthlete(25, "Tom Churchill", "1125412", "91676"),
                 createAthlete(26, "Rich Howden", "1750767", "414051"),
@@ -48,11 +49,11 @@ namespace FF.DataEntry.Utils
                 createAthlete(35, "Ashton Peddle", "", "676392"),
                 createAthlete(36, "Karen Peddle", "", "116038"),
                 createAthlete(37, "Kirstie Stone", "", "3506857"),
-                createAthlete(38, "Em Howden", "", "3506857"),
-                createAthlete(39, "Charmaine Long", "", "2914203"),
+                createAthlete(38, "Em Howden", "", "121641"),
+                //createAthlete(39, "Charmaine Long", "", "2914203"),
                 createAthlete(40, "Sam Benson", "", "3435693"),
                 createAthlete(41, "Paul Williams", "", "41533"),
-                createAthlete(42, "Richard Fyvie", "", "75992"),
+                //createAthlete(42, "Richard Fyvie", "", "75992"),
                 createAthlete(43, "Steve Page", "", "1255112"),
                 createAthlete(44, "Christine Scally", "", "77879"),
                 createAthlete(45, "Chelsea Knight", "", "145938"),
@@ -61,13 +62,15 @@ namespace FF.DataEntry.Utils
                 createAthlete(48, "Jodie Raynsford", "", "491932"),
                 createAthlete(49, "Hannah Williams", "", "780142"),
                 createAthlete(50, "Fiona Keane-Munday", "", "4607674"),
-                createAthlete(51, "Emily Benson", "", "4022877"),
+                //createAthlete(51, "Emily Benson", "", "4022877"),
                 createAthlete(52, "Rebecca Williams", "", "59915"),
                 createAthlete(53, "Jess Raynsford", "", "3912467"),
                 createAthlete(54, "Mary Williams", "", "780136"),
                 createAthlete(55, "Simon Harvey", "", "76882"),
                 createAthlete(56, "Susan Harvey", "", "77851"),
-                createAthlete(57, "Jo Longmuir", "", "74484")
+                createAthlete(57, "Jo Longmuir", "", "74484"),
+                createAthlete(58, "Paul Bass", "", "1250667"),
+                createAthlete(59, "Lucy Bass", "", "724150")
             };
 
             Athlete createAthlete(int id, string name, string stravaId, string parkrunId)
@@ -174,6 +177,39 @@ namespace FF.DataEntry.Utils
             return this.Athletes.SingleOrDefault(athlete => athlete.Name == name);
         }
 
+        private async Task ProcessAthleteAsync(Athlete athlete, string athletesPath, bool overwrite, Action<int, int, string>? progress = null)
+        {
+            var athletePath = Path.Combine(athletesPath, athlete.Name + ".json");
+            if (File.Exists(athletePath) && !overwrite)
+            {
+                using (var stream = File.OpenRead(athletePath))
+                {
+                    var loadedAthlete = await JsonSerializer.DeserializeAsync<Athlete>(stream, JsonSerializerDefaultOptions.Options);
+                    athlete.ParkrunRunList = loadedAthlete?.ParkrunRunList ?? throw new InvalidOperationException();
+                }
+            }
+            else
+            {
+                // Do some scraping
+                if (!string.IsNullOrEmpty(athlete.ParkrunId))
+                {
+                    var parkrunWebsite = new ParkrunWebsite();
+                    athlete.ParkrunRunList = await parkrunWebsite.GetAllAsync(athlete.ParkrunId, Update);
+
+                    // save results locally so don't need to scrape again.... soon anyway.
+                    using (var stream = File.OpenWrite(athletePath))
+                    {
+                        await JsonSerializer.SerializeAsync(stream, athlete, JsonSerializerDefaultOptions.Options);
+                    }
+                }
+            }
+
+            void Update(string text)
+            {
+                progress?.Invoke(1, 24, $"{athlete.Name} - {text}");
+            }
+        }
+
         public async Task PopulateWithParkrunListAsync(string athletesPath, IReadOnlyList<string> recordNames, bool overwrite = false, Action<int, int, string>? progress = null)
         {
             if (string.IsNullOrWhiteSpace(athletesPath))
@@ -194,41 +230,18 @@ namespace FF.DataEntry.Utils
 
             var totalAthletes = athletes.Count;
             var done = 0;
-            foreach (var athlete in athletes)
-            {
-                var athletePath = Path.Combine(athletesPath, athlete.Name + ".json");
-                if (File.Exists(athletePath) && !overwrite)
-                {
-                    using (var stream = File.OpenRead(athletePath))
-                    {
-                        var loadedAthlete = await JsonSerializer.DeserializeAsync<Athlete>(stream, JsonSerializerDefaultOptions.Options);
-                        athlete.ParkrunRunList = loadedAthlete?.ParkrunRunList ?? throw new InvalidOperationException();
-                    }
-                }
-                else
-                {
-                    // Do some scraping
-                    if (!string.IsNullOrEmpty(athlete.ParkrunId))
-                    {
-                        var parkrunWebsite = new ParkrunWebsite();
-                        athlete.ParkrunRunList = await parkrunWebsite.GetAllAsync(athlete.ParkrunId, Update);
 
-                        // save results locally so don't need to scrape again.... soon anyway.
-                        using (var stream = File.OpenWrite(athletePath))
-                        {
-                            await JsonSerializer.SerializeAsync(stream, athlete, JsonSerializerDefaultOptions.Options);
-                        }
-                    }
-                }
 
-                done++;
-                progress?.Invoke(done, totalAthletes, athlete.Name);
+            await Task.WhenAll(athletes.Select(athlete => ProcessAthleteAsync(athlete, athletesPath, overwrite, progress)));
+            progress?.Invoke(1, 1, "Done");
+            //foreach (var athlete in athletes)
+            //{
+            //    await ProcessAthleteAsync(athlete, athletesPath, overwrite);
+            //    done++;
+            //    progress?.Invoke(done, totalAthletes, athlete.Name);
 
-                void Update(string text)
-                {
-                    progress?.Invoke(done, totalAthletes, $"{athlete.Name} - {text}");
-                }
-            }
+
+            //}
         }
     }
 }

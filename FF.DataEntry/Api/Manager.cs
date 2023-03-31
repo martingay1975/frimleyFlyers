@@ -3,7 +3,7 @@ using FF.DataEntry.Utils;
 
 namespace FF.DataEntry.Api
 {
-    public class Manager
+    public partial class Manager
     {
         public const int Year = 2023;
         private Root2023 root;
@@ -59,8 +59,10 @@ namespace FF.DataEntry.Api
 
             //CalculateParkrunTourist();
             //CalculateFLPNovember();
-            Calculate2023();
+            var overallPositions = Calculate2023();
+            CsvOutput.ProduceCSV2023(root, overallPositions, seasonFilePath + ".csv");
         }
+
 
         public async Task SaveAsync(string filePath)
         {
@@ -72,14 +74,26 @@ namespace FF.DataEntry.Api
             await RaceDataSerializer<Root2023>.WriteAsync(this.root, filePath);
         }
 
-        public void Calculate2023()
+        public class OverallScores
         {
+            public string Name { get; set; }
+            public int OverallPoints { get; set; }
+            public int FLPPoints { get; set; }
+            public int TouristPoints { get; set; }
+        }
+
+
+        public List<OverallScores> Calculate2023()
+        {
+            var scores = new List<OverallScores>();
+
+            // Loops around each race
             foreach (var ffRace in this.root.Races)
             {
                 var raceEvent = ffRace.Events[0];
                 raceEvent.ResetResults();
-                var isFlp = ffRace.Label.StartsWith(Root2023.labelFlp);
 
+                // Loops around each person
                 foreach (var record in this.RecordsManager.Records)
                 {
                     var athlete = this.AthletesManager.FindAthleteByName(record.Name);
@@ -93,13 +107,112 @@ namespace FF.DataEntry.Api
                         continue;
                     }
 
+                    var athlete5kmPB = record.FiveKm.GetTimeSpan();
                     // We have the athlete, we have the parkrun data and we have the FF event.
-                    var comment = isFlp ? "" : $"{athlete2023ParkrunForDate.Event}"; // no need for a comment on FLP
-                    var racePersonTime = new RacePersonTime(athlete.Name, athlete2023ParkrunForDate.RaceTime, comment);
+                    var isFlp = athlete2023ParkrunForDate.Event == ParkrunRun.FRIMLEYLODGE_EVENTNAME;
+                    var comment = isFlp ? null : $"{athlete2023ParkrunForDate.Event}"; // no need for a comment on FLP
+                    var racePersonTime = new RacePersonScoreTime(athlete.Name, athlete2023ParkrunForDate.RaceTime, athlete5kmPB, isFlp, comment);
                     raceEvent.Results?.Add(racePersonTime);
                 }
+
+                // Get the athletes in order, with best PctDifference at the top
+                var results = raceEvent.Results?
+                    .Cast<RacePersonScoreTime>()
+                    .OrderBy(res => res.PctDifference).ToList();
+
+                for (var index = 0; index < results?.Count; index++)
+                {
+                    var racePersonScoreTime = results[index];
+                    var points = index < this.root.PointsScheme.Count() ? this.root.PointsScheme[index] : 0;
+                    racePersonScoreTime.SetPoints(points, this.root.PointsPbBonus);
+                    racePersonScoreTime.Position = index + 1;
+                }
+            }
+
+            // Now get the best 5 FLP events and 2 Tourist events
+            var events = this.RaceFinder.GetAllEvents();
+            foreach (var record in this.RecordsManager.Records)
+            {
+                // for each athlete
+                var flp = new List<RacePersonScoreTime>();
+                var tourist = new List<RacePersonScoreTime>();
+                foreach (var evt in events)
+                {
+                    var athleteForEvent = evt?.Results?.FirstOrDefault(racePersonScoreTime => racePersonScoreTime.Name == record.Name) as RacePersonScoreTime;
+                    if (athleteForEvent != null)
+                    {
+                        if (athleteForEvent.IsFlp)
+                        {
+                            flp.Add(athleteForEvent);
+                        }
+                        else
+                        {
+                            tourist.Add(athleteForEvent);
+                        }
+                    }
+                }
+
+                var flpPoints = process(flp, 5);
+                var touristPoints = process(tourist, 2);
+                scores.Add(new OverallScores { Name = record.Name, FLPPoints = flpPoints, TouristPoints = touristPoints, OverallPoints = flpPoints + touristPoints });
+            }
+
+            // get the overall result in order of total points
+            var orderedOverallScores = scores
+                .OrderByDescending(sc => sc.OverallPoints)
+                .ThenBy(sc => sc.Name).ToList();
+
+            return orderedOverallScores;
+
+
+            int process(List<RacePersonScoreTime> list, int take)
+            {
+                var racePersonScoreTimes = list.OrderByDescending(racePersonScoreTime => racePersonScoreTime.Points).Take(5);
+                foreach (var racePersonScoreTime in racePersonScoreTimes)
+                {
+                    racePersonScoreTime.IsScoringPoints = true;
+                }
+
+                return racePersonScoreTimes.Sum(racePersonScoreTime => racePersonScoreTime.Points);
             }
         }
+
+        public void CalculateResults()
+        {
+            var events = this.RaceFinder.GetAllEvents();
+            var results2023 = new Results2023();
+            foreach (var evt in events)
+            {
+                var eventResults = new EventResults(evt);
+
+            }
+        }
+
+        public class Results2023
+        {
+            public Results2023()
+            {
+                this.AllEventResults = new List<EventResults>();
+            }
+
+            public List<EventResults> AllEventResults { get; set; }
+        }
+
+        public class EventResults
+        {
+            public EventResults(RaceEvent raceEvent)
+            {
+                RaceEvent = raceEvent;
+                Results = new List<RacePersonScoreTime>();
+            }
+
+            public RaceEvent RaceEvent { get; private set; }
+            public List<RacePersonScoreTime> Results { get; private set; }
+        }
+
+
+
+
 
         public void CalculateFLPNovember()
         {

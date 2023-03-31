@@ -13,18 +13,16 @@ namespace FF.DataUI
             InitializeComponent();
             this.ucOpenFile1.NewFileOpenedEvent += UcOpenFile1_NewFileOpenedEvent;
 
-            this.filePath = @"C:\git\frimleyFlyers\site\res\json\raceData2022.json";
-            //LoadFilePath().Wait();
-
+            this.filePath = @"C:\git\frimleyFlyers\site\res\json\raceData2023.json";
         }
 
         private async void UcOpenFile1_NewFileOpenedEvent(object sender, Controls.NewFileOpenedEventArgs e)
         {
             this.filePath = e.FilePath;
-            await LoadFilePath();
+            await LoadFilePathAsync();
         }
 
-        private async Task LoadFilePath()
+        private async Task LoadFilePathAsync()
         {
             await this.manager.InitAsync(this.filePath);
             EnableButtons();
@@ -32,7 +30,7 @@ namespace FF.DataUI
 
         private void btnRecords_Click(object sender, EventArgs e)
         {
-            var recordsForm = new frmRecords(this.manager.RecordsManager, manager.AthletesManager, Manager.Year);
+            var recordsForm = new frmRecords(this.manager.RecordsManager, manager.AthletesManager, Manager.Year, this.manager.GetBasePath(this.filePath));
             recordsForm.ShowDialog();
         }
 
@@ -57,12 +55,12 @@ namespace FF.DataUI
         private async void btnRefreshParkrunData_Click(object sender, EventArgs e)
         {
             UpdateProgress("Getting parkrun data for each athlete");
-            await GetParkrunData();
+            await GetParkrunDataAsync();
             this.manager.Calculate2023();
             UpdateProgress("Got parkrun data");
         }
 
-        private async Task GetParkrunData()
+        private async Task GetParkrunDataAsync()
         {
             var seasonsAthletes = this.manager.RecordsManager.Records.Select(record => record.Name).ToList();
             await this.manager.AthletesManager.PopulateWithParkrunListAsync(this.manager.GetBasePath(this.filePath), seasonsAthletes, true, this.ProgressHandler);
@@ -71,7 +69,7 @@ namespace FF.DataUI
         private async void btnNewSeason_Click(object sender, EventArgs e)
         {
             this.filePath = @"C:\git\frimleyFlyers\site\res\json\raceData2023.json";
-            await this.manager.CreateNewAsync(this.filePath, async () => await this.GetParkrunData());
+            await this.manager.CreateNewAsync(this.filePath, async () => await this.GetParkrunDataAsync());
             await this.manager.SaveAsync(this.filePath);
             EnableButtons();
 
