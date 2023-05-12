@@ -32,7 +32,7 @@ namespace FF.DataEntry.Utils
                     {"Cache-Control", "no-cache" },
                     {"Connection", "keep-alive" },
                     {"Pragma", "no-cache" },
-				    {"Upgrade-Insecure-Requests", "1" },
+                    {"Upgrade-Insecure-Requests", "1" },
                     {"User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36" }
                 });
 
@@ -88,8 +88,11 @@ namespace FF.DataEntry.Utils
 
         public void Dispose()
         {
-            browser.CloseAsync().Wait();
-            browser.DisposeAsync();
+            if (browser != null)
+            {
+                browser.CloseAsync().Wait();
+                browser.DisposeAsync();
+            }
         }
     }
 }
