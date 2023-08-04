@@ -15,14 +15,13 @@ namespace FF.DataEntry.Utils
             this.browser = await Puppeteer.LaunchAsync(new LaunchOptions
             {
                 Headless = true,
-                Timeout = (int)TimeSpan.FromSeconds(10).TotalMilliseconds
+                Timeout = (int)TimeSpan.FromSeconds(20).TotalMilliseconds
             });
             Console.WriteLine("Created Browser Instance");
         }
 
         public async Task OpenAsync(string url, Func<Page, Response, Task> run)
         {
-            // Create a new page and go to Bing Maps
             using (var page = await this.browser.NewPageAsync())
             {
                 await page.SetExtraHttpHeadersAsync(new Dictionary<string, string>
@@ -36,8 +35,16 @@ namespace FF.DataEntry.Utils
                     {"User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36" }
                 });
 
-                var response = await page.GoToAsync(url);
-                await run(page, response);
+                try
+                {
+                    var response = await page.GoToAsync(url);
+                    await run(page, response);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"{url} = {ex.ToString()}");
+                    throw;
+                }
             }
         }
 

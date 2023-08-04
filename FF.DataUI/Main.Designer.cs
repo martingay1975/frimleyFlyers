@@ -28,104 +28,115 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.ucOpenFile1 = new FF.DataUI.Controls.ucOpenFile();
-            this.btnRecords = new System.Windows.Forms.Button();
-            this.btnRaces = new System.Windows.Forms.Button();
-            this.btnSave = new System.Windows.Forms.Button();
-            this.btnGetLastYearParkrun = new System.Windows.Forms.Button();
-            this.btnNewSeason = new System.Windows.Forms.Button();
-            this.lblProgress = new System.Windows.Forms.Label();
-            this.SuspendLayout();
+            ucOpenFile1 = new Controls.ucOpenFile();
+            btnRecords = new Button();
+            btnRaces = new Button();
+            btnSave = new Button();
+            btnGetLastYearParkrun = new Button();
+            btnNewSeason = new Button();
+            lblProgress = new Label();
+            btnStats = new Button();
+            SuspendLayout();
             // 
             // ucOpenFile1
             // 
-            this.ucOpenFile1.Location = new System.Drawing.Point(12, 39);
-            this.ucOpenFile1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.ucOpenFile1.Name = "ucOpenFile1";
-            this.ucOpenFile1.Size = new System.Drawing.Size(584, 29);
-            this.ucOpenFile1.TabIndex = 0;
+            ucOpenFile1.Location = new Point(12, 39);
+            ucOpenFile1.Margin = new Padding(3, 4, 3, 4);
+            ucOpenFile1.Name = "ucOpenFile1";
+            ucOpenFile1.Size = new Size(584, 29);
+            ucOpenFile1.TabIndex = 0;
             // 
             // btnRecords
             // 
-            this.btnRecords.Enabled = false;
-            this.btnRecords.Location = new System.Drawing.Point(12, 85);
-            this.btnRecords.Name = "btnRecords";
-            this.btnRecords.Size = new System.Drawing.Size(75, 23);
-            this.btnRecords.TabIndex = 1;
-            this.btnRecords.Text = "Records";
-            this.btnRecords.UseVisualStyleBackColor = true;
-            this.btnRecords.Click += new System.EventHandler(this.btnRecords_Click);
+            btnRecords.Enabled = false;
+            btnRecords.Location = new Point(12, 85);
+            btnRecords.Name = "btnRecords";
+            btnRecords.Size = new Size(75, 23);
+            btnRecords.TabIndex = 1;
+            btnRecords.Text = "Records";
+            btnRecords.UseVisualStyleBackColor = true;
+            btnRecords.Click += btnRecords_Click;
             // 
             // btnRaces
             // 
-            this.btnRaces.Enabled = false;
-            this.btnRaces.Location = new System.Drawing.Point(93, 85);
-            this.btnRaces.Name = "btnRaces";
-            this.btnRaces.Size = new System.Drawing.Size(75, 23);
-            this.btnRaces.TabIndex = 2;
-            this.btnRaces.Text = "Races";
-            this.btnRaces.UseVisualStyleBackColor = true;
-            this.btnRaces.Click += new System.EventHandler(this.btnRaces_Click);
+            btnRaces.Enabled = false;
+            btnRaces.Location = new Point(93, 85);
+            btnRaces.Name = "btnRaces";
+            btnRaces.Size = new Size(75, 23);
+            btnRaces.TabIndex = 2;
+            btnRaces.Text = "Races";
+            btnRaces.UseVisualStyleBackColor = true;
+            btnRaces.Click += btnRaces_Click;
             // 
             // btnSave
             // 
-            this.btnSave.Enabled = false;
-            this.btnSave.Location = new System.Drawing.Point(515, 85);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(75, 23);
-            this.btnSave.TabIndex = 3;
-            this.btnSave.Text = "Save";
-            this.btnSave.UseVisualStyleBackColor = true;
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            btnSave.Enabled = false;
+            btnSave.Location = new Point(515, 85);
+            btnSave.Name = "btnSave";
+            btnSave.Size = new Size(75, 23);
+            btnSave.TabIndex = 3;
+            btnSave.Text = "Save";
+            btnSave.UseVisualStyleBackColor = true;
+            btnSave.Click += btnSave_Click;
             // 
             // btnGetLastYearParkrun
             // 
-            this.btnGetLastYearParkrun.Location = new System.Drawing.Point(12, 113);
-            this.btnGetLastYearParkrun.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btnGetLastYearParkrun.Name = "btnGetLastYearParkrun";
-            this.btnGetLastYearParkrun.Size = new System.Drawing.Size(156, 22);
-            this.btnGetLastYearParkrun.TabIndex = 4;
-            this.btnGetLastYearParkrun.Text = "Refresh Parkrun Data";
-            this.btnGetLastYearParkrun.UseVisualStyleBackColor = true;
-            this.btnGetLastYearParkrun.Click += new System.EventHandler(this.btnRefreshParkrunData_Click);
+            btnGetLastYearParkrun.Location = new Point(12, 113);
+            btnGetLastYearParkrun.Margin = new Padding(3, 2, 3, 2);
+            btnGetLastYearParkrun.Name = "btnGetLastYearParkrun";
+            btnGetLastYearParkrun.Size = new Size(156, 22);
+            btnGetLastYearParkrun.TabIndex = 4;
+            btnGetLastYearParkrun.Text = "Refresh Parkrun Data";
+            btnGetLastYearParkrun.UseVisualStyleBackColor = true;
+            btnGetLastYearParkrun.Click += btnRefreshParkrunData_Click;
             // 
             // btnNewSeason
             // 
-            this.btnNewSeason.Location = new System.Drawing.Point(191, 113);
-            this.btnNewSeason.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btnNewSeason.Name = "btnNewSeason";
-            this.btnNewSeason.Size = new System.Drawing.Size(156, 22);
-            this.btnNewSeason.TabIndex = 5;
-            this.btnNewSeason.Text = "New Season";
-            this.btnNewSeason.UseVisualStyleBackColor = true;
-            this.btnNewSeason.Click += new System.EventHandler(this.btnNewSeason_Click);
+            btnNewSeason.Location = new Point(191, 113);
+            btnNewSeason.Margin = new Padding(3, 2, 3, 2);
+            btnNewSeason.Name = "btnNewSeason";
+            btnNewSeason.Size = new Size(156, 22);
+            btnNewSeason.TabIndex = 5;
+            btnNewSeason.Text = "New Season";
+            btnNewSeason.UseVisualStyleBackColor = true;
+            btnNewSeason.Click += btnNewSeason_Click;
             // 
             // lblProgress
             // 
-            this.lblProgress.AutoSize = true;
-            this.lblProgress.Location = new System.Drawing.Point(12, 153);
-            this.lblProgress.Name = "lblProgress";
-            this.lblProgress.Size = new System.Drawing.Size(10, 15);
-            this.lblProgress.TabIndex = 6;
-            this.lblProgress.Text = ".";
+            lblProgress.AutoSize = true;
+            lblProgress.Location = new Point(12, 153);
+            lblProgress.Name = "lblProgress";
+            lblProgress.Size = new Size(10, 15);
+            lblProgress.TabIndex = 6;
+            lblProgress.Text = ".";
+            // 
+            // btnStats
+            // 
+            btnStats.Location = new Point(374, 113);
+            btnStats.Name = "btnStats";
+            btnStats.Size = new Size(75, 23);
+            btnStats.TabIndex = 7;
+            btnStats.Text = "Stats";
+            btnStats.UseVisualStyleBackColor = true;
+            btnStats.Click += btnStats_Click;
             // 
             // Main
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(601, 177);
-            this.Controls.Add(this.lblProgress);
-            this.Controls.Add(this.btnNewSeason);
-            this.Controls.Add(this.btnGetLastYearParkrun);
-            this.Controls.Add(this.btnSave);
-            this.Controls.Add(this.btnRaces);
-            this.Controls.Add(this.btnRecords);
-            this.Controls.Add(this.ucOpenFile1);
-            this.Name = "Main";
-            this.Text = "Form1";
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(601, 177);
+            Controls.Add(btnStats);
+            Controls.Add(lblProgress);
+            Controls.Add(btnNewSeason);
+            Controls.Add(btnGetLastYearParkrun);
+            Controls.Add(btnSave);
+            Controls.Add(btnRaces);
+            Controls.Add(btnRecords);
+            Controls.Add(ucOpenFile1);
+            Name = "Main";
+            Text = "Form1";
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -137,5 +148,6 @@
         private Button btnGetLastYearParkrun;
         private Button btnNewSeason;
         private Label lblProgress;
+        private Button btnStats;
     }
 }

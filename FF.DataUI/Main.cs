@@ -92,5 +92,11 @@ namespace FF.DataUI
             var frmRaces = new frmRaces(this.manager);
             frmRaces.ShowDialog();
         }
+
+        private async void btnStats_Click(object sender, EventArgs e)
+        {
+            var athletesPath = this.manager.GetBasePath(this.filePath);
+            await this.manager.AthletesManager.PopulateAllAthletes(athletesPath, false, this.ProgressHandler);
+        }
     }
 }

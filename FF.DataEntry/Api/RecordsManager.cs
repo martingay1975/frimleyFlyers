@@ -17,7 +17,7 @@ namespace FF.DataEntry.Api
             foreach (var athlete in athletesManager.Athletes)
             {
                 var record = new Record(athlete.Name);
-                var fastestParkrun5km = athletesManager.GetQuickestParkrunLastYear(athlete, year);
+                var fastestParkrun5km = athletesManager.GetQuickestParkrunInYear(athlete, year).RaceTime;
 
                 record.FiveKm.SetTime(fastestParkrun5km);
                 record.TenKm = await AthletesManager.GetTimeAsync(RaceDistance.TenKm, fastestParkrun5km);

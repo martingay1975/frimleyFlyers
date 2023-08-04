@@ -29,7 +29,6 @@ namespace FF.DataEntry.Utils
                         throw new InvalidOperationException("Unable to see the parkrunners content");
                     }
 
-
                     var rows = htmlTBody.Elements("tr").ToList();
                     for (var rowIndex = 0; rowIndex < rows.Count(); rowIndex++)
                     {

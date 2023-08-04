@@ -1,5 +1,7 @@
-﻿using FF.DataEntry.Dto;
+﻿using FF.DataEntry.Api;
+using FF.DataEntry.Dto;
 using System.Text.Json;
+using static FF.DataEntry.Api.CsvOutput;
 
 namespace FF.DataEntry.Utils
 {
@@ -65,7 +67,7 @@ namespace FF.DataEntry.Utils
                 //createAthlete(51, "Emily Benson", "", "4022877"),
                 createAthlete(52, "Rebecca Williams", "", "59915"),
                 createAthlete(53, "Jess Raynsford", "", "3912467"),
-                createAthlete(54, "Mary Williams", "", "780136"),
+                //createAthlete(54, "Mary Williams", "", "780136"),
                 createAthlete(55, "Simon Harvey", "", "76882"),
                 createAthlete(56, "Susan Harvey", "", "77851"),
                 createAthlete(57, "Jo Longmuir", "", "74484"),
@@ -92,26 +94,26 @@ namespace FF.DataEntry.Utils
             return time;
         }
 
-        public TimeSpan GetQuickestParkrunLastYear(string name, int year)
+        public TimeSpan GetQuickestParkrunInYear(string name, int year)
         {
             var athlete = FindAthleteByName(name);
-            return GetQuickestParkrunLastYear(athlete, year);
+            return GetQuickestParkrunInYear(athlete, year)?.RaceTime ?? TimeSpan.Zero;
         }
 
-        public TimeSpan GetQuickestParkrunLastYear(Athlete athlete, int year)
+        public ParkrunRun GetQuickestParkrunInYear(Athlete athlete, int year)
         {
             try
             {
                 var startDate = new DateTime(year - 1, 1, 1);
                 var endDate = new DateTime(year - 1, 12, 31);
                 var inSeasonForAthlete = GetParkrunInDate(athlete.ParkrunRunList, startDate, endDate);
-                var selected = inSeasonForAthlete.Select(parkrunRun => parkrunRun.RaceTime).Min();
+                var selected = inSeasonForAthlete.OrderBy(parkrunRun => parkrunRun.RaceTime).First();
                 return selected;
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"{athlete.Name} does not have a parkrun time");
-                return TimeSpan.Zero;
+                return null;
             }
         }
 
@@ -209,6 +211,24 @@ namespace FF.DataEntry.Utils
             {
                 progress?.Invoke(1, 24, $"{athlete.Name} - {text}");
             }
+        }
+        public async Task PopulateAllAthletes(string basePath, bool overwrite, Action<int, int, string>? progress)
+        {
+            await Task.WhenAll(this.Athletes.Select(athlete => ProcessAthleteAsync(athlete, Path.Combine(basePath, "athletes"), overwrite, progress)));
+
+            var rows = new List<BestInYear>();
+            foreach (var athlete in this.Athletes)
+            {
+                var quickestParkurn = GetQuickestParkrunInYear(athlete, 2024);
+                if (quickestParkurn != null)
+                {
+                    var row = new BestInYear { Name = athlete.Name, Time = quickestParkurn.RaceTime, Date = quickestParkurn.Date, Location = quickestParkurn.Event };
+                    rows.Add(row);
+                }
+            }
+
+            var orderedByQuickest = rows.OrderBy(pr => pr.Time);
+            CsvOutput.ProduceStats(orderedByQuickest, Path.Combine(basePath, "stats.csv"));
         }
 
         public async Task PopulateWithParkrunListAsync(string athletesPath, IReadOnlyList<string> recordNames, bool overwrite = false, Action<int, int, string>? progress = null)

@@ -8,6 +8,39 @@ namespace FF.DataEntry.Api
 {
     internal static class CsvOutput
     {
+        internal class BestInYear
+        {
+            public string Name { get; set; }
+            public TimeSpan Time { get; set; }
+            public string Location { get; set; }
+
+            public DateTime Date { get; set; }
+
+        }
+
+
+        internal static void ProduceStats(IEnumerable<BestInYear> rows, string outputPath)
+        {
+            var config = new CsvConfiguration(CultureInfo.InvariantCulture)
+            {
+                // Don't write the header again.
+                HasHeaderRecord = true,
+            };
+
+            try
+            {
+                using (var writer = new StreamWriter(outputPath))
+                using (var csvWriter = new CsvWriter(writer, config))
+                {
+                    csvWriter.WriteRecords(rows);
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
         internal static void ProduceCSV2023(Root2023 root, List<OverallScores> overallPositions, string outputPath)
         {
             var finder = new Finder(root);
