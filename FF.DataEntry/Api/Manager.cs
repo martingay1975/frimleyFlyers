@@ -167,7 +167,7 @@ namespace FF.DataEntry.Api
 
             int process(List<RacePersonScoreTime> list, int take)
             {
-                var racePersonScoreTimes = list.OrderByDescending(racePersonScoreTime => racePersonScoreTime.Points).Take(5);
+                var racePersonScoreTimes = list.OrderByDescending(racePersonScoreTime => racePersonScoreTime.Points).Take(take);
                 foreach (var racePersonScoreTime in racePersonScoreTimes)
                 {
                     racePersonScoreTime.IsScoringPoints = true;

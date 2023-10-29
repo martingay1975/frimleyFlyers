@@ -96,7 +96,7 @@ namespace FF.DataUI
         private async void btnStats_Click(object sender, EventArgs e)
         {
             var athletesPath = this.manager.GetBasePath(this.filePath);
-            await this.manager.AthletesManager.PopulateAllAthletes(athletesPath, false, this.ProgressHandler);
+            await this.manager.AthletesManager.PopulateAllAthletesThrottled(athletesPath, false, this.ProgressHandler);
         }
     }
 }

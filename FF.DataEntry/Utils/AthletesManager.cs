@@ -212,9 +212,26 @@ namespace FF.DataEntry.Utils
                 progress?.Invoke(1, 24, $"{athlete.Name} - {text}");
             }
         }
-        public async Task PopulateAllAthletes(string basePath, bool overwrite, Action<int, int, string>? progress)
+
+        public async Task PopulateAllAthletesThrottled(string basePath, bool overwrite, Action<int, int, string>? progress)
         {
-            await Task.WhenAll(this.Athletes.Select(athlete => ProcessAthleteAsync(athlete, Path.Combine(basePath, "athletes"), overwrite, progress)));
+            var mutex = new SemaphoreSlim(4);
+            var tasks = Enumerable.Range(0, this.Athletes.Count).Select(async athleteCount =>
+            {
+                await mutex.WaitAsync();
+                try
+                {
+                    await ProcessAthleteAsync(this.Athletes[athleteCount], Path.Combine(basePath, "athletes"), overwrite, progress);
+                }
+                finally { mutex.Release(); }
+            });
+            await Task.WhenAll(tasks);
+            await PopulateAllAthletes(basePath, overwrite, progress);
+        }
+
+        private async Task PopulateAllAthletes(string basePath, bool overwrite, Action<int, int, string>? progress)
+        {
+            //await Task.WhenAll(this.Athletes.Select(athlete => ProcessAthleteAsync(athlete, Path.Combine(basePath, "athletes"), overwrite, progress)));
 
             var rows = new List<BestInYear>();
             foreach (var athlete in this.Athletes)
@@ -252,17 +269,14 @@ namespace FF.DataEntry.Utils
             var totalAthletes = athletes.Count;
             var done = 0;
 
-
-            await Task.WhenAll(athletes.Select(athlete => ProcessAthleteAsync(athlete, athletesPath, overwrite, progress)));
-            progress?.Invoke(1, 1, "Done");
-            //foreach (var athlete in athletes)
-            //{
-            //    await ProcessAthleteAsync(athlete, athletesPath, overwrite);
-            //    done++;
-            //    progress?.Invoke(done, totalAthletes, athlete.Name);
-
-
-            //}
+            //await Task.WhenAll(athletes.Select(athlete => ProcessAthleteAsync(athlete, athletesPath, overwrite, progress)));
+            //progress?.Invoke(1, 1, "Done");
+            foreach (var athlete in athletes)
+            {
+                await ProcessAthleteAsync(athlete, athletesPath, overwrite);
+                done++;
+                progress?.Invoke(done, totalAthletes, athlete.Name);
+            }
         }
     }
 }
