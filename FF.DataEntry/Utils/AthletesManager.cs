@@ -44,7 +44,7 @@ namespace FF.DataEntry.Utils
 				//createAthlete(28, "Julia Boese", "", "293582"),
 				createAthlete(29, "Alan Bush", "19641672", "1520236"),
                 createAthlete(30, "Andy Poulter", "", "2306222"),
-				//createAthlete(31, "Zoe Stone", "", "449398"),
+                createAthlete(31, "Zoe Stone", "", "449398"),
 				//createAthlete(32, "Bruno Silva", "", "3201689"),
 				//createAthlete(33, "Derek Peddle", "", "3174383"),
 				createAthlete(34, "Susan Rodrigues", "", "3414380"),
@@ -74,6 +74,10 @@ namespace FF.DataEntry.Utils
                 createAthlete(58, "Paul Bass", "", "1250667"),
                 createAthlete(59, "Lucy Bass", "", "724150"),
                 createAthlete(60, "Hayley Bush", "", "5005026"),
+                createAthlete(61, "Adam Pett", "", "9059902"),
+                createAthlete(62, "Karen Phillips", "", "3549873"),
+                createAthlete(63, "Wendy Ockrim", "", "1473870"),
+                createAthlete(64, "Harvey Ockrim", "", "1472445"),
             };
 
             Athlete createAthlete(int id, string name, string stravaId, string parkrunId)
@@ -104,8 +108,8 @@ namespace FF.DataEntry.Utils
         {
             try
             {
-                var startDate = new DateTime(year - 1, 1, 1);
-                var endDate = new DateTime(year - 1, 12, 31);
+                var startDate = new DateTime(year, 1, 1);
+                var endDate = new DateTime(year, 12, 31);
                 var inSeasonForAthlete = GetParkrunInDate(athlete.ParkrunRunList, startDate, endDate);
                 var selected = inSeasonForAthlete.OrderBy(parkrunRun => parkrunRun.RaceTime).First();
                 return selected;
@@ -231,16 +235,19 @@ namespace FF.DataEntry.Utils
 
         private async Task PopulateAllAthletes(string basePath, bool overwrite, Action<int, int, string>? progress)
         {
-            //await Task.WhenAll(this.Athletes.Select(athlete => ProcessAthleteAsync(athlete, Path.Combine(basePath, "athletes"), overwrite, progress)));
-
             var rows = new List<BestInYear>();
             foreach (var athlete in this.Athletes)
             {
-                var quickestParkurn = GetQuickestParkrunInYear(athlete, 2024);
+                var quickestParkurn = GetQuickestParkrunInYear(athlete, 2023);
                 if (quickestParkurn != null)
                 {
-                    var row = new BestInYear { Name = athlete.Name, Time = quickestParkurn.RaceTime, Date = quickestParkurn.Date, Location = quickestParkurn.Event };
-                    rows.Add(row);
+                    rows.Add(new BestInYear
+                    {
+                        Name = athlete.Name,
+                        Time = quickestParkurn.RaceTime,
+                        Date = quickestParkurn.Date,
+                        Location = quickestParkurn.Event
+                    });
                 }
             }
 

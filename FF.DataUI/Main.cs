@@ -12,8 +12,7 @@ namespace FF.DataUI
         {
             InitializeComponent();
             this.ucOpenFile1.NewFileOpenedEvent += UcOpenFile1_NewFileOpenedEvent;
-
-            this.filePath = @"C:\git\frimleyFlyers\site\res\json\raceData2023.json";
+            this.filePath = @"C:\git\frimleyFlyers\site\res\json\raceData2024.json";
         }
 
         private async void UcOpenFile1_NewFileOpenedEvent(object sender, Controls.NewFileOpenedEventArgs e)
@@ -56,7 +55,7 @@ namespace FF.DataUI
         {
             UpdateProgress("Getting parkrun data for each athlete");
             await GetParkrunDataAsync();
-            this.manager.Calculate2023();
+            this.manager.CalculateCurrentYear();
             UpdateProgress("Got parkrun data");
         }
 
@@ -68,7 +67,10 @@ namespace FF.DataUI
 
         private async void btnNewSeason_Click(object sender, EventArgs e)
         {
-            this.filePath = @"C:\git\frimleyFlyers\site\res\json\raceData2023.json";
+            // Add names to AthletesManager before running
+            // Goto Records and add or remove names as required
+
+            this.filePath = @"C:\git\frimleyFlyers\site\res\json\raceData2024.json";
             await this.manager.CreateNewAsync(this.filePath, async () => await this.GetParkrunDataAsync());
             await this.manager.SaveAsync(this.filePath);
             EnableButtons();

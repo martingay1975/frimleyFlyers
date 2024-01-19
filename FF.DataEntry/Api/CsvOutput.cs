@@ -13,11 +13,9 @@ namespace FF.DataEntry.Api
             public string Name { get; set; }
             public TimeSpan Time { get; set; }
             public string Location { get; set; }
-
             public DateTime Date { get; set; }
 
         }
-
 
         internal static void ProduceStats(IEnumerable<BestInYear> rows, string outputPath)
         {
@@ -35,13 +33,13 @@ namespace FF.DataEntry.Api
                     csvWriter.WriteRecords(rows);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
         }
 
-        internal static void ProduceCSV2023(Root2023 root, List<OverallScores> overallPositions, string outputPath)
+        internal static void ProduceCSV(Root root, List<OverallScores> overallPositions, string outputPath)
         {
             var finder = new Finder(root);
             var allEvents = finder.GetAllEvents().ToList();
@@ -50,7 +48,6 @@ namespace FF.DataEntry.Api
             {
                 // Don't write the header again.
                 HasHeaderRecord = false,
-
             };
 
             try
@@ -61,6 +58,7 @@ namespace FF.DataEntry.Api
                     // Row 1
                     csvWriter.WriteField("");
                     csvWriter.WriteField("Overall");
+                    csvWriter.WriteField("");
                     csvWriter.WriteField("");
                     csvWriter.WriteField("");
                     for (var evtIndex = 0; evtIndex < allEvents.Count(); evtIndex++)
@@ -77,6 +75,7 @@ namespace FF.DataEntry.Api
                     csvWriter.WriteField("Pts");
                     csvWriter.WriteField("FLP Pts");
                     csvWriter.WriteField("Tourist Pts");
+                    csvWriter.WriteField("Prev Best");
 
                     for (var evtIndex = 0; evtIndex < allEvents.Count(); evtIndex++)
                     {
@@ -93,6 +92,7 @@ namespace FF.DataEntry.Api
                         csvWriter.WriteField(overallScore.OverallPoints);
                         csvWriter.WriteField(overallScore.FLPPoints);
                         csvWriter.WriteField(overallScore.TouristPoints);
+                        csvWriter.WriteField(overallScore.BaseLineTime?.GetTimeSpan().ToString(@"mm\:ss") + "\t");
 
                         for (var evtIndex = 0; evtIndex < allEvents.Count(); evtIndex++)
                         {
@@ -130,35 +130,5 @@ namespace FF.DataEntry.Api
             public double PctDifferentEvent1 { get; set; }
             public int PointsEvent1 { get; set; }
         }
-
-        //public class OutputDtoMap : ClassMap<OutputDto>
-        //{
-        //    public OutputDtoMap()
-        //    {
-        //        Map(outputDto => outputDto.Name);
-        //        Map(outputDto => outputDto.Races);
-        //        foreach (var outputRaceDto in outputDto.Races)
-        //    }
-        //}
-
-        //public class OutputDto
-        //{
-        //    public string Name { get; set; }
-        //    public List<OutputRaceDto> Races { get; set; }
-        //    public int FlpPoints { get; set; }
-        //    public int TouristPoints { get; set; }
-        //    public int TotalPoints { get; set; }
-
-
-        //    //public TimeSpan TimeEvent2 { get; set; }
-        //    //public double PctDifferentEvent2 { get; set; }
-        //    //public int PointsEvent2 { get; set; }
-
-        //    //public TimeSpan TimeEvent3 { get; set; }
-        //    //public double PctDifferentEvent3 { get; set; }
-        //    //public int PointsEvent3 { get; set; }
-
-
-        //}
     }
 }

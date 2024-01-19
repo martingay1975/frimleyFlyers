@@ -5,8 +5,8 @@ namespace FF.DataEntry.Api
 {
     public partial class Manager
     {
-        public const int Year = 2023;
-        private Root2023 root;
+        public const int Year = 2024;
+        private Root2024 root;
         private Finder RaceFinder;
         private string basePath;
 
@@ -26,7 +26,7 @@ namespace FF.DataEntry.Api
             GetBasePath(seasonFilePath);
             this.AthletesManager = new AthletesManager();
 
-            this.root = Root2023.CreateDefault();
+            this.root = Root2024.CreateDefault();
             this.RaceFinder = new Finder(this.root);
             this.RaceManager = new RaceManager(this.RaceFinder);
             this.RecordsManager = new RecordsManager(this.root.Records);
@@ -36,13 +36,13 @@ namespace FF.DataEntry.Api
                 await updateParkrunFor5kmTimes.Invoke();
             }
 
-            await RecordsManager.PopulateWithAthletesAsync(this.AthletesManager, Year);
+            await RecordsManager.PopulateWithAthletesAsync(this.AthletesManager, Year - 1);
         }
 
         public async Task InitAsync(string seasonFilePath)
         {
             GetBasePath(seasonFilePath);
-            this.root = await RaceDataSerializer<Root2023>.ReadAsync(seasonFilePath);
+            this.root = await RaceDataSerializer<Root2024>.ReadAsync(seasonFilePath);
             if (this.root == null)
             {
                 throw new Exception($"Unable to set the root object from '{seasonFilePath}'");
@@ -59,8 +59,8 @@ namespace FF.DataEntry.Api
 
             //CalculateParkrunTourist();
             //CalculateFLPNovember();
-            var overallPositions = Calculate2023();
-            CsvOutput.ProduceCSV2023(root, overallPositions, seasonFilePath + ".csv");
+            var overallPositions = CalculateCurrentYear();
+            CsvOutput.ProduceCSV(root, overallPositions, seasonFilePath + ".csv");
         }
 
 
@@ -71,7 +71,7 @@ namespace FF.DataEntry.Api
                 throw new NullReferenceException(nameof(RaceManager));
             }
 
-            await RaceDataSerializer<Root2023>.WriteAsync(this.root, filePath);
+            await RaceDataSerializer<Root2024>.WriteAsync(this.root, filePath);
         }
 
         public class OverallScores
@@ -80,10 +80,11 @@ namespace FF.DataEntry.Api
             public int OverallPoints { get; set; }
             public int FLPPoints { get; set; }
             public int TouristPoints { get; set; }
+            public Time? BaseLineTime { get; set; }
         }
 
 
-        public List<OverallScores> Calculate2023()
+        public List<OverallScores> CalculateCurrentYear()
         {
             var scores = new List<OverallScores>();
 
@@ -100,8 +101,8 @@ namespace FF.DataEntry.Api
 
                     // get all the parkruns for the athlete for the specific dates.
                     var raceEventDate = raceEvent.GetDate();
-                    var athlete2023ParkrunForDate = this.AthletesManager.GetParkrunInDate(athlete.ParkrunRunList, raceEventDate, raceEventDate).FirstOrDefault();
-                    if (athlete2023ParkrunForDate == null)
+                    var athleteCurrentYearParkrunForDate = this.AthletesManager.GetParkrunInDate(athlete.ParkrunRunList, raceEventDate, raceEventDate).FirstOrDefault();
+                    if (athleteCurrentYearParkrunForDate == null)
                     {
                         // The athlete has not run any parkrun on this qualifying date, so can skip onto the next athlete.
                         continue;
@@ -109,9 +110,9 @@ namespace FF.DataEntry.Api
 
                     var athlete5kmPB = record.FiveKm.GetTimeSpan();
                     // We have the athlete, we have the parkrun data and we have the FF event.
-                    var isFlp = athlete2023ParkrunForDate.Event == ParkrunRun.FRIMLEYLODGE_EVENTNAME;
-                    var comment = isFlp ? null : $"{athlete2023ParkrunForDate.Event}"; // no need for a comment on FLP
-                    var racePersonTime = new RacePersonScoreTime(athlete.Name, athlete2023ParkrunForDate.RaceTime, athlete5kmPB, isFlp, comment);
+                    var isFlp = athleteCurrentYearParkrunForDate.Event == ParkrunRun.FRIMLEYLODGE_EVENTNAME;
+                    var comment = isFlp ? null : $"{athleteCurrentYearParkrunForDate.Event}"; // no need for a comment on FLP
+                    var racePersonTime = new RacePersonScoreTime(athlete.Name, athleteCurrentYearParkrunForDate.RaceTime, athlete5kmPB, isFlp, comment);
                     raceEvent.Results?.Add(racePersonTime);
                 }
 
@@ -154,7 +155,15 @@ namespace FF.DataEntry.Api
 
                 var flpPoints = process(flp, 5);
                 var touristPoints = process(tourist, 2);
-                scores.Add(new OverallScores { Name = record.Name, FLPPoints = flpPoints, TouristPoints = touristPoints, OverallPoints = flpPoints + touristPoints });
+                scores.Add(
+                    new OverallScores
+                    {
+                        Name = record.Name,
+                        FLPPoints = flpPoints,
+                        TouristPoints = touristPoints,
+                        OverallPoints = flpPoints + touristPoints,
+                        BaseLineTime = record.FiveKm
+                    });
             }
 
             // get the overall result in order of total points
@@ -209,9 +218,6 @@ namespace FF.DataEntry.Api
             public RaceEvent RaceEvent { get; private set; }
             public List<RacePersonScoreTime> Results { get; private set; }
         }
-
-
-
 
 
         public void CalculateFLPNovember()

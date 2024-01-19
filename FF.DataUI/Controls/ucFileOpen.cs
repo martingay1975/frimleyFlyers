@@ -10,7 +10,7 @@
         private void btnFile_Click(object sender, EventArgs e)
         {
             openFileDialog1.InitialDirectory = @"C:\git\frimleyFlyers\site\res\json";
-            //openFileDialog1.Filter = "*.json|Json";
+            openFileDialog1.Filter = "Json|*.json";
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 RaiseNewFileOpenedEvent(openFileDialog1.FileName);

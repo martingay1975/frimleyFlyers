@@ -57,6 +57,18 @@ namespace FF.DataUI.Forms
             await UpdateAsync();
         }
 
+        private void UpdateAllPreviousYearsBestParkrun()
+        {
+            foreach (var record in this.RecordsManager.Records)
+            {
+                var name = record.Name;
+
+                // get last years best 5km time and set the record.FiveKm time with it
+                var time5km = this.athletesManager.GetQuickestParkrunInYear(name, year - 1);
+                record.FiveKm.SetTime(time5km);
+            }
+        }
+
         private async Task UpdateAsync()
         {
             var record = this.GetSelectedRecord();
@@ -66,7 +78,6 @@ namespace FF.DataUI.Forms
             }
 
             await this.athletesManager.PopulateWithParkrunListAsync(this.basePath, new List<string> { record.Name }, true, null);
-
 
             var fastestParkrun5km = this.ucTime5km.Time;
             if (fastestParkrun5km == TimeSpan.Zero)
@@ -130,15 +141,20 @@ namespace FF.DataUI.Forms
             }
         }
 
-
         private void btnDeleteAthlete_Click(object sender, EventArgs e)
         {
             var index = this.lstNames.SelectedIndices[0];
             var record = this.GetSelectedRecord();
             RecordsManager.Records.Remove(record);
             this.RefreshAthleteList();
-            this.lstNames.Items[Math.Min(index, this.lstNames.Items.Count)].Selected = true;
+            this.lstNames.Items[Math.Min(index, this.lstNames.Items.Count - 1)].Selected = true;
             this.lstNames.Select();
+        }
+
+        private void btnUpdate5kmPreviousYear_Click(object sender, EventArgs e)
+        {
+            UpdateAllPreviousYearsBestParkrun();
+            UpdateSelectedRecordUI();
         }
     }
 }
