@@ -79,7 +79,7 @@ namespace FF.DataEntry.Utils
                 createAthlete(63, "Wendy Ockrim", "", "1473870"),
                 createAthlete(64, "Harvey Ockrim", "", "1472445"),
                 createAthlete(65, "Kev Knight", "", "4968220"),
-                createAthlete(66, "Matthew Knight", "", "4988701"),
+                createAthlete(66, "Matthew Whittiker", "", "4988701"),
             };
 
             Athlete createAthlete(int id, string name, string stravaId, string parkrunId)
@@ -191,6 +191,7 @@ namespace FF.DataEntry.Utils
             var athletePath = Path.Combine(athletesPath, athlete.Name + ".json");
             if (File.Exists(athletePath) && !overwrite)
             {
+                // just load the file that is already on disk
                 using (var stream = File.OpenRead(athletePath))
                 {
                     var loadedAthlete = await JsonSerializer.DeserializeAsync<Athlete>(stream, JsonSerializerDefaultOptions.Options);
@@ -203,7 +204,7 @@ namespace FF.DataEntry.Utils
                 if (!string.IsNullOrEmpty(athlete.ParkrunId))
                 {
                     var parkrunWebsite = new ParkrunWebsite();
-                    athlete.ParkrunRunList = await parkrunWebsite.GetAllAsync(athlete.ParkrunId, Update);
+                    athlete.ParkrunRunList = await parkrunWebsite.GetAllAsync(athlete.ParkrunId, Update).ConfigureAwait(false);
 
                     // save results locally so don't need to scrape again.... soon anyway.
                     using (var stream = File.OpenWrite(athletePath))
@@ -227,7 +228,8 @@ namespace FF.DataEntry.Utils
                 await mutex.WaitAsync();
                 try
                 {
-                    await ProcessAthleteAsync(this.Athletes[athleteCount], Path.Combine(basePath, "athletes"), overwrite, progress);
+                    // TODO: put await back in
+                    ProcessAthleteAsync(this.Athletes[athleteCount], Path.Combine(basePath, "athletes"), overwrite, progress);
                 }
                 finally { mutex.Release(); }
             });
@@ -278,14 +280,17 @@ namespace FF.DataEntry.Utils
             var totalAthletes = athletes.Count;
             var done = 0;
 
-            //await Task.WhenAll(athletes.Select(athlete => ProcessAthleteAsync(athlete, athletesPath, overwrite, progress)));
-            //progress?.Invoke(1, 1, "Done");
-            foreach (var athlete in athletes)
-            {
-                await ProcessAthleteAsync(athlete, athletesPath, overwrite);
-                done++;
-                progress?.Invoke(done, totalAthletes, athlete.Name);
-            }
+            var athleteTasks = athletes.Select(athlete => ProcessAthleteAsync(athlete, athletesPath, overwrite, progress)).ToList();
+            await Task.WhenAll(athleteTasks);
+            progress?.Invoke(1, 1, "Done");
+
+
+            //foreach (var athlete in athletes)
+            //{
+            //    await ProcessAthleteAsync(athlete, athletesPath, overwrite);
+            //    done++;
+            //    progress?.Invoke(done, totalAthletes, athlete.Name);
+            //}
         }
     }
 }

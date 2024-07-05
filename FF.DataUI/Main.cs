@@ -6,7 +6,7 @@ namespace FF.DataUI
     public partial class Main : Form
     {
         private Manager manager = new Manager();
-        private string? filePath;
+        private string filePath = "";
 
         public Main()
         {
@@ -40,8 +40,17 @@ namespace FF.DataUI
             UpdateProgress($"Saved {this.filePath}");
         }
 
+        public static void CheckThread()
+        {
+            if (Thread.CurrentThread.ManagedThreadId != 1)
+            {
+                Console.WriteLine("Not running on the UI thread");
+            }
+        }
+
         private void UpdateProgress(string value)
         {
+            CheckThread();
             this.lblProgress.Text = value;
         }
 
@@ -53,16 +62,20 @@ namespace FF.DataUI
 
         private async void btnRefreshParkrunData_Click(object sender, EventArgs e)
         {
-            UpdateProgress("Getting parkrun data for each athlete");
-            await GetParkrunDataAsync();
-            this.manager.CalculateCurrentYear();
-            UpdateProgress("Got parkrun data");
+            UpdateProgress("Fetching parkrun data for each athlete");
+            CheckThread();
+            await FetchParkrunDataAsync();
+            CheckThread();
+            this.manager.CreateFFLeagueCsv(this.filePath);
+            UpdateProgress("Fetched parkrun data. Done");
         }
 
-        private async Task GetParkrunDataAsync()
+        private async Task FetchParkrunDataAsync()
         {
+            Main.CheckThread();
             var seasonsAthletes = this.manager.RecordsManager.Records.Select(record => record.Name).ToList();
             await this.manager.AthletesManager.PopulateWithParkrunListAsync(this.manager.GetBasePath(this.filePath), seasonsAthletes, true, this.ProgressHandler);
+            Main.CheckThread();
         }
 
         private async void btnNewSeason_Click(object sender, EventArgs e)
@@ -71,7 +84,7 @@ namespace FF.DataUI
             // Goto Records and add or remove names as required
 
             this.filePath = @"C:\git\frimleyFlyers\site\res\json\raceData2024.json";
-            await this.manager.CreateNewAsync(this.filePath, async () => await this.GetParkrunDataAsync());
+            await this.manager.CreateNewAsync(this.filePath, async () => await this.FetchParkrunDataAsync());
             await this.manager.SaveAsync(this.filePath);
             EnableButtons();
 
@@ -98,7 +111,7 @@ namespace FF.DataUI
         private async void btnStats_Click(object sender, EventArgs e)
         {
             var athletesPath = this.manager.GetBasePath(this.filePath);
-            await this.manager.AthletesManager.PopulateAllAthletesThrottled(athletesPath, false, this.ProgressHandler);
+            await this.manager.AthletesManager.PopulateAllAthletesThrottled(athletesPath, true, this.ProgressHandler);
         }
     }
 }

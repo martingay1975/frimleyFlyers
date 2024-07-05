@@ -56,13 +56,15 @@ namespace FF.DataEntry.Api
             this.AthletesManager = new AthletesManager();
             var seasonsAthletes = this.RecordsManager.Records.Select(record => record.Name).ToList();
             await this.AthletesManager.PopulateWithParkrunListAsync(this.basePath, seasonsAthletes, false);
-
-            //CalculateParkrunTourist();
-            //CalculateFLPNovember();
-            var overallPositions = CalculateCurrentYear();
-            CsvOutput.ProduceCSV(root, overallPositions, seasonFilePath + ".csv");
         }
 
+        public void CreateFFLeagueCsv(string seasonFilePath)
+        {
+            var overallPositions = CalculateCurrentYear();
+            var outputFile = $"{seasonFilePath}.csv";
+            CsvOutput.ProduceCSV(root, overallPositions, outputFile);
+            //Process.Start(new FileInfo(outputFile).DirectoryName);
+        }
 
         public async Task SaveAsync(string filePath)
         {

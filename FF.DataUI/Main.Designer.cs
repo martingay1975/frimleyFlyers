@@ -32,7 +32,7 @@
             btnRecords = new Button();
             btnRaces = new Button();
             btnSave = new Button();
-            btnGetLastYearParkrun = new Button();
+            btnRefreshParkrunData = new Button();
             btnNewSeason = new Button();
             lblProgress = new Label();
             btnStats = new Button();
@@ -79,16 +79,16 @@
             btnSave.UseVisualStyleBackColor = true;
             btnSave.Click += btnSave_Click;
             // 
-            // btnGetLastYearParkrun
+            // btnRefreshParkrunData
             // 
-            btnGetLastYearParkrun.Location = new Point(12, 113);
-            btnGetLastYearParkrun.Margin = new Padding(3, 2, 3, 2);
-            btnGetLastYearParkrun.Name = "btnGetLastYearParkrun";
-            btnGetLastYearParkrun.Size = new Size(156, 22);
-            btnGetLastYearParkrun.TabIndex = 4;
-            btnGetLastYearParkrun.Text = "Refresh Parkrun Data";
-            btnGetLastYearParkrun.UseVisualStyleBackColor = true;
-            btnGetLastYearParkrun.Click += btnRefreshParkrunData_Click;
+            btnRefreshParkrunData.Location = new Point(12, 113);
+            btnRefreshParkrunData.Margin = new Padding(3, 2, 3, 2);
+            btnRefreshParkrunData.Name = "btnRefreshParkrunData";
+            btnRefreshParkrunData.Size = new Size(156, 22);
+            btnRefreshParkrunData.TabIndex = 4;
+            btnRefreshParkrunData.Text = "Refresh Parkrun Data";
+            btnRefreshParkrunData.UseVisualStyleBackColor = true;
+            btnRefreshParkrunData.Click += btnRefreshParkrunData_Click;
             // 
             // btnNewSeason
             // 
@@ -128,7 +128,7 @@
             Controls.Add(btnStats);
             Controls.Add(lblProgress);
             Controls.Add(btnNewSeason);
-            Controls.Add(btnGetLastYearParkrun);
+            Controls.Add(btnRefreshParkrunData);
             Controls.Add(btnSave);
             Controls.Add(btnRaces);
             Controls.Add(btnRecords);
@@ -149,5 +149,6 @@
         private Button btnNewSeason;
         private Label lblProgress;
         private Button btnStats;
+        private Button btnRefreshParkrunData;
     }
 }
