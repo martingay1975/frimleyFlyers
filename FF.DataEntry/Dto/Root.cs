@@ -18,6 +18,7 @@
         public double EntryCost { get; set; }
         public List<Record> Records { get; set; }
         public List<Race> Races { get; set; }
+        public int Year { get; set; }
 
         public static Root CreateDefault(int year)
         {
@@ -26,6 +27,7 @@
                 TakeNBestScores = 5,
                 PointsPbBonus = 5,
                 EntryCost = 10,
+                Year = year
             };
 
             var touristParkrun = CreateTouristParkrun(year);

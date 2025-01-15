@@ -1,5 +1,6 @@
 ﻿using FF.DataEntry.Api;
 using FF.DataEntry.Dto;
+using System.Diagnostics;
 using System.Text.Json;
 using static FF.DataEntry.Api.CsvOutput;
 
@@ -25,17 +26,17 @@ namespace FF.DataEntry.Utils
 				//createAthlete(10, "Richard Boese", "19591034", "37186"),
 				createAthlete(11, "Sarah Campbell-Foster", "", "75812"),
 				//createAthlete(12, "Phil Jelly", "1661722", "3893"),
-				createAthlete(13, "Louise Parker", "", "426881"),
+				//createAthlete(13, "Louise Parker", "", "426881"),
 				//createAthlete(14, "Nicholas Yewings", "", "107892"),
-				createAthlete(15, "Jim Laidlaw", "379140", "1013712"),
+				//createAthlete(15, "Jim Laidlaw", "379140", "1013712"),
 				//createAthlete(16, "Lee Marshall", "", "76667"),
-				createAthlete(17, "Helen Hart", "", "94048"),
+				//createAthlete(17, "Helen Hart", "", "94048"),
                 createAthlete(18, "Darren Stone", "5460853", "523541"),
 				//createAthlete(19, "Alfie Boese", "", "83588"),
 				//createAthlete(20, "Emma Malcolm", "1717915", "344643"),
 				//createAthlete(21, "Elinor Boese", "", "125634"),
 				createAthlete(22, "Adrian Keane-Munday", "", "2272640"),
-                createAthlete(23, "Oli Peddle", "13197801", "953039"),
+                //createAthlete(23, "Oli Peddle", "13197801", "953039"),
                 createAthlete(24, "Lewis Whatley", "", "911642"),
 				//createAthlete(24, "Dave Bartlett", "", "2087676"),
 				createAthlete(25, "Tom Churchill", "1125412", "91676"),
@@ -53,20 +54,20 @@ namespace FF.DataEntry.Utils
                 createAthlete(37, "Kirstie Stone", "", "3506857"),
                 createAthlete(38, "Em Howden", "", "121641"),
                 //createAthlete(39, "Charmaine Long", "", "2914203"),
-                createAthlete(40, "Sam Benson", "", "3435693"),
+                //createAthlete(40, "Sam Benson", "", "3435693"),
                 createAthlete(41, "Paul Williams", "", "41533"),
                 //createAthlete(42, "Richard Fyvie", "", "75992"),
                 createAthlete(43, "Steve Page", "", "1255112"),
                 createAthlete(44, "Christine Scally", "", "77879"),
-                createAthlete(45, "Chelsea Knight", "", "145938"),
+                //createAthlete(45, "Chelsea Knight", "", "145938"),
                 createAthlete(46, "Louise McIntosh", "", "47519"),
-                createAthlete(47, "Gareth Hopkins", "", "3583073"),
+                //createAthlete(47, "Gareth Hopkins", "", "3583073"),
                 createAthlete(48, "Jodie Raynsford", "", "491932"),
-                createAthlete(49, "Hannah Williams", "", "780142"),
+                //createAthlete(49, "Hannah Williams", "", "780142"),
                 createAthlete(50, "Fiona Keane-Munday", "", "4607674"),
                 //createAthlete(51, "Emily Benson", "", "4022877"),
-                createAthlete(52, "Rebecca Williams", "", "59915"),
-                createAthlete(53, "Jess Raynsford", "", "3912467"),
+                //createAthlete(52, "Rebecca Williams", "", "59915"),
+                //createAthlete(53, "Jess Raynsford", "", "3912467"),
                 //createAthlete(54, "Mary Williams", "", "780136"),
                 createAthlete(55, "Simon Harvey", "", "76882"),
                 createAthlete(56, "Susan Harvey", "", "77851"),
@@ -79,7 +80,8 @@ namespace FF.DataEntry.Utils
                 createAthlete(63, "Wendy Ockrim", "", "1473870"),
                 createAthlete(64, "Harvey Ockrim", "", "1472445"),
                 createAthlete(65, "Kev Knight", "", "4968220"),
-                createAthlete(66, "Matthew Whittiker", "", "4988701"),
+                createAthlete(66, "Matthew Knight", "", "4988701"),
+                createAthlete(67, "Jen Knight", "", "4988676"),
             };
 
             Athlete createAthlete(int id, string name, string stravaId, string parkrunId)
@@ -188,15 +190,25 @@ namespace FF.DataEntry.Utils
 
         private async Task ProcessAthleteAsync(Athlete athlete, string athletesPath, bool overwrite, Action<int, int, string>? progress = null)
         {
+            Debug.WriteLine($"{athlete.Name} - Processing athlete");
+
             var athletePath = Path.Combine(athletesPath, athlete.Name + ".json");
             if (File.Exists(athletePath) && !overwrite)
             {
                 // just load the file that is already on disk
                 using (var stream = File.OpenRead(athletePath))
                 {
-                    var loadedAthlete = await JsonSerializer.DeserializeAsync<Athlete>(stream, JsonSerializerDefaultOptions.Options);
-                    athlete.ParkrunRunList = loadedAthlete?.ParkrunRunList ?? throw new InvalidOperationException();
+                    try
+                    {
+                        var loadedAthlete = await JsonSerializer.DeserializeAsync<Athlete>(stream, JsonSerializerDefaultOptions.Options);
+                        athlete.ParkrunRunList = loadedAthlete?.ParkrunRunList ?? throw new InvalidOperationException();
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine($"{athlete.Name} - Getting parkrun data from disk (not parkrun site) {athletePath}.");
+                    }
                 }
+                Debug.WriteLine($"{athlete.Name} - Got parkrun data from disk (not parkrun site)");
             }
             else
             {
@@ -204,6 +216,7 @@ namespace FF.DataEntry.Utils
                 if (!string.IsNullOrEmpty(athlete.ParkrunId))
                 {
                     var parkrunWebsite = new ParkrunWebsite();
+                    Debug.WriteLine($"{athlete.Name} - Going to parkrun website to get data");
                     athlete.ParkrunRunList = await parkrunWebsite.GetAllAsync(athlete.ParkrunId, Update).ConfigureAwait(false);
 
                     // save results locally so don't need to scrape again.... soon anyway.
@@ -211,6 +224,7 @@ namespace FF.DataEntry.Utils
                     {
                         await JsonSerializer.SerializeAsync(stream, athlete, JsonSerializerDefaultOptions.Options);
                     }
+                    Debug.WriteLine($"{athlete.Name} - Got parkrun data");
                 }
             }
 
@@ -222,35 +236,28 @@ namespace FF.DataEntry.Utils
 
         public async Task PopulateAllAthletesThrottled(string basePath, bool overwrite, Action<int, int, string>? progress)
         {
-            var mutex = new SemaphoreSlim(4);
-            var tasks = Enumerable.Range(0, this.Athletes.Count).Select(async athleteCount =>
-            {
-                await mutex.WaitAsync();
-                try
-                {
-                    // TODO: put await back in
-                    ProcessAthleteAsync(this.Athletes[athleteCount], Path.Combine(basePath, "athletes"), overwrite, progress);
-                }
-                finally { mutex.Release(); }
-            });
-            await Task.WhenAll(tasks);
-            await PopulateAllAthletes(basePath, overwrite, progress);
+
+            var athleteTasks = this.Athletes.Select(athlete => ProcessAthleteAsync(athlete, Path.Combine(basePath, "athletes"), overwrite, progress)).ToList();
+            await Task.WhenAll(athleteTasks);
+            PopulateAllAthletes(basePath, overwrite, progress);
         }
 
-        private async Task PopulateAllAthletes(string basePath, bool overwrite, Action<int, int, string>? progress)
+        private void PopulateAllAthletes(string basePath, bool overwrite, Action<int, int, string>? progress)
         {
             var rows = new List<BestInYear>();
             foreach (var athlete in this.Athletes)
             {
-                var quickestParkurn = GetQuickestParkrunInYear(athlete, 2023);
+
+                var quickestParkurn = GetQuickestParkrunInYear(athlete, 2024);
                 if (quickestParkurn != null)
                 {
                     rows.Add(new BestInYear
                     {
                         Name = athlete.Name,
                         Time = quickestParkurn.RaceTime,
-                        Date = quickestParkurn.Date,
-                        Location = quickestParkurn.Event
+                        Date = quickestParkurn.Date.ToShortDateString(),
+                        Location = quickestParkurn.Event,
+                        ParkrunsCount = athlete.ParkrunRunList.Count
                     });
                 }
             }
@@ -280,6 +287,8 @@ namespace FF.DataEntry.Utils
             var totalAthletes = athletes.Count;
             var done = 0;
 
+            //var martinGay = athletes[0];
+            //athletes = new List<Athlete>() { martinGay };
             var athleteTasks = athletes.Select(athlete => ProcessAthleteAsync(athlete, athletesPath, overwrite, progress)).ToList();
             await Task.WhenAll(athleteTasks);
             progress?.Invoke(1, 1, "Done");

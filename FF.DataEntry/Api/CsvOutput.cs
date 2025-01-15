@@ -13,7 +13,8 @@ namespace FF.DataEntry.Api
             public string Name { get; set; }
             public TimeSpan Time { get; set; }
             public string Location { get; set; }
-            public DateTime Date { get; set; }
+            public string Date { get; set; }
+            public int ParkrunsCount { get; set; }
 
         }
 
@@ -25,17 +26,10 @@ namespace FF.DataEntry.Api
                 HasHeaderRecord = true,
             };
 
-            try
+            using (var writer = new StreamWriter(outputPath))
+            using (var csvWriter = new CsvWriter(writer, config))
             {
-                using (var writer = new StreamWriter(outputPath))
-                using (var csvWriter = new CsvWriter(writer, config))
-                {
-                    csvWriter.WriteRecords(rows);
-                }
-            }
-            catch (Exception)
-            {
-
+                csvWriter.WriteRecords(rows);
             }
         }
 

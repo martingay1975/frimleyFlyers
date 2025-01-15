@@ -4,11 +4,11 @@ namespace FF.DataEntry.Utils
 {
     internal class PuppeteerHelper : IDisposable
     {
-        private Browser browser;
+        private IBrowser browser;
 
         public async Task StartAsync()
         {
-            await new BrowserFetcher().DownloadAsync(BrowserFetcher.DefaultRevision);
+            await new BrowserFetcher().DownloadAsync();
             Console.WriteLine("Got Chrome Driver");
 
             // Create an instance of the browser and configure launch options
@@ -20,7 +20,7 @@ namespace FF.DataEntry.Utils
             Console.WriteLine("Created Browser Instance");
         }
 
-        public async Task OpenAsync(string url, Func<Page, Response, Task> run)
+        public async Task OpenAsync(string url, Func<IPage, IResponse, Task> run)
         {
             using (var page = await this.browser.NewPageAsync())
             {
@@ -48,7 +48,7 @@ namespace FF.DataEntry.Utils
             }
         }
 
-        public async Task HitButtonAsync(Page page, string selector, bool wait = true)
+        public async Task HitButtonAsync(IPage page, string selector, bool wait = true)
         {
             await page.WaitForSelectorAsync(selector);
             await page.ClickAsync(selector);
@@ -59,7 +59,7 @@ namespace FF.DataEntry.Utils
             }
         }
 
-        public async Task<string> GetInnerHtmlAsync(Page page, string selector)
+        public async Task<string> GetInnerHtmlAsync(IPage page, string selector)
         {
             await page.WaitForSelectorAsync(selector);
             await Task.Delay(1000);
@@ -70,7 +70,7 @@ namespace FF.DataEntry.Utils
             return innerHTML;
         }
 
-        public async Task<string> GetHtmlBodyAsync(Page page)
+        public async Task<string> GetHtmlBodyAsync(IPage page)
         {
             await Task.Delay(1000);
             var innerHTMLjs = $"document.body.outerHTML;";
@@ -78,7 +78,7 @@ namespace FF.DataEntry.Utils
             return innerHTML;
         }
 
-        public async Task SelectOptionAsync(Page page, string selector, string value)
+        public async Task SelectOptionAsync(IPage page, string selector, string value)
         {
             await page.WaitForSelectorAsync(selector);
             await page.FocusAsync(selector);
@@ -86,11 +86,10 @@ namespace FF.DataEntry.Utils
             await select.SelectAsync(value);
         }
 
-        public async Task EnterTextAsync(Page page, string selector, string value)
+        public async Task EnterTextAsync(IPage page, string selector, string value)
         {
             await page.WaitForSelectorAsync(selector);
-            await page.FocusAsync(selector);
-            await page.Keyboard.TypeAsync(value);
+            await page.TypeAsync(selector, value);
         }
 
         public void Dispose()

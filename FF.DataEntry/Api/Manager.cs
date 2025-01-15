@@ -5,8 +5,8 @@ namespace FF.DataEntry.Api
 {
     public partial class Manager
     {
-        public const int Year = 2024;
-        private Root2024 root;
+        public const int Year = 2025;
+        private RootParkrunsOnly root;
         private Finder RaceFinder;
         private string basePath;
 
@@ -26,7 +26,7 @@ namespace FF.DataEntry.Api
             GetBasePath(seasonFilePath);
             this.AthletesManager = new AthletesManager();
 
-            this.root = Root2024.CreateDefault();
+            this.root = RootParkrunsOnly.CreateDefault(Year);
             this.RaceFinder = new Finder(this.root);
             this.RaceManager = new RaceManager(this.RaceFinder);
             this.RecordsManager = new RecordsManager(this.root.Records);
@@ -42,7 +42,7 @@ namespace FF.DataEntry.Api
         public async Task InitAsync(string seasonFilePath)
         {
             GetBasePath(seasonFilePath);
-            this.root = await RaceDataSerializer<Root2024>.ReadAsync(seasonFilePath);
+            this.root = await RaceDataSerializer<RootParkrunsOnly>.ReadAsync(seasonFilePath);
             if (this.root == null)
             {
                 throw new Exception($"Unable to set the root object from '{seasonFilePath}'");
@@ -73,7 +73,7 @@ namespace FF.DataEntry.Api
                 throw new NullReferenceException(nameof(RaceManager));
             }
 
-            await RaceDataSerializer<Root2024>.WriteAsync(this.root, filePath);
+            await RaceDataSerializer<RootParkrunsOnly>.WriteAsync(this.root, filePath);
         }
 
         public class OverallScores

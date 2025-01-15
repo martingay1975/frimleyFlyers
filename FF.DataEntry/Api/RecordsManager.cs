@@ -17,12 +17,21 @@ namespace FF.DataEntry.Api
             foreach (var athlete in athletesManager.Athletes)
             {
                 var record = new Record(athlete.Name);
-                var fastestParkrun5km = athletesManager.GetQuickestParkrunInYear(athlete, year).RaceTime;
+
+                TimeSpan fastestParkrun5km = TimeSpan.Zero;
+                for (var yearToLook = year; yearToLook > 2010; yearToLook--)
+                {
+                    fastestParkrun5km = athletesManager.GetQuickestParkrunInYear(athlete, year)?.RaceTime ?? TimeSpan.Zero;
+                    if (fastestParkrun5km != TimeSpan.Zero)
+                    {
+                        break;
+                    }
+                }
 
                 record.FiveKm.SetTime(fastestParkrun5km);
-                record.TenKm = await AthletesManager.GetTimeAsync(RaceDistance.TenKm, fastestParkrun5km);
-                record.TenMiles = await AthletesManager.GetTimeAsync(RaceDistance.TenMiles, fastestParkrun5km);
-                record.HalfMarathon = await AthletesManager.GetTimeAsync(RaceDistance.HalfMarathon, fastestParkrun5km);
+                //record.TenKm = await AthletesManager.GetTimeAsync(RaceDistance.TenKm, fastestParkrun5km);
+                //record.TenMiles = await AthletesManager.GetTimeAsync(RaceDistance.TenMiles, fastestParkrun5km);
+                //record.HalfMarathon = await AthletesManager.GetTimeAsync(RaceDistance.HalfMarathon, fastestParkrun5km);
 
                 this.Records.Add(record);
             }

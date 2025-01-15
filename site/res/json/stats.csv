@@ -1,35 +1,42 @@
-Name,Time,Location,Date
-Lewis Whatley,00:19:12,Southampton,08/12/2023 00:00:00
-Alan Bush,00:20:02,Edenbrook Country,08/26/2023 00:00:00
-Darren Stone,00:20:27,Worthing,08/26/2023 00:00:00
-Paul Williams,00:20:52,Frimley Lodge,09/30/2023 00:00:00
-Andy Poulter,00:21:15,Brooklands,11/25/2023 00:00:00
-Simon Harvey,00:21:29,Groe,05/27/2023 00:00:00
-Susan Rodrigues,00:21:49,Brooklands,11/25/2023 00:00:00
-James Ball,00:22:40,Northala Fields,01/28/2023 00:00:00
-Matthew Knight,00:22:42,Frimley Lodge,09/30/2023 00:00:00
-Rich Howden,00:23:05,Frimley Lodge,06/17/2023 00:00:00
-Jo Longmuir,00:23:32,Edenbrook Country,01/28/2023 00:00:00
-Chris Peddle,00:23:53,Frimley Lodge,07/22/2023 00:00:00
-Kev Knight,00:23:57,Frimley Lodge,09/30/2023 00:00:00
-Alasdair Nuttall,00:24:26,Edenbrook Country,07/22/2023 00:00:00
-Martin Gay,00:24:28,Worthing,08/26/2023 00:00:00
-Karen Phillips,00:24:31,Jamaica Pond,09/23/2023 00:00:00
-Steve Page,00:24:47,Frimley Lodge,10/21/2023 00:00:00
-Paul Bass,00:24:58,Bushy Park,03/25/2023 00:00:00
-Christine Scally,00:25:42,Frimley Lodge,05/20/2023 00:00:00
-Adrian Keane-Munday,00:26:42,Frimley Lodge,07/22/2023 00:00:00
-Harvey Ockrim,00:26:52,Groe,05/27/2023 00:00:00
-Duncan Ball,00:27:18,Brooklands,05/27/2023 00:00:00
-Fiona Keane-Munday,00:27:49,Frimley Lodge,06/24/2023 00:00:00
-Jodie Raynsford,00:27:53,Worthing,08/26/2023 00:00:00
-Louise McIntosh,00:28:11,Donaupark,04/15/2023 00:00:00
-Adam Pett,00:28:19,Frimley Lodge,12/02/2023 00:00:00
-Em Howden,00:29:02,Rushmoor,03/25/2023 00:00:00
-Sarah Campbell-Foster,00:29:14,Bushy Park,02/25/2023 00:00:00
-Zoe Stone,00:30:10,Southsea,01/21/2023 00:00:00
-Susan Harvey,00:31:08,Severn Bridge,04/01/2023 00:00:00
-Lucy Bass,00:32:04,Bideford,09/02/2023 00:00:00
-Kirstie Stone,00:32:26,Rushmoor,02/04/2023 00:00:00
-Wendy Ockrim,00:32:50,Elder Park,02/25/2023 00:00:00
-Karen Peddle,00:40:11,Frimley Lodge,11/25/2023 00:00:00
+Name,Time,Location,Date,ParkrunsCount
+Lewis Whatley,00:18:09,Rushmoor,15/06/2024,91
+David Peddle,00:19:08,Brooklands,27/04/2024,525
+Alan Bush,00:20:04,Frimley Lodge,25/05/2024,328
+Paul Williams,00:20:53,Hazelwood,31/08/2024,470
+Darren Stone,00:21:11,Frimley Lodge,25/05/2024,259
+Steve Page,00:21:33,Rushmoor,31/08/2024,181
+Matthew Knight,00:21:41,Frimley Lodge,09/11/2024,220
+Simon Harvey,00:21:49,Bushy Park,27/07/2024,573
+Andy Poulter,00:22:13,Frimley Lodge,27/01/2024,268
+Susan Rodrigues,00:22:38,Rushmoor,24/02/2024,305
+Jo Longmuir,00:22:56,Frimley Lodge,02/11/2024,470
+Bob Turner,00:22:57,Frimley Lodge,31/08/2024,535
+Kev Knight,00:23:30,Frimley Lodge,16/11/2024,250
+Martin Gay,00:24:25,Brooklands,10/08/2024,451
+James Ball,00:24:34,Ambleside,06/01/2024,521
+Ben Gay,00:24:38,Warwick Racecourse,09/11/2024,133
+Alasdair Nuttall,00:24:40,Frimley Lodge,27/01/2024,299
+Chris Peddle,00:24:59,Frimley Lodge,05/10/2024,422
+Karen Phillips,00:26:14,Frimley Lodge,27/01/2024,74
+Adam Pett,00:26:37,Frimley Lodge,13/01/2024,6
+Paul Bass,00:26:44,Frimley Lodge,27/01/2024,275
+Christine Scally,00:26:46,Brooklands,27/07/2024,448
+Tom Churchill,00:26:50,Frimley Lodge,10/08/2024,517
+Zoe Stone,00:26:59,Eden Project,04/05/2024,73
+Adrian Keane-Munday,00:27:09,Penrith,29/06/2024,182
+Harvey Ockrim,00:27:22,Frimley Lodge,25/05/2024,345
+Jodie Raynsford,00:28:00,Rushmoor,27/01/2024,244
+Duncan Ball,00:28:12,The Old Showfield,24/02/2024,607
+Fiona Keane-Munday,00:29:17,Frimley Lodge,01/06/2024,126
+Rich Howden,00:29:34,Frimley Lodge,01/01/2024,376
+Sarah Campbell-Foster,00:29:38,Frimley Lodge,01/06/2024,192
+Susan Harvey,00:30:03,Bushy Park,30/03/2024,538
+Lucy Bass,00:30:27,Frimley Lodge,22/06/2024,230
+Louise McIntosh,00:30:52,Rushmoor,13/01/2024,443
+Em Howden,00:31:10,Rushmoor,13/01/2024,286
+Kirstie Stone,00:32:37,Eden Project,04/05/2024,161
+Wendy Ockrim,00:32:53,Harrogate,28/09/2024,270
+Ashton Peddle,00:33:39,Frimley Lodge,14/12/2024,82
+Jen Knight,00:33:58,Frimley Lodge,21/09/2024,232
+Karen Peddle,00:39:18,Brooklands,27/04/2024,196
+Hayley Bush,00:40:29,Rushmoor,13/01/2024,21

@@ -3,46 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "site", "http://localhost:61563", "{88CDA70E-0BC9-467E-8FD1-4A7CD42656A1}"
-	ProjectSection(WebsiteProperties) = preProject
-		UseIISExpress = "true"
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
-		Debug.AspNetCompiler.VirtualPath = "/localhost_53000"
-		Debug.AspNetCompiler.PhysicalPath = "site\"
-		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_53000\"
-		Debug.AspNetCompiler.Updateable = "true"
-		Debug.AspNetCompiler.ForceOverwrite = "true"
-		Debug.AspNetCompiler.FixedNames = "false"
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.VirtualPath = "/localhost_53000"
-		Release.AspNetCompiler.PhysicalPath = "site\"
-		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_53000\"
-		Release.AspNetCompiler.Updateable = "true"
-		Release.AspNetCompiler.ForceOverwrite = "true"
-		Release.AspNetCompiler.FixedNames = "false"
-		Release.AspNetCompiler.Debug = "False"
-		SlnRelativePath = "site\"
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sitePhantomJS", "sitePhantomJS", "{3B3BDEB9-D074-4E58-8033-ED3E5B55D38F}"
-	ProjectSection(SolutionItems) = preProject
-		build.bat = build.bat
-		sitePhantomjs\core.js = sitePhantomjs\core.js
-		sitePhantomjs\helper.js = sitePhantomjs\helper.js
-		sitePhantomjs\runner.js = sitePhantomjs\runner.js
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "pageHandlers", "pageHandlers", "{77E42974-29F2-4781-B545-C760A3E902A0}"
-	ProjectSection(SolutionItems) = preProject
-		sitePhantomjs\pageHandlers\endure24.js = sitePhantomjs\pageHandlers\endure24.js
-		sitePhantomjs\pageHandlers\ffchampionship.js = sitePhantomjs\pageHandlers\ffchampionship.js
-		sitePhantomjs\pageHandlers\ffchampionship2017.js = sitePhantomjs\pageHandlers\ffchampionship2017.js
-		sitePhantomjs\pageHandlers\fftrophy.js = sitePhantomjs\pageHandlers\fftrophy.js
-		sitePhantomjs\pageHandlers\index.js = sitePhantomjs\pageHandlers\index.js
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebDataEntry.Owin", "WebDataEntry.Owin\WebDataEntry.Owin.csproj", "{FF5A4F13-1BF6-46E4-AEF3-78C3A32BCC6B}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FF.DataEntry", "FF.DataEntry\FF.DataEntry.csproj", "{A39B39B3-0C06-48A2-8D84-0E3E077A44EE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FF.DataUI", "FF.DataUI\FF.DataUI.csproj", "{39028896-E200-4170-8BD8-036885E2AA98}"
@@ -59,32 +19,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{88CDA70E-0BC9-467E-8FD1-4A7CD42656A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{88CDA70E-0BC9-467E-8FD1-4A7CD42656A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{88CDA70E-0BC9-467E-8FD1-4A7CD42656A1}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{88CDA70E-0BC9-467E-8FD1-4A7CD42656A1}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{88CDA70E-0BC9-467E-8FD1-4A7CD42656A1}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{88CDA70E-0BC9-467E-8FD1-4A7CD42656A1}.Release|Any CPU.ActiveCfg = Debug|Any CPU
-		{88CDA70E-0BC9-467E-8FD1-4A7CD42656A1}.Release|Any CPU.Build.0 = Debug|Any CPU
-		{88CDA70E-0BC9-467E-8FD1-4A7CD42656A1}.Release|ARM.ActiveCfg = Debug|Any CPU
-		{88CDA70E-0BC9-467E-8FD1-4A7CD42656A1}.Release|x64.ActiveCfg = Debug|Any CPU
-		{88CDA70E-0BC9-467E-8FD1-4A7CD42656A1}.Release|x86.ActiveCfg = Debug|Any CPU
-		{FF5A4F13-1BF6-46E4-AEF3-78C3A32BCC6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FF5A4F13-1BF6-46E4-AEF3-78C3A32BCC6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FF5A4F13-1BF6-46E4-AEF3-78C3A32BCC6B}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{FF5A4F13-1BF6-46E4-AEF3-78C3A32BCC6B}.Debug|ARM.Build.0 = Debug|Any CPU
-		{FF5A4F13-1BF6-46E4-AEF3-78C3A32BCC6B}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{FF5A4F13-1BF6-46E4-AEF3-78C3A32BCC6B}.Debug|x64.Build.0 = Debug|Any CPU
-		{FF5A4F13-1BF6-46E4-AEF3-78C3A32BCC6B}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{FF5A4F13-1BF6-46E4-AEF3-78C3A32BCC6B}.Debug|x86.Build.0 = Debug|Any CPU
-		{FF5A4F13-1BF6-46E4-AEF3-78C3A32BCC6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FF5A4F13-1BF6-46E4-AEF3-78C3A32BCC6B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FF5A4F13-1BF6-46E4-AEF3-78C3A32BCC6B}.Release|ARM.ActiveCfg = Release|Any CPU
-		{FF5A4F13-1BF6-46E4-AEF3-78C3A32BCC6B}.Release|ARM.Build.0 = Release|Any CPU
-		{FF5A4F13-1BF6-46E4-AEF3-78C3A32BCC6B}.Release|x64.ActiveCfg = Release|Any CPU
-		{FF5A4F13-1BF6-46E4-AEF3-78C3A32BCC6B}.Release|x64.Build.0 = Release|Any CPU
-		{FF5A4F13-1BF6-46E4-AEF3-78C3A32BCC6B}.Release|x86.ActiveCfg = Release|Any CPU
-		{FF5A4F13-1BF6-46E4-AEF3-78C3A32BCC6B}.Release|x86.Build.0 = Release|Any CPU
 		{A39B39B3-0C06-48A2-8D84-0E3E077A44EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A39B39B3-0C06-48A2-8D84-0E3E077A44EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A39B39B3-0C06-48A2-8D84-0E3E077A44EE}.Debug|ARM.ActiveCfg = Debug|Any CPU
@@ -120,9 +54,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{77E42974-29F2-4781-B545-C760A3E902A0} = {3B3BDEB9-D074-4E58-8033-ED3E5B55D38F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3C23BF9F-A209-48B4-B0B5-4F862C8CBF6B}

@@ -6,13 +6,13 @@ namespace FF.DataUI
     public partial class Main : Form
     {
         private Manager manager = new Manager();
-        private string filePath = "";
+        private string filePath;
 
         public Main()
         {
             InitializeComponent();
             this.ucOpenFile1.NewFileOpenedEvent += UcOpenFile1_NewFileOpenedEvent;
-            this.filePath = @"C:\git\frimleyFlyers\site\res\json\raceData2024.json";
+            this.filePath = @$"C:\git\frimleyFlyers\site\res\json\raceData{Manager.Year}.json";
         }
 
         private async void UcOpenFile1_NewFileOpenedEvent(object sender, Controls.NewFileOpenedEventArgs e)
@@ -80,10 +80,11 @@ namespace FF.DataUI
 
         private async void btnNewSeason_Click(object sender, EventArgs e)
         {
+            // Update Manager.Year with the new year.
             // Add names to AthletesManager before running
-            // Goto Records and add or remove names as required
+            // Goto Records and add or remove names as required afterwards
 
-            this.filePath = @"C:\git\frimleyFlyers\site\res\json\raceData2024.json";
+            this.filePath = @$"C:\git\frimleyFlyers\site\res\json\raceData{Manager.Year}.json";
             await this.manager.CreateNewAsync(this.filePath, async () => await this.FetchParkrunDataAsync());
             await this.manager.SaveAsync(this.filePath);
             EnableButtons();
