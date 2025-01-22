@@ -67,7 +67,7 @@ namespace FF.DataEntry.Api
                     // Row 2
                     csvWriter.WriteField("Name");
                     csvWriter.WriteField("Pts");
-                    csvWriter.WriteField("FLP Pts");
+                    csvWriter.WriteField("Home Pts");
                     csvWriter.WriteField("Tourist Pts");
                     csvWriter.WriteField("Prev Best");
 
@@ -84,7 +84,7 @@ namespace FF.DataEntry.Api
                     {
                         csvWriter.WriteField(overallScore.Name);
                         csvWriter.WriteField(overallScore.OverallPoints);
-                        csvWriter.WriteField(overallScore.FLPPoints);
+                        csvWriter.WriteField(overallScore.HomePoints);
                         csvWriter.WriteField(overallScore.TouristPoints);
                         csvWriter.WriteField(overallScore.BaseLineTime?.GetTimeSpan().ToString(@"mm\:ss") + "\t");
 
@@ -95,7 +95,7 @@ namespace FF.DataEntry.Api
 
                             if (racePersonScoreTime != null)
                             {
-                                csvWriter.WriteField(racePersonScoreTime.IsFlp ? "FLP" : racePersonScoreTime.Notes);
+                                csvWriter.WriteField(racePersonScoreTime.IsHome ? "Home" : racePersonScoreTime.Notes);
                                 csvWriter.WriteField(racePersonScoreTime?.Time.GetTimeSpan().ToString(@"mm\:ss") + "\t");
                                 csvWriter.WriteField(string.Format("{0:N2}%", racePersonScoreTime?.PctDifference));
                                 csvWriter.WriteField(racePersonScoreTime?.Points);

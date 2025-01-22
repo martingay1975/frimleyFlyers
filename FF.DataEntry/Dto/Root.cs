@@ -85,7 +85,7 @@
         {
             var race = new Race
             {
-                Label = "FLP Tourist",
+                Label = "Home Tourist",
                 Distance = RaceDistance.FiveKm
             };
 

@@ -82,11 +82,13 @@ namespace FF.DataEntry.Utils
                 createAthlete(65, "Kev Knight", "", "4968220"),
                 createAthlete(66, "Matthew Knight", "", "4988701"),
                 createAthlete(67, "Jen Knight", "", "4988676"),
+                createAthlete(68, "Charlotte Knight", "", "4988692"),
+                createAthlete(69, "Leonie Harvey", "", "77854", "Rother Valley"),
             };
 
-            Athlete createAthlete(int id, string name, string stravaId, string parkrunId)
+            Athlete createAthlete(int id, string name, string stravaId, string parkrunId, string homeParkrun = ParkrunRun.FRIMLEYLODGE_EVENTNAME)
             {
-                return new Athlete { Name = name, StravaId = stravaId, ParkrunId = parkrunId };
+                return new Athlete { Name = name, StravaId = stravaId, ParkrunId = parkrunId, HomePakrunName = homeParkrun };
             }
         }
 
@@ -165,7 +167,7 @@ namespace FF.DataEntry.Utils
         }
 
         /// <summary>
-        /// Gets the quickest non Frimley Lodge parkrun within the start and end dates. If no parkruns then returns null
+        /// Gets the quickest non-Home parkrun within the start and end dates. If no parkruns then returns null
         /// </summary>
         public ParkrunRun? GetTouristQuickest(string name, DateTime startDate, DateTime endDate)
         {
@@ -178,7 +180,7 @@ namespace FF.DataEntry.Utils
             var inSeasonForAthlete = GetParkrunInDate(athlete.ParkrunRunList, startDate, endDate);
 
             return inSeasonForAthlete
-                .Where(parkrunRun => parkrunRun.Event != ParkrunRun.FRIMLEYLODGE_EVENTNAME)
+                .Where(parkrunRun => parkrunRun.Event != athlete.HomePakrunName)
                 .OrderBy(parkrunRun => parkrunRun.RaceTime)
                 .FirstOrDefault();
         }

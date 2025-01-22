@@ -2,16 +2,16 @@
 {
     public class RacePersonScoreTime : RacePersonTime
     {
-        public RacePersonScoreTime(string name, TimeSpan raceTime, TimeSpan pb, bool isFlp = true, string? notes = null) : base(name, raceTime, notes)
+        public RacePersonScoreTime(string name, TimeSpan raceTime, TimeSpan pb, bool isHome = true, string? notes = null) : base(name, raceTime, notes)
         {
-            IsFlp = isFlp;
+            IsHome = isHome;
             PctDifference = CalculatePercentageFromPb(pb, raceTime);
         }
 
         public double PctDifference { get; set; }
         public int Points { get; set; }
         public int Position { get; set; }
-        public bool IsFlp { get; set; }
+        public bool IsHome { get; set; }
         public bool IsScoringPoints { get; set; }
 
         public void SetPoints(int points, int pbPoints)

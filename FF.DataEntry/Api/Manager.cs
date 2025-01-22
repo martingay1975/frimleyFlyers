@@ -80,7 +80,7 @@ namespace FF.DataEntry.Api
         {
             public string Name { get; set; }
             public int OverallPoints { get; set; }
-            public int FLPPoints { get; set; }
+            public int HomePoints { get; set; }
             public int TouristPoints { get; set; }
             public Time? BaseLineTime { get; set; }
         }
@@ -112,9 +112,9 @@ namespace FF.DataEntry.Api
 
                     var athlete5kmPB = record.FiveKm.GetTimeSpan();
                     // We have the athlete, we have the parkrun data and we have the FF event.
-                    var isFlp = athleteCurrentYearParkrunForDate.Event == ParkrunRun.FRIMLEYLODGE_EVENTNAME;
-                    var comment = isFlp ? null : $"{athleteCurrentYearParkrunForDate.Event}"; // no need for a comment on FLP
-                    var racePersonTime = new RacePersonScoreTime(athlete.Name, athleteCurrentYearParkrunForDate.RaceTime, athlete5kmPB, isFlp, comment);
+                    var isHome = athleteCurrentYearParkrunForDate.Event == athlete.HomePakrunName;
+                    var comment = isHome ? null : $"{athleteCurrentYearParkrunForDate.Event}"; // no need for a comment on FLP
+                    var racePersonTime = new RacePersonScoreTime(athlete.Name, athleteCurrentYearParkrunForDate.RaceTime, athlete5kmPB, isHome, comment);
                     raceEvent.Results?.Add(racePersonTime);
                 }
 
@@ -126,27 +126,27 @@ namespace FF.DataEntry.Api
                 for (var index = 0; index < results?.Count; index++)
                 {
                     var racePersonScoreTime = results[index];
-                    var points = index < this.root.PointsScheme.Count() ? this.root.PointsScheme[index] : 0;
+                    var points = index < this.root.PointsScheme.Count ? this.root.PointsScheme[index] : 0;
                     racePersonScoreTime.SetPoints(points, this.root.PointsPbBonus);
                     racePersonScoreTime.Position = index + 1;
                 }
             }
 
-            // Now get the best 5 FLP events and 2 Tourist events
+            // Now get the best 5 Home events and 2 Tourist events
             var events = this.RaceFinder.GetAllEvents();
             foreach (var record in this.RecordsManager.Records)
             {
                 // for each athlete
-                var flp = new List<RacePersonScoreTime>();
+                var home = new List<RacePersonScoreTime>();
                 var tourist = new List<RacePersonScoreTime>();
                 foreach (var evt in events)
                 {
                     var athleteForEvent = evt?.Results?.FirstOrDefault(racePersonScoreTime => racePersonScoreTime.Name == record.Name) as RacePersonScoreTime;
                     if (athleteForEvent != null)
                     {
-                        if (athleteForEvent.IsFlp)
+                        if (athleteForEvent.IsHome)
                         {
-                            flp.Add(athleteForEvent);
+                            home.Add(athleteForEvent);
                         }
                         else
                         {
@@ -155,15 +155,15 @@ namespace FF.DataEntry.Api
                     }
                 }
 
-                var flpPoints = process(flp, 5);
+                var homePoints = process(home, 5);
                 var touristPoints = process(tourist, 2);
                 scores.Add(
                     new OverallScores
                     {
                         Name = record.Name,
-                        FLPPoints = flpPoints,
+                        HomePoints = homePoints,
                         TouristPoints = touristPoints,
-                        OverallPoints = flpPoints + touristPoints,
+                        OverallPoints = homePoints + touristPoints,
                         BaseLineTime = record.FiveKm
                     });
             }
@@ -219,35 +219,6 @@ namespace FF.DataEntry.Api
 
             public RaceEvent RaceEvent { get; private set; }
             public List<RacePersonScoreTime> Results { get; private set; }
-        }
-
-
-        public void CalculateFLPNovember()
-        {
-            const string raceEvent = "FLP November";
-            var parkrunNovemer1stEvent = new DateTime(2022, 11, 5);
-
-            // found the event - effectively scrub whats there and recalculate.
-            for (var currentDate = parkrunNovemer1stEvent; currentDate < new DateTime(2022, 12, 1); currentDate = currentDate.AddDays(7))
-            {
-                var parkrunRaceEvent = this.RaceFinder.FindEvent(raceEvent, currentDate);
-                if (parkrunRaceEvent == null)
-                {
-                    throw new ArgumentNullException(nameof(parkrunRaceEvent));
-                }
-
-                parkrunRaceEvent.ResetResults();
-                foreach (var record in this.RecordsManager.Records)
-                {
-                    var name = record.Name;
-                    var quickestTourestForYear = this.AthletesManager.GetFrimleyLodgeQuickest(name, currentDate, currentDate);
-                    if (quickestTourestForYear != null)
-                    {
-                        var racePersonTime = new RacePersonTime(name, quickestTourestForYear.RaceTime, $"{quickestTourestForYear.Event} - {quickestTourestForYear.Date:d}");
-                        parkrunRaceEvent.Results.Add(racePersonTime);
-                    }
-                }
-            }
         }
 
         public void CalculateParkrunTourist()

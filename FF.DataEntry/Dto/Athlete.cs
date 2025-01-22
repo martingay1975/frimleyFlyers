@@ -9,9 +9,10 @@ namespace FF.DataEntry.Dto
             this.ParkrunRunList = new List<ParkrunRun>();
         }
 
-		public string Name { get; set; }
-		public string? StravaId { get; set; }
-		public string? ParkrunId { get; set; }
+        public string Name { get; set; }
+        public string? StravaId { get; set; }
+        public string? ParkrunId { get; set; }
+        public string HomePakrunName { get; set; }
         public List<ParkrunRun> ParkrunRunList { get; set; }
 
         public override string ToString()

@@ -3,6 +3,7 @@
     public class ParkrunRun
     {
         public const string FRIMLEYLODGE_EVENTNAME = "Frimley Lodge";
+        public const string ROTHERVALLEY = "Rother Valley";
 
         public string Event { get; set; }
         public DateTime Date { get; set; }
