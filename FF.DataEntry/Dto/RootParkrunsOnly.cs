@@ -2,7 +2,7 @@
 {
     public class RootParkrunsOnly : Root
     {
-        public int Year { get; private set; }
+        public int Year { get; set; }
         public int TakeNBestHomeScores { get; set; }
         public int TakeNBestTouristScores { get; set; }
 

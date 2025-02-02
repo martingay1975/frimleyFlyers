@@ -17,9 +17,9 @@ namespace FF.DataEntry.Utils
                 createAthlete(1, "Martin Gay", "995184", "414364"),
                 createAthlete(2, "James Ball", "7396134", "248342"),
                 createAthlete(3, "Chris Peddle", "7597223", "399793"),
-                createAthlete(4, "David Peddle", "3927231", "79200"),
+                //createAthlete(4, "David Peddle", "3927231", "79200"),
                 createAthlete(5, "Duncan Ball", "12896333", "56739"),
-                createAthlete(6, "Bob Turner", "381428", "289659"),
+                //createAthlete(6, "Bob Turner", "381428", "289659"),
                 createAthlete(7, "Alasdair Nuttall", "1106175", "220582"),
 				//createAthlete(8, "Sarah Erskine", "4751449", "569008"),
 				//createAthlete(9, "Alex Halfacre", "7880452", "912484"),
@@ -40,19 +40,19 @@ namespace FF.DataEntry.Utils
                 createAthlete(24, "Lewis Whatley", "", "911642"),
 				//createAthlete(24, "Dave Bartlett", "", "2087676"),
 				createAthlete(25, "Tom Churchill", "1125412", "91676"),
-                createAthlete(26, "Rich Howden", "1750767", "414051"),
-                createAthlete(27, "Ben Gay", "", "430946"),
+                //createAthlete(26, "Rich Howden", "1750767", "414051"),
+                createAthlete(27, "Ben Gay", "", "430946", "Leamington"),
 				//createAthlete(28, "Julia Boese", "", "293582"),
 				createAthlete(29, "Alan Bush", "19641672", "1520236"),
                 createAthlete(30, "Andy Poulter", "", "2306222"),
-                createAthlete(31, "Zoe Stone", "", "449398"),
+                //createAthlete(31, "Zoe Stone", "", "449398"),
 				//createAthlete(32, "Bruno Silva", "", "3201689"),
 				//createAthlete(33, "Derek Peddle", "", "3174383"),
 				createAthlete(34, "Susan Rodrigues", "", "3414380"),
                 createAthlete(35, "Ashton Peddle", "", "676392"),
                 createAthlete(36, "Karen Peddle", "", "116038"),
                 createAthlete(37, "Kirstie Stone", "", "3506857"),
-                createAthlete(38, "Em Howden", "", "121641"),
+                //createAthlete(38, "Em Howden", "", "121641"),
                 //createAthlete(39, "Charmaine Long", "", "2914203"),
                 //createAthlete(40, "Sam Benson", "", "3435693"),
                 createAthlete(41, "Paul Williams", "", "41533"),
@@ -66,7 +66,7 @@ namespace FF.DataEntry.Utils
                 //createAthlete(49, "Hannah Williams", "", "780142"),
                 createAthlete(50, "Fiona Keane-Munday", "", "4607674"),
                 //createAthlete(51, "Emily Benson", "", "4022877"),
-                //createAthlete(52, "Rebecca Williams", "", "59915"),
+                createAthlete(52, "Rebecca Williams", "", "10354407"),  // old profile: 59915
                 //createAthlete(53, "Jess Raynsford", "", "3912467"),
                 //createAthlete(54, "Mary Williams", "", "780136"),
                 createAthlete(55, "Simon Harvey", "", "76882"),
@@ -74,8 +74,8 @@ namespace FF.DataEntry.Utils
                 createAthlete(57, "Jo Longmuir", "", "74484"),
                 createAthlete(58, "Paul Bass", "", "1250667"),
                 createAthlete(59, "Lucy Bass", "", "724150"),
-                createAthlete(60, "Hayley Bush", "", "5005026"),
-                createAthlete(61, "Adam Pett", "", "9059902"),
+                //createAthlete(60, "Hayley Bush", "", "5005026"),
+                //createAthlete(61, "Adam Pett", "", "9059902"),
                 createAthlete(62, "Karen Phillips", "", "3549873"),
                 createAthlete(63, "Wendy Ockrim", "", "1473870"),
                 createAthlete(64, "Harvey Ockrim", "", "1472445"),
@@ -190,10 +190,9 @@ namespace FF.DataEntry.Utils
             return this.Athletes.SingleOrDefault(athlete => athlete.Name == name);
         }
 
-        private async Task ProcessAthleteAsync(Athlete athlete, string athletesPath, bool overwrite, Action<int, int, string>? progress = null)
+        private async Task PopulateAthleteParkrunList(Athlete athlete, string athletesPath, bool overwrite, Action<int, int, string>? progress = null)
         {
             Debug.WriteLine($"{athlete.Name} - Processing athlete");
-
             var athletePath = Path.Combine(athletesPath, athlete.Name + ".json");
             if (File.Exists(athletePath) && !overwrite)
             {
@@ -208,9 +207,10 @@ namespace FF.DataEntry.Utils
                     catch (Exception ex)
                     {
                         Debug.WriteLine($"{athlete.Name} - Getting parkrun data from disk (not parkrun site) {athletePath}.");
+                        throw;
                     }
                 }
-                Debug.WriteLine($"{athlete.Name} - Got parkrun data from disk (not parkrun site)");
+                Debug.WriteLine($"{athlete.Name} - Got parkrun data from disk (not parkrun site). {athlete.ParkrunRunList.Count} parkruns");
             }
             else
             {
@@ -239,7 +239,7 @@ namespace FF.DataEntry.Utils
         public async Task PopulateAllAthletesThrottled(string basePath, bool overwrite, Action<int, int, string>? progress)
         {
 
-            var athleteTasks = this.Athletes.Select(athlete => ProcessAthleteAsync(athlete, Path.Combine(basePath, "athletes"), overwrite, progress)).ToList();
+            var athleteTasks = this.Athletes.Select(athlete => PopulateAthleteParkrunList(athlete, Path.Combine(basePath, "athletes"), overwrite, progress)).ToList();
             await Task.WhenAll(athleteTasks);
             PopulateAllAthletes(basePath, overwrite, progress);
         }
@@ -289,19 +289,11 @@ namespace FF.DataEntry.Utils
             var totalAthletes = athletes.Count;
             var done = 0;
 
-            //var martinGay = athletes[0];
+            //var martinGay = athletes[10];
             //athletes = new List<Athlete>() { martinGay };
-            var athleteTasks = athletes.Select(athlete => ProcessAthleteAsync(athlete, athletesPath, overwrite, progress)).ToList();
+            var athleteTasks = athletes.Select(athlete => PopulateAthleteParkrunList(athlete, athletesPath, overwrite, progress)).ToList();
             await Task.WhenAll(athleteTasks);
             progress?.Invoke(1, 1, "Done");
-
-
-            //foreach (var athlete in athletes)
-            //{
-            //    await ProcessAthleteAsync(athlete, athletesPath, overwrite);
-            //    done++;
-            //    progress?.Invoke(done, totalAthletes, athlete.Name);
-            //}
         }
     }
 }

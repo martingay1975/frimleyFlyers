@@ -20,29 +20,6 @@
         public List<Race> Races { get; set; }
         public int Year { get; set; }
 
-        public static Root CreateDefault(int year)
-        {
-            var root = new Root()
-            {
-                TakeNBestScores = 5,
-                PointsPbBonus = 5,
-                EntryCost = 10,
-                Year = year
-            };
-
-            var touristParkrun = CreateTouristParkrun(year);
-            var wokinghamHalfMarathon = CreateSingleEventRace("Wokingham Half", new DateTime(year, 2, 27), RaceDistance.HalfMarathon);
-            var frimleyParkHosp = CreateSingleEventRace("Frimley Park Hospital", new DateTime(year, 5, 1), RaceDistance.TenKm);
-            var yateleySeries = CreateYateleySeries(year);
-            var greatSouthRun = CreateSingleEventRace("Great South Run", new DateTime(year, 10, 1), RaceDistance.TenMiles);
-            var fleet = CreateSingleEventRace("Fleet OR Rushmoor 10km", new DateTime(year, 10, 1), RaceDistance.TenKm);
-            var frimleyLodgeNovember = CreateFrimleyLodgeNovemberParkrun(year);
-
-            root.Races.AddRange(new[] { touristParkrun, wokinghamHalfMarathon, frimleyParkHosp, yateleySeries, greatSouthRun, fleet, frimleyLodgeNovember });
-
-            return root;
-        }
-
         public static Race CreateSingleEventRace(string label, DateTime date, RaceDistance raceDistance)
         {
             var race = new Race()
@@ -57,70 +34,93 @@
             return race;
         }
 
-        private static Race CreateYateleySeries(int year)
-        {
-            var race = new Race()
-            {
-                Label = "Yateley Series",
-                Distance = RaceDistance.TenKm
-            };
+        //public static Root CreateDefault(int year)
+        //{
+        //    var root = new Root()
+        //    {
+        //        TakeNBestScores = 5,
+        //        PointsPbBonus = 5,
+        //        EntryCost = 10,
+        //        Year = year
+        //    };
 
-            var raceEvent1 = new RaceEvent();
-            raceEvent1.SetDate(new DateTime(year, 6, 1));
-            raceEvent1.Distance = (int)RaceDistance.FiveKm;
+        //    var touristParkrun = CreateTouristParkrun(year);
+        //    var wokinghamHalfMarathon = CreateSingleEventRace("Wokingham Half", new DateTime(year, 2, 27), RaceDistance.HalfMarathon);
+        //    var frimleyParkHosp = CreateSingleEventRace("Frimley Park Hospital", new DateTime(year, 5, 1), RaceDistance.TenKm);
+        //    var yateleySeries = CreateYateleySeries(year);
+        //    var greatSouthRun = CreateSingleEventRace("Great South Run", new DateTime(year, 10, 1), RaceDistance.TenMiles);
+        //    var fleet = CreateSingleEventRace("Fleet OR Rushmoor 10km", new DateTime(year, 10, 1), RaceDistance.TenKm);
+        //    var frimleyLodgeNovember = CreateFrimleyLodgeNovemberParkrun(year);
 
-            var raceEvent2 = new RaceEvent();
-            raceEvent2.SetDate(new DateTime(year, 7, 6));
-            raceEvent2.Distance = (int)RaceDistance.FiveKm;
+        //    root.Races.AddRange(new[] { touristParkrun, wokinghamHalfMarathon, frimleyParkHosp, yateleySeries, greatSouthRun, fleet, frimleyLodgeNovember });
 
-            var raceEvent3 = new RaceEvent();
-            raceEvent3.SetDate(new DateTime(year, 8, 3));
-            raceEvent3.Distance = (int)RaceDistance.FiveKm;
+        //    return root;
+        //}
 
-            race.Events.AddRange(new[] { raceEvent1, raceEvent2, raceEvent3 });
-            return race;
-        }
+        //private static Race CreateYateleySeries(int year)
+        //{
+        //    var race = new Race()
+        //    {
+        //        Label = "Yateley Series",
+        //        Distance = RaceDistance.TenKm
+        //    };
 
-        private static Race CreateTouristParkrun(int year)
-        {
-            var race = new Race
-            {
-                Label = "Home Tourist",
-                Distance = RaceDistance.FiveKm
-            };
+        //    var raceEvent1 = new RaceEvent();
+        //    raceEvent1.SetDate(new DateTime(year, 6, 1));
+        //    raceEvent1.Distance = (int)RaceDistance.FiveKm;
 
-            var currentDate = new DateTime(year, 2, 5);
-            while (currentDate.Month < 11)
-            {
-                var raceEvent = new RaceEvent();
-                raceEvent.SetDate(currentDate);
-                raceEvent.Distance = (int)RaceDistance.FiveKm;
-                race.Events.Add(raceEvent);
+        //    var raceEvent2 = new RaceEvent();
+        //    raceEvent2.SetDate(new DateTime(year, 7, 6));
+        //    raceEvent2.Distance = (int)RaceDistance.FiveKm;
 
-                currentDate = currentDate.AddDays(7);
-            }
+        //    var raceEvent3 = new RaceEvent();
+        //    raceEvent3.SetDate(new DateTime(year, 8, 3));
+        //    raceEvent3.Distance = (int)RaceDistance.FiveKm;
 
-            return race;
-        }
+        //    race.Events.AddRange(new[] { raceEvent1, raceEvent2, raceEvent3 });
+        //    return race;
+        //}
 
-        public static Race CreateFrimleyLodgeNovemberParkrun(int year)
-        {
-            var race = new Race();
-            race.Label = "FLP November";
-            race.Distance = RaceDistance.FiveKm;
+        //private static Race CreateTouristParkrun(int year)
+        //{
+        //    var race = new Race
+        //    {
+        //        Label = "Home Tourist",
+        //        Distance = RaceDistance.FiveKm
+        //    };
 
-            var currentDate = new DateTime(year, 11, 5);
-            while (currentDate.Month == 11)
-            {
-                var raceEvent = new RaceEvent();
-                raceEvent.SetDate(currentDate);
-                raceEvent.Distance = (int)RaceDistance.FiveKm;
-                race.Events.Add(raceEvent);
+        //    var currentDate = new DateTime(year, 2, 5);
+        //    while (currentDate.Month < 11)
+        //    {
+        //        var raceEvent = new RaceEvent();
+        //        raceEvent.SetDate(currentDate);
+        //        raceEvent.Distance = (int)RaceDistance.FiveKm;
+        //        race.Events.Add(raceEvent);
 
-                currentDate = currentDate.AddDays(7);
-            }
+        //        currentDate = currentDate.AddDays(7);
+        //    }
 
-            return race;
-        }
+        //    return race;
+        //}
+
+        //public static Race CreateFrimleyLodgeNovemberParkrun(int year)
+        //{
+        //    var race = new Race();
+        //    race.Label = "FLP November";
+        //    race.Distance = RaceDistance.FiveKm;
+
+        //    var currentDate = new DateTime(year, 11, 5);
+        //    while (currentDate.Month == 11)
+        //    {
+        //        var raceEvent = new RaceEvent();
+        //        raceEvent.SetDate(currentDate);
+        //        raceEvent.Distance = (int)RaceDistance.FiveKm;
+        //        race.Events.Add(raceEvent);
+
+        //        currentDate = currentDate.AddDays(7);
+        //    }
+
+        //    return race;
+        //}
     }
 }

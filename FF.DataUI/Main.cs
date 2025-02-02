@@ -1,5 +1,6 @@
 using FF.DataEntry.Api;
 using FF.DataUI.Forms;
+using System.Diagnostics;
 
 namespace FF.DataUI
 {
@@ -7,12 +8,22 @@ namespace FF.DataUI
     {
         private Manager manager = new Manager();
         private string filePath;
+        private const string folderPath = "C:\\git\\frimleyFlyers\\site\\res\\json";
 
         public Main()
         {
             InitializeComponent();
             this.ucOpenFile1.NewFileOpenedEvent += UcOpenFile1_NewFileOpenedEvent;
-            this.filePath = @$"C:\git\frimleyFlyers\site\res\json\raceData{Manager.Year}.json";
+            this.filePath = Path.Combine(folderPath, @$"raceData{Manager.Year}.json");
+            if (!File.Exists(filePath))
+            {
+                filePath = "";
+            }
+            else
+            {
+                LoadFilePathAsync();
+            }
+
         }
 
         private async void UcOpenFile1_NewFileOpenedEvent(object sender, Controls.NewFileOpenedEventArgs e)
@@ -48,6 +59,15 @@ namespace FF.DataUI
             }
         }
 
+        private void OpenExplorer()
+        {
+            var explorer = new Process
+            {
+                StartInfo = new ProcessStartInfo("explorer.exe", folderPath)
+            };
+            explorer.Start();
+        }
+
         private void UpdateProgress(string value)
         {
             CheckThread();
@@ -60,13 +80,12 @@ namespace FF.DataUI
             UpdateProgress(text);
         }
 
-        private async void btnRefreshParkrunData_Click(object sender, EventArgs e)
+        private async void btnRefreshParkrunDatandMakeCSV_Click(object sender, EventArgs e)
         {
             UpdateProgress("Fetching parkrun data for each athlete");
             CheckThread();
             await FetchParkrunDataAsync();
             CheckThread();
-            this.manager.CreateFFLeagueCsv(this.filePath);
             UpdateProgress("Fetched parkrun data. Done");
         }
 
@@ -113,6 +132,12 @@ namespace FF.DataUI
         {
             var athletesPath = this.manager.GetBasePath(this.filePath);
             await this.manager.AthletesManager.PopulateAllAthletesThrottled(athletesPath, true, this.ProgressHandler);
+        }
+
+        private void CreateLeagueCsvs_Click(object sender, EventArgs e)
+        {
+            this.manager.CreateFFLeagueCsv(this.filePath);
+            OpenExplorer();
         }
     }
 }

@@ -8,7 +8,7 @@ namespace FF.DataEntry.Utils
         public static readonly JsonSerializerOptions Options = new JsonSerializerOptions
         {
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
         };
     }
 }

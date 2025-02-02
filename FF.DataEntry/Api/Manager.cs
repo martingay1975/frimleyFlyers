@@ -60,10 +60,9 @@ namespace FF.DataEntry.Api
 
         public void CreateFFLeagueCsv(string seasonFilePath)
         {
-            var overallPositions = CalculateCurrentYear();
+            var overallPositions = CalculateLeagueTable();
             var outputFile = $"{seasonFilePath}.csv";
             CsvOutput.ProduceCSV(root, overallPositions, outputFile);
-            //Process.Start(new FileInfo(outputFile).DirectoryName);
         }
 
         public async Task SaveAsync(string filePath)
@@ -86,13 +85,14 @@ namespace FF.DataEntry.Api
         }
 
 
-        public List<OverallScores> CalculateCurrentYear()
+        public List<OverallScores> CalculateLeagueTable()
         {
             var scores = new List<OverallScores>();
 
             // Loops around each race
-            foreach (var ffRace in this.root.Races)
+            for (var raceEventNo = 0; raceEventNo < this.root.Races.Count; raceEventNo++)
             {
+                var ffRace = this.root.Races[raceEventNo];
                 var raceEvent = ffRace.Events[0];
                 raceEvent.ResetResults();
 
@@ -111,6 +111,7 @@ namespace FF.DataEntry.Api
                     }
 
                     var athlete5kmPB = record.FiveKm.GetTimeSpan();
+
                     // We have the athlete, we have the parkrun data and we have the FF event.
                     var isHome = athleteCurrentYearParkrunForDate.Event == athlete.HomePakrunName;
                     var comment = isHome ? null : $"{athleteCurrentYearParkrunForDate.Event}"; // no need for a comment on FLP
@@ -118,8 +119,13 @@ namespace FF.DataEntry.Api
                     raceEvent.Results?.Add(racePersonTime);
                 }
 
-                // Get the athletes in order, with best PctDifference at the top
-                var results = raceEvent.Results?
+                // Get the athletes in order, with best PctDifference for the season at the top
+                if (raceEvent.Results == null || raceEvent.Results?.Count == 0)
+                {
+                    continue;
+                }
+
+                var results = raceEvent.Results
                     .Cast<RacePersonScoreTime>()
                     .OrderBy(res => res.PctDifference).ToList();
 
@@ -130,6 +136,9 @@ namespace FF.DataEntry.Api
                     racePersonScoreTime.SetPoints(points, this.root.PointsPbBonus);
                     racePersonScoreTime.Position = index + 1;
                 }
+
+                // Now produce a CSV for the results of the particular event:
+                CsvOutput.ProduceRaceEventCSV(results, $"{this.basePath}\\{raceEventNo + 1:00}-{ffRace.Label}.csv");
             }
 
             // Now get the best 5 Home events and 2 Tourist events

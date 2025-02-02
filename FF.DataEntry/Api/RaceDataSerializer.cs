@@ -33,8 +33,9 @@ namespace FF.DataEntry.Api
 
         public static async Task WriteAsync(TRoot root, string filePath)
         {
-            using FileStream createStream = File.Create(filePath);
+            using var createStream = new FileStream(filePath, FileMode.Create, FileAccess.Write);
             await JsonSerializer.SerializeAsync(createStream, root, JsonSerializerDefaultOptions.Options);
+            await createStream.FlushAsync();
             await createStream.DisposeAsync();
         }
     }
