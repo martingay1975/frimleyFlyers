@@ -21,7 +21,7 @@ namespace FF.DataEntry.Api
                 TimeSpan fastestParkrun5km = TimeSpan.Zero;
                 for (var yearToLook = year; yearToLook > 2010; yearToLook--)
                 {
-                    fastestParkrun5km = athletesManager.GetQuickestParkrunInYear(athlete, year)?.RaceTime ?? TimeSpan.Zero;
+                    fastestParkrun5km = athlete.GetQuickestParkrun(year)?.RaceTime ?? TimeSpan.Zero;
                     if (fastestParkrun5km != TimeSpan.Zero)
                     {
                         break;

@@ -93,7 +93,7 @@
             btnRefreshParkrunData.TabIndex = 4;
             btnRefreshParkrunData.Text = "Get Parkrun Data";
             btnRefreshParkrunData.UseVisualStyleBackColor = true;
-            btnRefreshParkrunData.Click += btnRefreshParkrunDatandMakeCSV_Click;
+            btnRefreshParkrunData.Click += btnRefreshParkrunData_Click;
             // 
             // btnNewSeason
             // 

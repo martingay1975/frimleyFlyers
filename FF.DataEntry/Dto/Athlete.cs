@@ -1,5 +1,4 @@
-﻿
-namespace FF.DataEntry.Dto
+﻿namespace FF.DataEntry.Dto
 {
     public class Athlete
     {
@@ -7,6 +6,7 @@ namespace FF.DataEntry.Dto
         {
             this.Name = string.Empty;
             this.ParkrunRunList = new List<ParkrunRun>();
+            this.HomePakrunName = ParkrunRun.FRIMLEYLODGE_EVENTNAME;
         }
 
         public string Name { get; set; }

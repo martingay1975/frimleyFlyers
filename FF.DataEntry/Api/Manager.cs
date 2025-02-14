@@ -21,10 +21,16 @@ namespace FF.DataEntry.Api
             return this.basePath;
         }
 
+        public void CreateFFLeagueCsv(string seasonFilePath)
+        {
+            League.CalculateTable(this.basePath, seasonFilePath, RecordsManager, root, AthletesManager, RaceFinder);
+        }
+
         public async Task CreateNewAsync(string seasonFilePath, Func<Task>? updateParkrunFor5kmTimes)
         {
             GetBasePath(seasonFilePath);
             this.AthletesManager = new AthletesManager();
+            await this.AthletesManager.InitAsync(basePath);
 
             this.root = RootParkrunsOnly.CreateDefault(Year);
             this.RaceFinder = new Finder(this.root);
@@ -54,15 +60,7 @@ namespace FF.DataEntry.Api
             this.RaceFinder = new Finder(this.root);
 
             this.AthletesManager = new AthletesManager();
-            var seasonsAthletes = this.RecordsManager.Records.Select(record => record.Name).ToList();
-            await this.AthletesManager.PopulateWithParkrunListAsync(this.basePath, seasonsAthletes, false);
-        }
-
-        public void CreateFFLeagueCsv(string seasonFilePath)
-        {
-            var overallPositions = CalculateLeagueTable();
-            var outputFile = $"{seasonFilePath}.csv";
-            CsvOutput.ProduceCSV(root, overallPositions, outputFile);
+            await this.AthletesManager.InitAsync(this.basePath);
         }
 
         public async Task SaveAsync(string filePath)
@@ -73,181 +71,6 @@ namespace FF.DataEntry.Api
             }
 
             await RaceDataSerializer<RootParkrunsOnly>.WriteAsync(this.root, filePath);
-        }
-
-        public class OverallScores
-        {
-            public string Name { get; set; }
-            public int OverallPoints { get; set; }
-            public int HomePoints { get; set; }
-            public int TouristPoints { get; set; }
-            public Time? BaseLineTime { get; set; }
-        }
-
-
-        public List<OverallScores> CalculateLeagueTable()
-        {
-            var scores = new List<OverallScores>();
-
-            // Loops around each race
-            for (var raceEventNo = 0; raceEventNo < this.root.Races.Count; raceEventNo++)
-            {
-                var ffRace = this.root.Races[raceEventNo];
-                var raceEvent = ffRace.Events[0];
-                raceEvent.ResetResults();
-
-                // Loops around each person
-                foreach (var record in this.RecordsManager.Records)
-                {
-                    var athlete = this.AthletesManager.FindAthleteByName(record.Name);
-
-                    // get all the parkruns for the athlete for the specific dates.
-                    var raceEventDate = raceEvent.GetDate();
-                    var athleteCurrentYearParkrunForDate = this.AthletesManager.GetParkrunInDate(athlete.ParkrunRunList, raceEventDate, raceEventDate).FirstOrDefault();
-                    if (athleteCurrentYearParkrunForDate == null)
-                    {
-                        // The athlete has not run any parkrun on this qualifying date, so can skip onto the next athlete.
-                        continue;
-                    }
-
-                    var athlete5kmPB = record.FiveKm.GetTimeSpan();
-
-                    // We have the athlete, we have the parkrun data and we have the FF event.
-                    var isHome = athleteCurrentYearParkrunForDate.Event == athlete.HomePakrunName;
-                    var comment = isHome ? null : $"{athleteCurrentYearParkrunForDate.Event}"; // no need for a comment on FLP
-                    var racePersonTime = new RacePersonScoreTime(athlete.Name, athleteCurrentYearParkrunForDate.RaceTime, athlete5kmPB, isHome, comment);
-                    raceEvent.Results?.Add(racePersonTime);
-                }
-
-                // Get the athletes in order, with best PctDifference for the season at the top
-                if (raceEvent.Results == null || raceEvent.Results?.Count == 0)
-                {
-                    continue;
-                }
-
-                var results = raceEvent.Results
-                    .Cast<RacePersonScoreTime>()
-                    .OrderBy(res => res.PctDifference).ToList();
-
-                for (var index = 0; index < results?.Count; index++)
-                {
-                    var racePersonScoreTime = results[index];
-                    var points = index < this.root.PointsScheme.Count ? this.root.PointsScheme[index] : 0;
-                    racePersonScoreTime.SetPoints(points, this.root.PointsPbBonus);
-                    racePersonScoreTime.Position = index + 1;
-                }
-
-                // Now produce a CSV for the results of the particular event:
-                CsvOutput.ProduceRaceEventCSV(results, $"{this.basePath}\\{raceEventNo + 1:00}-{ffRace.Label}.csv");
-            }
-
-            // Now get the best 5 Home events and 2 Tourist events
-            var events = this.RaceFinder.GetAllEvents();
-            foreach (var record in this.RecordsManager.Records)
-            {
-                // for each athlete
-                var home = new List<RacePersonScoreTime>();
-                var tourist = new List<RacePersonScoreTime>();
-                foreach (var evt in events)
-                {
-                    var athleteForEvent = evt?.Results?.FirstOrDefault(racePersonScoreTime => racePersonScoreTime.Name == record.Name) as RacePersonScoreTime;
-                    if (athleteForEvent != null)
-                    {
-                        if (athleteForEvent.IsHome)
-                        {
-                            home.Add(athleteForEvent);
-                        }
-                        else
-                        {
-                            tourist.Add(athleteForEvent);
-                        }
-                    }
-                }
-
-                var homePoints = process(home, 5);
-                var touristPoints = process(tourist, 2);
-                scores.Add(
-                    new OverallScores
-                    {
-                        Name = record.Name,
-                        HomePoints = homePoints,
-                        TouristPoints = touristPoints,
-                        OverallPoints = homePoints + touristPoints,
-                        BaseLineTime = record.FiveKm
-                    });
-            }
-
-            // get the overall result in order of total points
-            var orderedOverallScores = scores
-                .OrderByDescending(sc => sc.OverallPoints)
-                .ThenBy(sc => sc.Name).ToList();
-
-            return orderedOverallScores;
-
-
-            int process(List<RacePersonScoreTime> list, int take)
-            {
-                var racePersonScoreTimes = list.OrderByDescending(racePersonScoreTime => racePersonScoreTime.Points).Take(take);
-                foreach (var racePersonScoreTime in racePersonScoreTimes)
-                {
-                    racePersonScoreTime.IsScoringPoints = true;
-                }
-
-                return racePersonScoreTimes.Sum(racePersonScoreTime => racePersonScoreTime.Points);
-            }
-        }
-
-        public void CalculateResults()
-        {
-            var events = this.RaceFinder.GetAllEvents();
-            var results2023 = new Results2023();
-            foreach (var evt in events)
-            {
-                var eventResults = new EventResults(evt);
-
-            }
-        }
-
-        public class Results2023
-        {
-            public Results2023()
-            {
-                this.AllEventResults = new List<EventResults>();
-            }
-
-            public List<EventResults> AllEventResults { get; set; }
-        }
-
-        public class EventResults
-        {
-            public EventResults(RaceEvent raceEvent)
-            {
-                RaceEvent = raceEvent;
-                Results = new List<RacePersonScoreTime>();
-            }
-
-            public RaceEvent RaceEvent { get; private set; }
-            public List<RacePersonScoreTime> Results { get; private set; }
-        }
-
-        public void CalculateParkrunTourist()
-        {
-            const string raceEvent = "parkrun Tourist";
-            var parkrunTouristDate = new DateTime(2022, 2, 5);
-            var parkrunRaceEvent = this.RaceFinder.FindEvent(raceEvent, parkrunTouristDate);
-
-            // found the event - effectively scrub whats there and recalculate.
-            parkrunRaceEvent.ResetResults();
-            foreach (var record in this.RecordsManager.Records)
-            {
-                var name = record.Name;
-                var quickestTourestForYear = this.AthletesManager.GetTouristQuickest(name, new DateTime(Year, 2, 1), new DateTime(Year, 10, 30));
-                if (quickestTourestForYear != null)
-                {
-                    var racePersonTime = new RacePersonTime(name, quickestTourestForYear.RaceTime, $"{quickestTourestForYear.Event} - {quickestTourestForYear.Date:d}");
-                    parkrunRaceEvent.Results.Add(racePersonTime);
-                }
-            }
         }
     }
 }

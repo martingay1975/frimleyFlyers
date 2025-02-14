@@ -5,7 +5,7 @@ namespace FF.DataEntry.Utils
 {
     public class ParkrunWebsite
     {
-        public async Task<List<ParkrunRun>> GetAllAsync(string parkrunId, Action<string>? updateProgressAction)
+        public async Task<List<ParkrunRun>> GetAllAsync(string parkrunId, Action<string>? updateProgressAction = null)
         {
             updateProgressAction?.Invoke("Getting parkrun page");
 

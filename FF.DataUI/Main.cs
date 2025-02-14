@@ -23,7 +23,6 @@ namespace FF.DataUI
             {
                 LoadFilePathAsync();
             }
-
         }
 
         private async void UcOpenFile1_NewFileOpenedEvent(object sender, Controls.NewFileOpenedEventArgs e)
@@ -80,20 +79,20 @@ namespace FF.DataUI
             UpdateProgress(text);
         }
 
-        private async void btnRefreshParkrunDatandMakeCSV_Click(object sender, EventArgs e)
+        private async void btnRefreshParkrunData_Click(object sender, EventArgs e)
         {
             UpdateProgress("Fetching parkrun data for each athlete");
             CheckThread();
-            await FetchParkrunDataAsync();
+            await FetchParkrunDataFromParkrunSiteAsync();
             CheckThread();
             UpdateProgress("Fetched parkrun data. Done");
         }
 
-        private async Task FetchParkrunDataAsync()
+        private async Task FetchParkrunDataFromParkrunSiteAsync()
         {
             Main.CheckThread();
             var seasonsAthletes = this.manager.RecordsManager.Records.Select(record => record.Name).ToList();
-            await this.manager.AthletesManager.PopulateWithParkrunListAsync(this.manager.GetBasePath(this.filePath), seasonsAthletes, true, this.ProgressHandler);
+            await this.manager.AthletesManager.PopulateWithParkrunListAsync(this.manager.GetBasePath(this.filePath), seasonsAthletes, true);
             Main.CheckThread();
         }
 
@@ -104,7 +103,7 @@ namespace FF.DataUI
             // Goto Records and add or remove names as required afterwards
 
             this.filePath = @$"C:\git\frimleyFlyers\site\res\json\raceData{Manager.Year}.json";
-            await this.manager.CreateNewAsync(this.filePath, async () => await this.FetchParkrunDataAsync());
+            await this.manager.CreateNewAsync(this.filePath, async () => await this.FetchParkrunDataFromParkrunSiteAsync());
             await this.manager.SaveAsync(this.filePath);
             EnableButtons();
 
@@ -128,10 +127,11 @@ namespace FF.DataUI
             frmRaces.ShowDialog();
         }
 
-        private async void btnStats_Click(object sender, EventArgs e)
+        private void btnStats_Click(object sender, EventArgs e)
         {
-            var athletesPath = this.manager.GetBasePath(this.filePath);
-            await this.manager.AthletesManager.PopulateAllAthletesThrottled(athletesPath, true, this.ProgressHandler);
+            var basePath = this.manager.GetBasePath(this.filePath);
+            Stats.GetByMilestone(this.manager.AthletesManager.Athletes, basePath);
+            Stats.GetByTotalParkruns(this.manager.AthletesManager.Athletes, basePath);
         }
 
         private void CreateLeagueCsvs_Click(object sender, EventArgs e)

@@ -11,7 +11,6 @@ namespace FF.DataUI.Forms
         private string basePath;
         public RecordsManager RecordsManager { get; }
 
-
         public frmRecords(RecordsManager recordsManager, AthletesManager athletesManager, int year, string basePath)
         {
             InitializeComponent();
@@ -64,10 +63,14 @@ namespace FF.DataUI.Forms
                 var name = record.Name;
 
                 // get last years best 5km time and set the record.FiveKm time with it
-                var time5km = this.athletesManager.GetQuickestParkrunInYear(name, year - 1);
+                var time5km = GetQuickestParkrunTime(name, year);
                 record.FiveKm.SetTime(time5km);
             }
         }
+
+        private Athlete GetAthlete(string name) => athletesManager.FindAthleteByName(name);
+
+        private TimeSpan GetQuickestParkrunTime(string name, int year) => GetAthlete(name)?.GetQuickestParkrun(year)?.RaceTime ?? TimeSpan.Zero;
 
         private async Task UpdateAsync()
         {
@@ -77,20 +80,19 @@ namespace FF.DataUI.Forms
                 return;
             }
 
-            await this.athletesManager.PopulateWithParkrunListAsync(this.basePath, new List<string> { record.Name }, true, null);
+            // goto the parkrun website and get their latest parkrun data
+            await this.athletesManager.PopulateWithParkrunListAsync(this.basePath, new List<string> { record.Name }, true);
 
             var fastestParkrun5km = this.ucTime5km.Time;
             if (fastestParkrun5km == TimeSpan.Zero)
             {
-                var startDate = new DateTime(year - 1, 1, 1);
-                var endDate = new DateTime(year - 1, 12, 31);
                 try
                 {
-                    fastestParkrun5km = athletesManager.GetQuickestParkrun(record.Name, startDate, endDate);
+                    fastestParkrun5km = GetQuickestParkrunTime(record.Name, year);
                 }
                 catch
                 {
-                    MessageBox.Show($"Unable to get parkrun times for {record.Name} between {startDate} and {endDate}");
+                    MessageBox.Show($"Unable to get parkrun times for {record.Name} in {year}");
                     return;
                 }
             }

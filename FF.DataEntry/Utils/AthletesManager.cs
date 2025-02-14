@@ -1,8 +1,4 @@
-﻿using FF.DataEntry.Api;
-using FF.DataEntry.Dto;
-using System.Diagnostics;
-using System.Text.Json;
-using static FF.DataEntry.Api.CsvOutput;
+﻿using FF.DataEntry.Dto;
 
 namespace FF.DataEntry.Utils
 {
@@ -92,6 +88,11 @@ namespace FF.DataEntry.Utils
             }
         }
 
+        public Task InitAsync(string path)
+        {
+            return PopulateWithParkrunListAsync(path);
+        }
+
         public static async Task<Time> GetTimeAsync(RaceDistance raceDistance, TimeSpan backup5kmTime, TimeSpan? timeSpan = null)
         {
             if ((!timeSpan.HasValue || timeSpan == TimeSpan.Zero) && backup5kmTime != TimeSpan.Zero)
@@ -104,196 +105,35 @@ namespace FF.DataEntry.Utils
             return time;
         }
 
-        public TimeSpan GetQuickestParkrunInYear(string name, int year)
-        {
-            var athlete = FindAthleteByName(name);
-            return GetQuickestParkrunInYear(athlete, year)?.RaceTime ?? TimeSpan.Zero;
-        }
+        public Athlete FindAthleteByName(string name) =>
+            this.Athletes.Single(athlete => athlete.Name == name);
 
-        public ParkrunRun GetQuickestParkrunInYear(Athlete athlete, int year)
+
+        public async Task PopulateWithParkrunListAsync(string basePath, IReadOnlyList<string>? athleteNamesToInclude = null, bool getFromParkrunSite = false)
         {
-            try
+            if (string.IsNullOrWhiteSpace(basePath))
             {
-                var startDate = new DateTime(year, 1, 1);
-                var endDate = new DateTime(year, 12, 31);
-                var inSeasonForAthlete = GetParkrunInDate(athlete.ParkrunRunList, startDate, endDate);
-                var selected = inSeasonForAthlete.OrderBy(parkrunRun => parkrunRun.RaceTime).First();
-                return selected;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"{athlete.Name} does not have a parkrun time");
-                return null;
-            }
-        }
-
-        public TimeSpan GetQuickestParkrun(string name, DateTime startDate, DateTime endDate)
-        {
-            var athlete = FindAthleteByName(name);
-            var inSeasonForAthlete = GetParkrunInDate(athlete.ParkrunRunList, startDate, endDate);
-            var selected = inSeasonForAthlete.Select(parkrunRun => parkrunRun.RaceTime).Min();
-            return selected;
-        }
-
-        public IEnumerable<ParkrunRun> GetParkrunInDate(IEnumerable<ParkrunRun> parkrunRunList, DateTime startTime, DateTime endTime)
-        {
-            return parkrunRunList.Where(parkrunRun => parkrunRun.Date >= startTime && parkrunRun.Date <= endTime);
-        }
-
-        public ParkrunRun? GetFrimleyLodgeQuickest(string name, DateTime startDate, DateTime endDate)
-        {
-            if (startDate == null || endDate == null)
-            {
-                throw new ArgumentNullException(nameof(startDate));
+                throw new ArgumentNullException(nameof(basePath));
             }
 
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                throw new Exception(name);
-            }
-
-            var athlete = FindAthleteByName(name);
-            if (athlete == null)
-            {
-                throw new ArgumentNullException(nameof(name));
-            }
-
-            var inSeasonForAthlete = GetParkrunInDate(athlete.ParkrunRunList, startDate, endDate);
-
-            return inSeasonForAthlete
-                .Where(parkrunRun => parkrunRun.Event == ParkrunRun.FRIMLEYLODGE_EVENTNAME)
-                .OrderBy(parkrunRun => parkrunRun.RaceTime)
-                .FirstOrDefault();
-        }
-
-        /// <summary>
-        /// Gets the quickest non-Home parkrun within the start and end dates. If no parkruns then returns null
-        /// </summary>
-        public ParkrunRun? GetTouristQuickest(string name, DateTime startDate, DateTime endDate)
-        {
-            if (startDate == null || endDate == null)
-            {
-                throw new ArgumentNullException(nameof(startDate));
-            }
-
-            var athlete = FindAthleteByName(name);
-            var inSeasonForAthlete = GetParkrunInDate(athlete.ParkrunRunList, startDate, endDate);
-
-            return inSeasonForAthlete
-                .Where(parkrunRun => parkrunRun.Event != athlete.HomePakrunName)
-                .OrderBy(parkrunRun => parkrunRun.RaceTime)
-                .FirstOrDefault();
-        }
-
-        public Athlete FindAthleteByName(string name)
-        {
-            return this.Athletes.SingleOrDefault(athlete => athlete.Name == name);
-        }
-
-        private async Task PopulateAthleteParkrunList(Athlete athlete, string athletesPath, bool overwrite, Action<int, int, string>? progress = null)
-        {
-            Debug.WriteLine($"{athlete.Name} - Processing athlete");
-            var athletePath = Path.Combine(athletesPath, athlete.Name + ".json");
-            if (File.Exists(athletePath) && !overwrite)
-            {
-                // just load the file that is already on disk
-                using (var stream = File.OpenRead(athletePath))
-                {
-                    try
-                    {
-                        var loadedAthlete = await JsonSerializer.DeserializeAsync<Athlete>(stream, JsonSerializerDefaultOptions.Options);
-                        athlete.ParkrunRunList = loadedAthlete?.ParkrunRunList ?? throw new InvalidOperationException();
-                    }
-                    catch (Exception ex)
-                    {
-                        Debug.WriteLine($"{athlete.Name} - Getting parkrun data from disk (not parkrun site) {athletePath}.");
-                        throw;
-                    }
-                }
-                Debug.WriteLine($"{athlete.Name} - Got parkrun data from disk (not parkrun site). {athlete.ParkrunRunList.Count} parkruns");
-            }
-            else
-            {
-                // Do some scraping
-                if (!string.IsNullOrEmpty(athlete.ParkrunId))
-                {
-                    var parkrunWebsite = new ParkrunWebsite();
-                    Debug.WriteLine($"{athlete.Name} - Going to parkrun website to get data");
-                    athlete.ParkrunRunList = await parkrunWebsite.GetAllAsync(athlete.ParkrunId, Update).ConfigureAwait(false);
-
-                    // save results locally so don't need to scrape again.... soon anyway.
-                    using (var stream = File.OpenWrite(athletePath))
-                    {
-                        await JsonSerializer.SerializeAsync(stream, athlete, JsonSerializerDefaultOptions.Options);
-                    }
-                    Debug.WriteLine($"{athlete.Name} - Got parkrun data");
-                }
-            }
-
-            void Update(string text)
-            {
-                progress?.Invoke(1, 24, $"{athlete.Name} - {text}");
-            }
-        }
-
-        public async Task PopulateAllAthletesThrottled(string basePath, bool overwrite, Action<int, int, string>? progress)
-        {
-
-            var athleteTasks = this.Athletes.Select(athlete => PopulateAthleteParkrunList(athlete, Path.Combine(basePath, "athletes"), overwrite, progress)).ToList();
-            await Task.WhenAll(athleteTasks);
-            PopulateAllAthletes(basePath, overwrite, progress);
-        }
-
-        private void PopulateAllAthletes(string basePath, bool overwrite, Action<int, int, string>? progress)
-        {
-            var rows = new List<BestInYear>();
-            foreach (var athlete in this.Athletes)
-            {
-
-                var quickestParkurn = GetQuickestParkrunInYear(athlete, 2024);
-                if (quickestParkurn != null)
-                {
-                    rows.Add(new BestInYear
-                    {
-                        Name = athlete.Name,
-                        Time = quickestParkurn.RaceTime,
-                        Date = quickestParkurn.Date.ToShortDateString(),
-                        Location = quickestParkurn.Event,
-                        ParkrunsCount = athlete.ParkrunRunList.Count
-                    });
-                }
-            }
-
-            var orderedByQuickest = rows.OrderBy(pr => pr.Time);
-            CsvOutput.ProduceStats(orderedByQuickest, Path.Combine(basePath, "stats.csv"));
-        }
-
-        public async Task PopulateWithParkrunListAsync(string athletesPath, IReadOnlyList<string> recordNames, bool overwrite = false, Action<int, int, string>? progress = null)
-        {
-            if (string.IsNullOrWhiteSpace(athletesPath))
-            {
-                throw new ArgumentNullException(nameof(athletesPath));
-            }
-
-            athletesPath = Path.Combine(athletesPath, "Athletes");
+            basePath = Path.Combine(basePath, "Athletes");
             IList<Athlete> athletes;
-            if (recordNames.Count == 0)
+            if (athleteNamesToInclude == null || athleteNamesToInclude.Count == 0)
             {
+                // Get all athletes in the Athlete Manager collection
                 athletes = this.Athletes;
             }
             else
             {
-                athletes = this.Athletes.Where(athlete => recordNames.Contains(athlete.Name)).ToList();
+                athletes = this.Athletes.Where(athlete => athleteNamesToInclude.Contains(athlete.Name)).ToList();
             }
 
-            var totalAthletes = athletes.Count;
-            var done = 0;
+            // now we have a list of athletes - fill the parkrunlist portion of the athlete. If overwrite == true then this will involve going to the parkrun site to get the latest data.
+            var athleteTasks = athletes
+                .Select(athlete => athlete.PopulateParkrunListAsync(basePath, getFromParkrunSite))
+                .ToList();
 
-            //var martinGay = athletes[10];
-            //athletes = new List<Athlete>() { martinGay };
-            var athleteTasks = athletes.Select(athlete => PopulateAthleteParkrunList(athlete, athletesPath, overwrite, progress)).ToList();
             await Task.WhenAll(athleteTasks);
-            progress?.Invoke(1, 1, "Done");
         }
     }
 }

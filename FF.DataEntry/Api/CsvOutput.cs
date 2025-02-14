@@ -2,7 +2,7 @@
 using CsvHelper.Configuration;
 using FF.DataEntry.Dto;
 using System.Globalization;
-using static FF.DataEntry.Api.Manager;
+using static FF.DataEntry.Api.League;
 
 namespace FF.DataEntry.Api
 {
@@ -16,21 +16,6 @@ namespace FF.DataEntry.Api
             public string Date { get; set; }
             public int ParkrunsCount { get; set; }
 
-        }
-
-        internal static void ProduceStats(IEnumerable<BestInYear> rows, string outputPath)
-        {
-            var config = new CsvConfiguration(CultureInfo.InvariantCulture)
-            {
-                // Don't write the header again.
-                HasHeaderRecord = true,
-            };
-
-            using (var writer = new StreamWriter(outputPath))
-            using (var csvWriter = new CsvWriter(writer, config))
-            {
-                csvWriter.WriteRecords(rows);
-            }
         }
 
         internal static void ProduceRaceEventCSV(List<RacePersonScoreTime> raceEventResults, string outputPath)
