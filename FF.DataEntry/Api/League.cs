@@ -8,8 +8,6 @@ namespace FF.DataEntry.Api
         public static void CalculateTable(string basePath, string seasonFilePath,
             RecordsManager recordsManager, Root root, AthletesManager athletesManager, Finder raceFinder)
         {
-            var outputFile = $"{seasonFilePath}.csv";
-
             var scores = new List<OverallScores>();
 
             // Loops around each race
@@ -61,7 +59,7 @@ namespace FF.DataEntry.Api
                 }
 
                 // Now produce a CSV for the results of the particular event:
-                CsvOutput.ProduceRaceEventCSV(results, $"{basePath}\\{raceEventNo + 1:00}-{ffRace.Label}.csv");
+                LeagueCsv.OneEventCsv(results, $"{basePath}\\{raceEventNo + 1:00}-{ffRace.Label}.csv");
             }
 
             // Now get the best 5 Home events and 2 Tourist events
@@ -106,8 +104,13 @@ namespace FF.DataEntry.Api
                 .ThenBy(sc => sc.Name)
                 .ToList();
 
-            CsvOutput.ProduceCSV(root, orderedOverallScores, outputFile);
+            // Whole season, all stats
+            LeagueCsv.WholeSeasonCsv(root, orderedOverallScores, $"{seasonFilePath}-all.csv");
 
+            // Whole season, focus on the latest month
+            LeagueCsv.WholeSeasonLastRaceSpotligtCsv(root, orderedOverallScores, $"{seasonFilePath}-spotlight.csv");
+
+            // local functions
             int process(List<RacePersonScoreTime> list, int take)
             {
                 var racePersonScoreTimes = list.OrderByDescending(racePersonScoreTime => racePersonScoreTime.Points).Take(take);
@@ -119,8 +122,6 @@ namespace FF.DataEntry.Api
                 return racePersonScoreTimes.Sum(racePersonScoreTime => racePersonScoreTime.Points);
             }
         }
-
-
 
         public class OverallScores
         {

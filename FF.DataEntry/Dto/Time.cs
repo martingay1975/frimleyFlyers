@@ -27,5 +27,8 @@
             Minute = timespan.Minutes;
             Second = timespan.Seconds;
         }
+
+        public bool HasValue => !(Second == 0 && Minute == 0 && Hour == 0);
+
     }
 }

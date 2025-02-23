@@ -58,7 +58,12 @@ namespace FF.DataEntry.Utils
                 {
                     Console.Error.WriteLine(ex.Message);
                 }
-                parkrunRunList.Add(parkrunRun);
+
+                // only include parkruns that don't include the word "junior"
+                if (parkrunRun.Event.IndexOf("junior") == -1)
+                {
+                    parkrunRunList.Add(parkrunRun);
+                }
             }
 
             return parkrunRunList;

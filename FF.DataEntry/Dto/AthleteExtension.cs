@@ -44,7 +44,7 @@ namespace FF.DataEntry.Dto
                     try
                     {
                         var loadedAthlete = await JsonSerializer.DeserializeAsync<Athlete>(stream, JsonSerializerDefaultOptions.Options);
-                        athlete.ParkrunRunList = loadedAthlete?.ParkrunRunList ?? throw new InvalidOperationException();
+                        athlete.ParkrunRunList = loadedAthlete?.ParkrunRunList.Where(parkrun => parkrun.Event.IndexOf("junior") == -1).ToList() ?? throw new InvalidOperationException();
                     }
                     catch (Exception ex)
                     {
