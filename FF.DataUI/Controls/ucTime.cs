@@ -1,6 +1,7 @@
-﻿namespace FF.DataUI.Controls
-{
+﻿using System.ComponentModel;
 
+namespace FF.DataUI.Controls
+{
     public partial class ucTime : UserControl
     {
         public event EventHandler TimeChanged;
@@ -20,6 +21,7 @@
             this.txtHours.Focus();
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public TimeSpan Time
         {
             get
@@ -31,7 +33,7 @@
                         Convert.ToInt32(txtMinutes.Text),
                         Convert.ToInt32(txtSeconds.Text));
                 }
-                catch 
+                catch
                 {
                     return TimeSpan.Zero;
                 }

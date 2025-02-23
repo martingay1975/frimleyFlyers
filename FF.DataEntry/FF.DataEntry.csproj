@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
@@ -13,11 +13,11 @@
     <None Remove="uk-parkruns.csv" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="CsvHelper" Version="33.0.1" />
-    <PackageReference Include="HtmlAgilityPack.NetCore" Version="1.5.0.1" />
-    <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="6.0.0" />
-    <PackageReference Include="Polly" Version="8.5.0" />
-    <PackageReference Include="PuppeteerSharp" Version="20.0.5" />
+    <PackageReference Include="CsvHelper" />
+    <PackageReference Include="HtmlAgilityPack.NetCore" />
+    <PackageReference Include="Microsoft.AspNet.WebApi.Client" />
+    <PackageReference Include="Polly" />
+    <PackageReference Include="PuppeteerSharp" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="uk-parkruns.csv" />
