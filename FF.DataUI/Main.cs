@@ -129,7 +129,7 @@ namespace FF.DataUI
 
         private void btnStats_Click(object sender, EventArgs e)
         {
-            var parkrunLocs = ParkrunLocations.Get().ToList();
+            var parkrunLocs = ParkrunLocations.Instance.ToList();
 
             var basePath = this.manager.GetBasePath(this.filePath);
             Stats.GetByMilestone(this.manager.AthletesManager.Athletes, basePath);

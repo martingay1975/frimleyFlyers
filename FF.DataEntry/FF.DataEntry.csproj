@@ -5,11 +5,6 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="Api\NewFolder\**" />
-    <EmbeddedResource Remove="Api\NewFolder\**" />
-    <None Remove="Api\NewFolder\**" />
-  </ItemGroup>
-  <ItemGroup>
     <None Remove="uk-parkruns.csv" />
   </ItemGroup>
   <ItemGroup>

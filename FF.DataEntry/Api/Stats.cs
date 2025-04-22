@@ -34,7 +34,7 @@ namespace FF.DataEntry.Api
                 var parkRunEvents = athlete.GetParkrunEvents();
                 if (quickestParkurnLastYear != null)
                 {
-                    rows.Add(new AthleteStats
+                    var athleteStats = new AthleteStats
                     {
                         Name = athlete.Name,
                         BestTime2024 = quickestParkurnLastYear.RaceTime,
@@ -49,11 +49,47 @@ namespace FF.DataEntry.Api
                         PB = quickestParkrun.RaceTime,
                         PBDate = quickestParkrun.Date.ToShortDateString(),
                         PBLocation = quickestParkrun.Event
-                    });
+                    };
+
+                    (athleteStats.NendyParkrun, athleteStats.NendyDistanceMiles, athleteStats.NendyClosestNCompleted, athleteStats.FurthestParkrun, athleteStats.FurthestDistanceMiles) = GetDistanceBasedStats(parkRunEvents);
+                    rows.Add(athleteStats);
                 }
             }
 
             return rows;
+        }
+
+        private static (string nendyParkrun, int nendyDistanceMiles, int nendyClosestNCompleted, string furthestParkrun, int furthestDistanceMiles) GetDistanceBasedStats(IEnumerable<string> parkrunEventsDone)
+        {
+            const double metresToMiles = 0.000621371d;
+            var parkrunEventDoneHashset = parkrunEventsDone.ToHashSet();
+            OrderedDictionary<string, double> dontTouch = ParkrunLocations.GetDistanceFrom(ParkrunLocation.FRIMLEYLODGE_EVENTNAME);
+
+            //var closeParkrunNotDone = dontTouch.First(kvp => !parkrunEventDoneHashset.Contains(kvp.Key));
+
+            var closeParkrunNotDone = GetNendy();
+
+            var furtherParkrunRun = dontTouch.Last(kvp => parkrunEventDoneHashset.Contains(kvp.Key));
+            return (nendyParkrun: closeParkrunNotDone.parkrun,
+                nendyDistanceMiles: (int)Math.Round(closeParkrunNotDone.distance * metresToMiles, 0),
+                nendyClosestNCompleted: closeParkrunNotDone.index,
+                furthestParkrun: furtherParkrunRun.Key,
+                furthestDistanceMiles: (int)Math.Round(furtherParkrunRun.Value * metresToMiles, 0));
+
+            (string parkrun, double distance, int index) GetNendy()
+            {
+                for (var index = 0; index < dontTouch.Keys.Count; index++)
+                {
+                    var kvp = dontTouch.ElementAt(index);
+                    if (!parkrunEventDoneHashset.Contains(kvp.Key))
+                    {
+                        return (kvp.Key, kvp.Value, index + 1);
+                    }
+                }
+
+                throw new Exception("Couldn't find a parkrun not done! Impossible.");
+            }
+
         }
 
         private static int Alphabeteer(HashSet<string> events)
@@ -121,7 +157,12 @@ namespace FF.DataEntry.Api
             public TimeSpan PB { get; set; }
             public string PBDate { get; set; }
             public string PBLocation { get; set; }
-        }
+            public string NendyParkrun { get; set; }
+            public int NendyDistanceMiles { get; set; }
+            public int NendyClosestNCompleted { get; set; }
+            public string FurthestParkrun { get; set; }
+            public int FurthestDistanceMiles { get; set; }
 
+        }
     }
 }

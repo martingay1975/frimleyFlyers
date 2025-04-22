@@ -64,9 +64,15 @@ namespace FF.DataEntry.Dto
                     athlete.ParkrunRunList = await parkrunWebsite.GetAllAsync(athlete.ParkrunId).ConfigureAwait(false);
 
                     // save results locally so don't need to scrape again.... soon anyway.
+                    if (File.Exists(athletePath))
+                    {
+                        File.Delete(athletePath);
+                    }
+
                     using (var stream = File.OpenWrite(athletePath))
                     {
                         await JsonSerializer.SerializeAsync(stream, athlete, JsonSerializerDefaultOptions.Options);
+
                     }
                     Debug.WriteLine($"{athlete.Name} - Got parkrun data");
                 }

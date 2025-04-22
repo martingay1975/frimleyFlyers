@@ -1,4 +1,5 @@
-﻿using FF.DataEntry.Dto;
+﻿using FF.DataEntry.Api;
+using FF.DataEntry.Dto;
 
 namespace FF.DataEntry.Utils
 {
@@ -82,7 +83,7 @@ namespace FF.DataEntry.Utils
                 createAthlete(69, "Leonie Harvey", "", "77854", "Rother Valley"),
             };
 
-            Athlete createAthlete(int id, string name, string stravaId, string parkrunId, string homeParkrun = ParkrunRun.FRIMLEYLODGE_EVENTNAME)
+            Athlete createAthlete(int id, string name, string stravaId, string parkrunId, string homeParkrun = ParkrunLocation.FRIMLEYLODGE_EVENTNAME)
             {
                 return new Athlete { Name = name, StravaId = stravaId, ParkrunId = parkrunId, HomePakrunName = homeParkrun };
             }
