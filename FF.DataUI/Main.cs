@@ -8,7 +8,7 @@ namespace FF.DataUI
     {
         private Manager manager = new Manager();
         private string filePath;
-        private const string folderPath = "C:\\git\\frimleyFlyers\\site\\res\\json";
+        public const string folderPath = "r:\\git\\frimleyFlyers\\site\\res\\json";
 
         public Main()
         {
@@ -73,12 +73,6 @@ namespace FF.DataUI
             this.lblProgress.Text = value;
         }
 
-        private void ProgressHandler(int num, int outOf, string value)
-        {
-            var text = $"{num} / {outOf} - {value}";
-            UpdateProgress(text);
-        }
-
         private async void btnRefreshParkrunData_Click(object sender, EventArgs e)
         {
             UpdateProgress("Fetching parkrun data for each athlete");
@@ -102,7 +96,7 @@ namespace FF.DataUI
             // Add names to AthletesManager before running
             // Goto Records and add or remove names as required afterwards
 
-            this.filePath = @$"C:\git\frimleyFlyers\site\res\json\raceData{Manager.Year}.json";
+            this.filePath = @$"{folderPath}\raceData{Manager.Year}.json";
             await this.manager.CreateNewAsync(this.filePath, async () => await this.FetchParkrunDataFromParkrunSiteAsync());
             await this.manager.SaveAsync(this.filePath);
             EnableButtons();
