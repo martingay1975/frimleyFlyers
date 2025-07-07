@@ -48,7 +48,9 @@ namespace FF.DataEntry.Api
                         HomeFor2025 = athlete.HomePakrunName,
                         PB = quickestParkrun.RaceTime,
                         PBDate = quickestParkrun.Date.ToShortDateString(),
-                        PBLocation = quickestParkrun.Event
+                        PBLocation = quickestParkrun.Event,
+                        InternationalsCount = GetInternationalCountries(athlete.ParkrunRunList).Count(),
+                        Internationals = Internationals(athlete.ParkrunRunList)
                     };
 
                     (athleteStats.NendyParkrun, athleteStats.NendyDistanceMiles, athleteStats.NendyClosestNCompleted, athleteStats.FurthestParkrun, athleteStats.FurthestDistanceMiles) = GetDistanceBasedStats(parkRunEvents);
@@ -64,8 +66,6 @@ namespace FF.DataEntry.Api
             const double metresToMiles = 0.000621371d;
             var parkrunEventDoneHashset = parkrunEventsDone.ToHashSet();
             OrderedDictionary<string, double> dontTouch = ParkrunLocations.GetDistanceFrom(ParkrunLocation.FRIMLEYLODGE_EVENTNAME);
-
-            //var closeParkrunNotDone = dontTouch.First(kvp => !parkrunEventDoneHashset.Contains(kvp.Key));
 
             var closeParkrunNotDone = GetNendy();
 
@@ -89,13 +89,24 @@ namespace FF.DataEntry.Api
 
                 throw new Exception("Couldn't find a parkrun not done! Impossible.");
             }
-
         }
 
         private static int Alphabeteer(HashSet<string> events)
         {
             var hashSetOfChars = events.Select(eventName => char.ToLower(eventName[0])).ToHashSet();
             return GetPercentage(hashSetOfChars.Count, 25); // X is not counted!
+        }
+
+        private static IEnumerable<string> GetInternationalCountries(List<ParkrunRun> parkrunRunList)
+            => parkrunRunList.Select(pr => ParkrunLocations.GetCountry(pr.Event)).Where(country => country != Country.CountryCodes[97] && country != Country.CountryCodes[0]);
+
+        private static string Internationals(List<ParkrunRun> parkrunRunList)
+        {
+            var countriesAndTheirCounts = GetInternationalCountries(parkrunRunList)
+                            .GroupBy(country => country)
+                            .Select(group => $"{group.Key}={group.Count()}");
+
+            return string.Join(", ", countriesAndTheirCounts);
         }
 
         private static int StopWatchBingo(IEnumerable<ParkrunRun> parkruns)
@@ -162,6 +173,9 @@ namespace FF.DataEntry.Api
             public int NendyClosestNCompleted { get; set; }
             public string FurthestParkrun { get; set; }
             public int FurthestDistanceMiles { get; set; }
+
+            public int InternationalsCount { get; set; }
+            public string Internationals { get; set; }
 
         }
     }

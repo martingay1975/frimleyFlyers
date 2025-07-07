@@ -12,7 +12,8 @@
         public string Name { get; set; }
         public double Longitude { get; set; }
         public double Latitude { get; set; }
-        public List<string> Countries { get; set; }
+        public int CountryCode { get; set; } // UK = 97
+
 
         //
         // Summary:
@@ -58,19 +59,6 @@
     {
         public static async Task<List<ParkrunLocation>> Get()
         {
-            //var config = new CsvConfiguration(CultureInfo.InvariantCulture)
-            //{
-            //    HasHeaderRecord = false,
-            //};
-
-            //var assembly = Assembly.GetExecutingAssembly();
-            //using var stream = assembly.GetManifestResourceStream("FF.DataEntry.uk-parkruns.csv");
-            //using var reader = new StreamReader(stream);
-            //using var csvReader = new CsvHelper.CsvReader(reader, config);
-
-            //var locations = csvReader.GetRecords<ParkrunLocation>();
-            //return locations.Where(location => !location.Name.ToLower().Contains(" junior")).ToList();
-
             var parkrunData = await ParkrunLocationJson.Get().ConfigureAwait(false);
             var ret = parkrunData?.Events?.Features
                 .Where(feature => feature.Properties.SeriesId == 1)
@@ -79,6 +67,7 @@
                     Name = feature.Properties.EventShortName,
                     Latitude = feature.Geometry.Lattitude,
                     Longitude = feature.Geometry.Logitude,
+                    CountryCode = feature.Properties.CountryCode,
                 })
                 .ToList();
 
@@ -89,6 +78,11 @@
 
         public static List<ParkrunLocation> Instance { get { return lazy.Value; } }
 
+        public static string GetCountry(string parkrunName)
+        {
+            var sourceParkrun = Instance.Find(pr => pr.Name == parkrunName);
+            return Country.CountryCodes[sourceParkrun?.CountryCode ?? 0];
+        }
 
         public static double GetDistanceFrom(string sourceParkrunName, string destinationParkrunName)
             => GetDistanceFrom(sourceParkrunName)[destinationParkrunName];

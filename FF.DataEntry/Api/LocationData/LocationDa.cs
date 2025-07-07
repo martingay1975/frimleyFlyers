@@ -43,6 +43,30 @@ public class Country
 
     [JsonPropertyName("bounds")]
     public List<double> Bounds { get; set; }
+
+    public readonly static Dictionary<int, string> CountryCodes = new() {
+        { 0, "Retired" },
+        { 3, "Australia" },
+        { 4, "Austria" },
+        { 14,  "Canada"},
+        {23, "Denmark" },
+        { 30, "Finland"},
+        {32, "Germany" },
+        { 42, "Ireland"},
+        { 44, "Italy" },
+        {46, "Japan" },
+        {54 , "Lithuainia" },
+        {57,  "Malaysia"},
+        { 64, "Netherlands"},
+        { 65, "New Zealand"},
+        { 67, "Norway" },
+        { 74, "Poland" },
+        { 82, "Singapore" },
+        { 85, "South Africa" },
+        { 88, "Sweden" },
+        { 97, "United Kingdom" },
+        {98, "United States" }
+    };
 }
 
 public class EventCollection
