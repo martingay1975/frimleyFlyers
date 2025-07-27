@@ -14,16 +14,36 @@ namespace FF.DataEntry.Dto
 
         public static ParkrunRun GetQuickestParkrun(this Athlete athlete)
         {
-            var selected = athlete.ParkrunRunList.OrderBy(parkrunRun => parkrunRun.RaceTime).First();
+            ParkrunRun selected = athlete.ParkrunRunList.OrderBy(parkrunRun => parkrunRun.RaceTime).First();
             return selected;
+        }
+
+        public static ParkrunRun? LatestRunIsQuickestSince(this Athlete athlete)
+        {
+            bool first = true;
+            ParkrunRun latestParkrun = null;
+            foreach(ParkrunRun? parkrunRun in athlete.ParkrunRunList.OrderByDescending(parkrunRun => parkrunRun.Date))
+            {
+                if (first)
+                {
+                    latestParkrun = parkrunRun;
+                    first = false;
+                }
+                else if (latestParkrun?.RaceTime > parkrunRun.RaceTime)
+                {
+                    return parkrunRun;
+                }
+            }
+
+            return null;
         }
 
         public static ParkrunRun GetQuickestParkrun(this Athlete athlete, int year)
         {
-            var startDate = new DateTime(year, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-            var endDate = new DateTime(year, 12, 31, 23, 59, 59, DateTimeKind.Utc);
-            var parkrunsInSeasonForAthlete = athlete.GetParkrunListInDate(startDate, endDate);
-            var selected = parkrunsInSeasonForAthlete.OrderBy(parkrunRun => parkrunRun.RaceTime).First();
+            DateTime startDate = new DateTime(year, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            DateTime endDate = new DateTime(year, 12, 31, 23, 59, 59, DateTimeKind.Utc);
+            IEnumerable<ParkrunRun> parkrunsInSeasonForAthlete = athlete.GetParkrunListInDate(startDate, endDate);
+            ParkrunRun selected = parkrunsInSeasonForAthlete.OrderBy(parkrunRun => parkrunRun.RaceTime).First();
             return selected;
         }
 
@@ -35,18 +55,18 @@ namespace FF.DataEntry.Dto
         public static async Task PopulateParkrunListAsync(this Athlete athlete, string athletesPath, bool getFromParkrunSite)
         {
             Debug.WriteLine($"{athlete.Name} - Processing athlete");
-            var athletePath = Path.Combine(athletesPath, athlete.Name + ".json");
+            string athletePath = Path.Combine(athletesPath, athlete.Name + ".json");
             if (File.Exists(athletePath) && !getFromParkrunSite)
             {
                 // just load the file that is already on disk
-                using (var stream = File.OpenRead(athletePath))
+                using (FileStream stream = File.OpenRead(athletePath))
                 {
                     try
                     {
-                        var loadedAthlete = await JsonSerializer.DeserializeAsync<Athlete>(stream, JsonSerializerDefaultOptions.Options);
+                        Athlete? loadedAthlete = await JsonSerializer.DeserializeAsync<Athlete>(stream, JsonSerializerDefaultOptions.Options);
                         athlete.ParkrunRunList = loadedAthlete?.ParkrunRunList.Where(parkrun => parkrun.Event.IndexOf("junior") == -1).ToList() ?? throw new InvalidOperationException();
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         Debug.WriteLine($"{athlete.Name} - Getting parkrun data from disk (not parkrun site) {athletePath}.");
                         throw;
@@ -59,7 +79,7 @@ namespace FF.DataEntry.Dto
                 // Do some scraping
                 if (!string.IsNullOrEmpty(athlete.ParkrunId))
                 {
-                    var parkrunWebsite = new ParkrunWebsite();
+                    ParkrunWebsite parkrunWebsite = new ParkrunWebsite();
                     Debug.WriteLine($"{athlete.Name} - Going to parkrun website to get data");
                     athlete.ParkrunRunList = await parkrunWebsite.GetAllAsync(athlete.ParkrunId).ConfigureAwait(false);
 
@@ -69,7 +89,7 @@ namespace FF.DataEntry.Dto
                         File.Delete(athletePath);
                     }
 
-                    using (var stream = File.OpenWrite(athletePath))
+                    using (FileStream stream = File.OpenWrite(athletePath))
                     {
                         await JsonSerializer.SerializeAsync(stream, athlete, JsonSerializerDefaultOptions.Options);
 

@@ -1,3 +1,4 @@
-Name,BestTime2024,BestLocation2024,ParkrunsCount,ParkrunVenueCount,Alphabeteer,StopWatchBingo,CompassClub,FirstParkrun,HomeFor2025,PB,PBDate,PBLocation,NendyParkrun,NendyDistanceMiles,NendyClosestNCompleted,FurthestParkrun,FurthestDistanceMiles,InternationalsCount,Internationals
-Lucy Bass,00:30:27,Frimley Lodge,247,31,60,100,50,02/11/2013,Frimley Lodge,00:28:38,25/03/2017,Frimley Lodge,Bracknell,7,5,Donaupark,792,1,Austria=1
-Simon Harvey,00:21:49,Bushy Park,599,140,100,100,100,12/06/2010,Frimley Lodge,00:20:22,06/04/2013,Frimley Lodge,Egham Orbit,12,14,Kraków,905,5,"Netherlands=2, Poland=1, Italy=1, Germany=1"
+Name,BestTime2024,BestLocation2024,ParkrunsCount,ParkrunVenueCount,Alphabeteer,StopWatchBingo,CompassClub,FirstParkrun,HomeFor2025,PB,PBDate,PBLocation,FrimleyLodgeCount,NendyParkrun,NendyDistanceMiles,NendyClosestNCompleted,FurthestParkrun,FurthestDistanceMiles,InternationalsCount,Internationals,WilsonIndex,WilsonFloatingIndex,LatestRunIsQuickestSince
+Lucy Bass,00:30:27,Frimley Lodge,248,32,60,100,50,02/11/2013,Frimley Lodge,00:28:38,25/03/2017,Frimley Lodge,197,Bracknell,7,5,Uppsala,925,2,"Sweden=1, Austria=1",0,7,28/09/2024
+Matthew Knight,00:21:41,Frimley Lodge,248,32,64,100,25,29/09/2018,Frimley Lodge,00:19:35,26/07/2025,Littlehampton Prom,199,Edenbrook Country,6,4,Clermont Waterfront,4336,2,"Italy=1, United States=1",0,13,
+Paul Williams,00:20:53,Hazelwood,499,26,56,100,25,12/09/2009,Frimley Lodge,00:19:40,29/09/2018,Frimley Lodge,360,Sandhurst Memorial,4,3,Vicarstown,296,4,Ireland=4,5,27,28/06/2025
