@@ -22,7 +22,7 @@ namespace FF.DataEntry.Utils
 
         public async Task OpenAsync(string url, Func<IPage, IResponse, Task> run)
         {
-            using (var page = await this.browser.NewPageAsync())
+            using (IPage page = await this.browser.NewPageAsync())
             {
                 await page.SetExtraHttpHeadersAsync(new Dictionary<string, string>
                 {
@@ -37,8 +37,11 @@ namespace FF.DataEntry.Utils
 
                 try
                 {
-                    var response = await page.GoToAsync(url);
-                    await run(page, response);
+                    IResponse response = await page.GoToAsync(url);
+                    if (run != null)
+                    {
+                        await run(page, response);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -65,16 +68,16 @@ namespace FF.DataEntry.Utils
             await Task.Delay(1000);
             //await page.EvaluateExpressionAsync<string>("window.scroll(0,1500);");
             //await page.ScreenshotAsync("c:\\temp\\abc.jpg");
-            var innerHTMLjs = $"document.querySelector('{selector}').innerHTML;";
-            var innerHTML = await page.EvaluateExpressionAsync<string>(innerHTMLjs);
+            string innerHTMLjs = $"document.querySelector('{selector}').innerHTML;";
+            string innerHTML = await page.EvaluateExpressionAsync<string>(innerHTMLjs);
             return innerHTML;
         }
 
         public async Task<string> GetHtmlBodyAsync(IPage page)
         {
             await Task.Delay(1000);
-            var innerHTMLjs = $"document.body.outerHTML;";
-            var innerHTML = await page.EvaluateExpressionAsync<string>(innerHTMLjs);
+            string innerHTMLjs = $"document.body.outerHTML;";
+            string innerHTML = await page.EvaluateExpressionAsync<string>(innerHTMLjs);
             return innerHTML;
         }
 
@@ -82,7 +85,7 @@ namespace FF.DataEntry.Utils
         {
             await page.WaitForSelectorAsync(selector);
             await page.FocusAsync(selector);
-            var select = await page.QuerySelectorAsync(selector);
+            IElementHandle select = await page.QuerySelectorAsync(selector);
             await select.SelectAsync(value);
         }
 

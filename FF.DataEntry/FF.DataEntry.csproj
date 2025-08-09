@@ -5,6 +5,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Resources\topTrump.html" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="CsvHelper" />
     <PackageReference Include="HtmlAgilityPack.NetCore" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" />
@@ -13,5 +16,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="delete-me-uk-parkruns.csv" />
+    <EmbeddedResource Include="Resources\topTrump.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
 </Project>

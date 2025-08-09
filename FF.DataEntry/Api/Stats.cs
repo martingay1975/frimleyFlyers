@@ -24,12 +24,22 @@ namespace FF.DataEntry.Api
             ProduceStats(milestoneClose, Path.Combine(basePath, "byMilestone.csv"));
         }
 
+        public static async Task GetTopTrumps(List<Athlete> athletes, string basePath)
+        {
+            List<AthleteStats> rows = GetStats(athletes);
+            foreach (AthleteStats athleteStats in rows)
+            {
+                await athleteStats.BuildTopTrump(basePath);
+            }
+        }
+
         private static List<AthleteStats> GetStats(IEnumerable<Athlete> athletes)
         {
             List<AthleteStats> rows = new List<AthleteStats>();
             foreach (Athlete athlete in athletes)
             {
-                ParkrunRun quickestParkurnLastYear = athlete.GetQuickestParkrun(2024);
+                ParkrunRun quickestParkurnLastYear = athlete.GetQuickestParkrun(DateTime.UtcNow.Year - 1);
+                ParkrunRun quickestParkurnThisYear = athlete.GetQuickestParkrun(DateTime.UtcNow.Year);
                 ParkrunRun quickestParkrun = athlete.GetQuickestParkrun();
                 ParkrunRun? latestRunIsQuickestSince = athlete.LatestRunIsQuickestSince();
                 HashSet<string> parkRunEvents = athlete.GetParkrunEvents();
@@ -39,27 +49,39 @@ namespace FF.DataEntry.Api
                     AthleteStats athleteStats = new()
                     {
                         Name = athlete.Name,
-                        BestTime2024 = quickestParkurnLastYear.RaceTime,
-                        BestLocation2024 = quickestParkurnLastYear.Event,
                         ParkrunsCount = athlete.ParkrunRunList.Count,
-                        ParkrunVenueCount = parkRunEvents.Count,
-                        Alphabeteer = Alphabeteer(parkRunEvents),
-                        StopWatchBingo = StopWatchBingo(athlete.ParkrunRunList),
-                        CompassClub = CompassClub(parkRunEvents),
-                        FirstParkrun = (athlete.ParkrunRunList.OrderBy(pr => pr.Date).First()).Date.ToShortDateString(),
-                        HomeFor2025 = athlete.HomePakrunName,
                         FrimleyLodgeCount = FrimleyLodgeCount(athlete.ParkrunRunList),
+                        FirstParkrun = (athlete.ParkrunRunList.OrderBy(pr => pr.Date).First()).Date.ToShortDateString(),
                         PB = quickestParkrun.RaceTime,
                         PBDate = quickestParkrun.Date.ToShortDateString(),
                         PBLocation = quickestParkrun.Event,
+
+                        // Tourist
+                        ParkrunVenueCount = parkRunEvents.Count,
+                        Alphabeteer = Alphabeteer(parkRunEvents),
                         InternationalsCount = GetInternationalCountries(athlete.ParkrunRunList).Count(),
-                        Internationals = Internationals(athlete.ParkrunRunList),
+                        InternationalBreakdown = InternationalBreakdown(athlete.ParkrunRunList),
+
+                        // Challenges
+                        StopWatchBingo = StopWatchBingo(athlete.ParkrunRunList),
+                        CompassClub = CompassClub(parkRunEvents),
                         WilsonIndex = wilsonIndex.index,
                         WilsonFloatingIndex = wilsonIndex.floating,
+
+
+                        // This year
+                        LastParkrunTime = athlete.GetOrderedByDateDescending().First().RaceTime,
                         LatestRunIsQuickestSince = latestRunIsQuickestSince?.Date.ToShortDateString() ?? string.Empty,
+                        BestTimeCurrentYear = quickestParkurnThisYear.RaceTime,
+                        BestLocationCurrentYear = quickestParkurnThisYear.Event,
+
+                        BestTimeLastYear = quickestParkurnLastYear.RaceTime,
+                        BestLocationLastYear = quickestParkurnLastYear.Event,
+                        HomeForThisYear = athlete.HomePakrunName,
                     };
 
-                    (athleteStats.NendyParkrun, athleteStats.NendyDistanceMiles, athleteStats.NendyClosestNCompleted, athleteStats.FurthestParkrun, athleteStats.FurthestDistanceMiles) = GetDistanceBasedStats(parkRunEvents);
+                    (athleteStats.NendyParkrun, athleteStats.NendyDistanceMiles, athleteStats.NendyClosestNCompleted, athleteStats.FurthestParkrun, athleteStats.FurthestDistanceMiles) 
+                        = GetDistanceBasedStats(parkRunEvents);
                     rows.Add(athleteStats);
                 }
             }
@@ -98,7 +120,7 @@ namespace FF.DataEntry.Api
                 consecutiveNumber = eventNumber;
             }
 
-            return (firstStreak, longestStreak);
+            return (firstStreak, longestStreak + 1);
         }
 
         private static (string nendyParkrun, int nendyDistanceMiles, int nendyClosestNCompleted, string furthestParkrun, int furthestDistanceMiles) GetDistanceBasedStats(IEnumerable<string> parkrunEventsDone)
@@ -112,7 +134,7 @@ namespace FF.DataEntry.Api
             KeyValuePair<string, double> furtherParkrunRun = dontTouch.Last(kvp => parkrunEventDoneHashset.Contains(kvp.Key));
             return (nendyParkrun: closeParkrunNotDone.parkrun,
                 nendyDistanceMiles: (int)Math.Round(closeParkrunNotDone.distance * metresToMiles, 0),
-                nendyClosestNCompleted: closeParkrunNotDone.index,
+                nendyClosestNCompleted: closeParkrunNotDone.index - 1,
                 furthestParkrun: furtherParkrunRun.Key,
                 furthestDistanceMiles: (int)Math.Round(furtherParkrunRun.Value * metresToMiles, 0));
 
@@ -144,7 +166,7 @@ namespace FF.DataEntry.Api
         private static IEnumerable<string> GetInternationalCountries(List<ParkrunRun> parkrunRunList)
             => parkrunRunList.Select(pr => ParkrunLocations.GetCountry(pr.Event)).Where(country => country != Country.CountryCodes[97] && country != Country.CountryCodes[0]);
 
-        private static string Internationals(List<ParkrunRun> parkrunRunList)
+        private static string InternationalBreakdown(List<ParkrunRun> parkrunRunList)
         {
             IEnumerable<string> countriesAndTheirCounts = GetInternationalCountries(parkrunRunList)
                             .GroupBy(country => country)
@@ -200,29 +222,45 @@ namespace FF.DataEntry.Api
         public class AthleteStats
         {
             public string Name { get; set; }
-            public TimeSpan BestTime2024 { get; set; }
-            public string BestLocation2024 { get; set; }
+
+            //General Parkrun
             public int ParkrunsCount { get; set; }
-            public int ParkrunVenueCount { get; set; }
-            public int Alphabeteer { get; set; }
-            public int StopWatchBingo { get; set; }
-            public int CompassClub { get; set; }
+            public int FrimleyLodgeCount { get; set; }
             public string FirstParkrun { get; set; }
-            public string HomeFor2025 { get; set; }
             public TimeSpan PB { get; set; }
             public string PBDate { get; set; }
             public string PBLocation { get; set; }
-            public int FrimleyLodgeCount { get; set; }
+
+            // Tourist
+            public int ParkrunVenueCount { get; set; }
+            public int Alphabeteer { get; set; }
             public string NendyParkrun { get; set; }
             public int NendyDistanceMiles { get; set; }
             public int NendyClosestNCompleted { get; set; }
             public string FurthestParkrun { get; set; }
             public int FurthestDistanceMiles { get; set; }
             public int InternationalsCount { get; set; }
-            public string Internationals { get; set; }
+            public string InternationalBreakdown { get; set; }
+
+            // Challenges
+            public int StopWatchBingo { get; set; }
+            public int CompassClub { get; set; }
             public int WilsonIndex { get; set; }
             public int WilsonFloatingIndex { get; set; }
-            public string LatestRunIsQuickestSince {get; set;}
+
+            // This Year
+            public TimeSpan LastParkrunTime { get; set; }
+            public string LatestRunIsQuickestSince { get; set; }
+            public TimeSpan BestTimeCurrentYear { get; set; }
+            public string BestLocationCurrentYear { get; set; }
+
+
+            //Hidden
+            public string HomeForThisYear { get; set; }
+            public TimeSpan BestTimeLastYear { get; set; }
+            public string BestLocationLastYear { get; set; }
+
+
         }
     }
 }

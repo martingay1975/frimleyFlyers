@@ -38,7 +38,7 @@
             btnStats = new Button();
             label1 = new Label();
             label2 = new Label();
-            button1 = new Button();
+            //button1 = new Button();
             label3 = new Label();
             label4 = new Label();
             SuspendLayout();
@@ -145,13 +145,13 @@
             // 
             // button1
             // 
-            button1.Location = new Point(22, 203);
-            button1.Name = "button1";
-            button1.Size = new Size(87, 23);
-            button1.TabIndex = 10;
-            button1.Text = "League CSVs";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += CreateLeagueCsvs_Click;
+            //button1.Location = new Point(22, 203);
+            //button1.Name = "button1";
+            //button1.Size = new Size(87, 23);
+            //button1.TabIndex = 10;
+            //button1.Text = "League CSVs";
+            //button1.UseVisualStyleBackColor = true;
+            //button1.Click += CreateLeagueCsvs_Click;
             // 
             // label3
             // 
@@ -178,7 +178,7 @@
             ClientSize = new Size(601, 304);
             Controls.Add(label4);
             Controls.Add(label3);
-            Controls.Add(button1);
+            //Controls.Add(button1);
             Controls.Add(label2);
             Controls.Add(label1);
             Controls.Add(btnStats);
@@ -208,7 +208,7 @@
         private Button btnRefreshParkrunData;
         private Label label1;
         private Label label2;
-        private Button button1;
+        //private Button button1;
         private Label label3;
         private Label label4;
     }

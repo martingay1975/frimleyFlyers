@@ -7,22 +7,38 @@ namespace FF.DataEntry.Dto
 {
     public static class AthleteExtension
     {
+        public static IEnumerable<ParkrunRun> GetParkrunListInDate(this Athlete athlete, int? year = null)
+        {
+            if (year == null)
+            {
+                return athlete.ParkrunRunList;
+            }
+            else
+            {
+                DateTime startTime = new DateTime(year.Value, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+                DateTime endTime = new DateTime(year.Value, 12, 31, 23, 59, 59, DateTimeKind.Utc);
+                return athlete.ParkrunRunList.Where(parkrunRun => parkrunRun.Date >= startTime && parkrunRun.Date <= endTime);
+            }
+        }
+
         public static IEnumerable<ParkrunRun> GetParkrunListInDate(this Athlete athlete, DateTime startTime, DateTime endTime)
         {
             return athlete.ParkrunRunList.Where(parkrunRun => parkrunRun.Date >= startTime && parkrunRun.Date <= endTime);
         }
 
-        public static ParkrunRun GetQuickestParkrun(this Athlete athlete)
-        {
-            ParkrunRun selected = athlete.ParkrunRunList.OrderBy(parkrunRun => parkrunRun.RaceTime).First();
-            return selected;
-        }
+        public static ParkrunRun GetQuickestParkrun(this Athlete athlete, int? year = null) =>
+             athlete.GetParkrunListInDate(year).OrderBy(parkrunRun => parkrunRun.RaceTime).First();
+
+
+        public static IEnumerable<ParkrunRun> GetOrderedByDateDescending(this Athlete athlete)
+            => athlete.ParkrunRunList.OrderByDescending(parkrunRun => parkrunRun.Date);
+        
 
         public static ParkrunRun? LatestRunIsQuickestSince(this Athlete athlete)
         {
             bool first = true;
             ParkrunRun latestParkrun = null;
-            foreach(ParkrunRun? parkrunRun in athlete.ParkrunRunList.OrderByDescending(parkrunRun => parkrunRun.Date))
+            foreach(ParkrunRun? parkrunRun in athlete.GetOrderedByDateDescending())
             {
                 if (first)
                 {
@@ -36,15 +52,6 @@ namespace FF.DataEntry.Dto
             }
 
             return null;
-        }
-
-        public static ParkrunRun GetQuickestParkrun(this Athlete athlete, int year)
-        {
-            DateTime startDate = new DateTime(year, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-            DateTime endDate = new DateTime(year, 12, 31, 23, 59, 59, DateTimeKind.Utc);
-            IEnumerable<ParkrunRun> parkrunsInSeasonForAthlete = athlete.GetParkrunListInDate(startDate, endDate);
-            ParkrunRun selected = parkrunsInSeasonForAthlete.OrderBy(parkrunRun => parkrunRun.RaceTime).First();
-            return selected;
         }
 
         public static HashSet<string> GetParkrunEvents(this Athlete athlete) =>

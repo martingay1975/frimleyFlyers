@@ -6,7 +6,7 @@ namespace FF.DataUI
 {
     public partial class Main : Form
     {
-        private Manager manager = new Manager();
+        private readonly Manager manager = new Manager();
         private string filePath;
         public const string folderPath = "r:\\git\\frimleyFlyers\\site\\res\\json";
 
@@ -39,7 +39,7 @@ namespace FF.DataUI
 
         private void btnRecords_Click(object sender, EventArgs e)
         {
-            var recordsForm = new frmRecords(this.manager.RecordsManager, manager.AthletesManager, Manager.Year, this.manager.GetBasePath(this.filePath));
+            frmRecords recordsForm = new frmRecords(this.manager.RecordsManager, manager.AthletesManager, Manager.Year, this.manager.GetBasePath(this.filePath));
             recordsForm.ShowDialog();
         }
 
@@ -60,7 +60,7 @@ namespace FF.DataUI
 
         private void OpenExplorer()
         {
-            var explorer = new Process
+            Process explorer = new Process
             {
                 StartInfo = new ProcessStartInfo("explorer.exe", folderPath)
             };
@@ -85,7 +85,9 @@ namespace FF.DataUI
         private async Task FetchParkrunDataFromParkrunSiteAsync()
         {
             Main.CheckThread();
-            var seasonsAthletes = this.manager.RecordsManager.Records.Select(record => record.Name).ToList();
+            //List<string> seasonsAthletes = this.manager.RecordsManager.Records.Select(record => record.Name).ToList();
+            List<string> seasonsAthletes = this.manager.AthletesManager.Athletes.Where(ath => ath.Name == "David Peddle").Select(ath => ath.Name).ToList();
+
             await this.manager.AthletesManager.PopulateWithParkrunListAsync(this.manager.GetBasePath(this.filePath), seasonsAthletes, true);
             Main.CheckThread();
         }
@@ -106,7 +108,7 @@ namespace FF.DataUI
 
         private void EnableButtons()
         {
-            foreach (var control in this.Controls)
+            foreach (object? control in this.Controls)
             {
                 if (control is Button button)
                 {
@@ -117,21 +119,16 @@ namespace FF.DataUI
 
         private void btnRaces_Click(object sender, EventArgs e)
         {
-            var frmRaces = new frmRaces(this.manager);
+            frmRaces frmRaces = new frmRaces(this.manager);
             frmRaces.ShowDialog();
         }
 
-        private void btnStats_Click(object sender, EventArgs e)
+        private async void btnStats_Click(object sender, EventArgs e)
         {
-            //var parkrunLocs = ParkrunLocations.Instance.ToList();
-
-            var basePath = this.manager.GetBasePath(this.filePath);
+            string basePath = this.manager.GetBasePath(this.filePath);
             Stats.GetByMilestone(this.manager.AthletesManager.Athletes, basePath);
             Stats.GetByTotalParkruns(this.manager.AthletesManager.Athletes, basePath);
-        }
-
-        private void CreateLeagueCsvs_Click(object sender, EventArgs e)
-        {
+            await Stats.GetTopTrumps(this.manager.AthletesManager.Athletes, basePath);
             this.manager.CreateFFLeagueCsv(this.filePath);
             OpenExplorer();
         }

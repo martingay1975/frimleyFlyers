@@ -14,9 +14,9 @@ namespace FF.DataEntry.Utils
                 createAthlete(1, "Martin Gay", "995184", "414364"),
                 createAthlete(2, "James Ball", "7396134", "248342"),
                 createAthlete(3, "Chris Peddle", "7597223", "399793"),
-                //createAthlete(4, "David Peddle", "3927231", "79200"),
+                createAthlete(4, "David Peddle", "3927231", "79200"),
                 createAthlete(5, "Duncan Ball", "12896333", "56739"),
-                //createAthlete(6, "Bob Turner", "381428", "289659"),
+                createAthlete(6, "Bob Turner", "381428", "289659"),
                 createAthlete(7, "Alasdair Nuttall", "1106175", "220582"),
 				//createAthlete(8, "Sarah Erskine", "4751449", "569008"),
 				//createAthlete(9, "Alex Halfacre", "7880452", "912484"),
@@ -81,6 +81,7 @@ namespace FF.DataEntry.Utils
                 createAthlete(67, "Jen Knight", "", "4988676"),
                 createAthlete(68, "Charlotte Knight", "", "4988692"),
                 createAthlete(69, "Leonie Harvey", "", "77854", "Rother Valley"),
+                //createAthlete(70, "Richard Jackson", "", "848919"),
             };
 
             Athlete createAthlete(int id, string name, string stravaId, string parkrunId, string homeParkrun = ParkrunLocation.FRIMLEYLODGE_EVENTNAME)
@@ -101,7 +102,7 @@ namespace FF.DataEntry.Utils
                 timeSpan = await RaceTimePredictor.GetPredictor(raceDistance, backup5kmTime);
             }
 
-            var time = new Time();
+            Time time = new Time();
             time.SetTime(timeSpan == null ? TimeSpan.Zero : timeSpan.Value);
             return time;
         }
@@ -130,7 +131,7 @@ namespace FF.DataEntry.Utils
             }
 
             // now we have a list of athletes - fill the parkrunlist portion of the athlete. If overwrite == true then this will involve going to the parkrun site to get the latest data.
-            var athleteTasks = athletes
+            List<Task> athleteTasks = athletes
                 .Select(athlete => athlete.PopulateParkrunListAsync(basePath, getFromParkrunSite))
                 .ToList();
 
