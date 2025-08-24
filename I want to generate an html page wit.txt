@@ -1,0 +1,11 @@
+I want to generate an html page with top trumps. It is to include:
+the person's name, 
+a picture with a green border 5px thick of the person 
+then 4 lists with title and values:
+	the first list is titled: "General", with 6 rows titled (the last 2 rows are blank titles): All parkruns, FLP parkruns, First parkrun, PB
+	the second list is titled: "Tourist" with 9 rows titled: Venues, Alphabeteer, Nendy, Nendy Distance, Closest N parkruns ran, Furthest, Miles away, Internationals, Breakdown.
+	the third list is titled: "Challenges" with 4 rows titled: Stopwatch bingo, Compass Club, Wilson Index, Floating Wilson Index
+	the fourth list is titled: "This year" with 4 rows: Last run, Last run quickest since: Best this year, at
+Could you make the list of titles and values responsive and fit into 2 columns if the window is wide enough. 
+Could you give values for each following the format "Value" + N, where N is a consecutive number running from 1
+Please generate the html and css

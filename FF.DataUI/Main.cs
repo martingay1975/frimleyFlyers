@@ -86,7 +86,7 @@ namespace FF.DataUI
         {
             Main.CheckThread();
             //List<string> seasonsAthletes = this.manager.RecordsManager.Records.Select(record => record.Name).ToList();
-            List<string> seasonsAthletes = this.manager.AthletesManager.Athletes.Where(ath => ath.Name == "David Peddle").Select(ath => ath.Name).ToList();
+            List<string> seasonsAthletes = this.manager.AthletesManager.Athletes.Select(ath => ath.Name).ToList();
 
             await this.manager.AthletesManager.PopulateWithParkrunListAsync(this.manager.GetBasePath(this.filePath), seasonsAthletes, true);
             Main.CheckThread();
@@ -128,8 +128,8 @@ namespace FF.DataUI
             string basePath = this.manager.GetBasePath(this.filePath);
             Stats.GetByMilestone(this.manager.AthletesManager.Athletes, basePath);
             Stats.GetByTotalParkruns(this.manager.AthletesManager.Athletes, basePath);
-            await Stats.GetTopTrumps(this.manager.AthletesManager.Athletes, basePath);
             this.manager.CreateFFLeagueCsv(this.filePath);
+            //await Stats.GetTopTrumps(this.manager.AthletesManager.Athletes, basePath);
             OpenExplorer();
         }
     }
