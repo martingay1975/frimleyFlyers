@@ -46,7 +46,7 @@ namespace FF.DataUI
         private async void btnSave_Click(object sender, EventArgs e)
         {
             await this.manager.SaveAsync($"{this.filePath}");
-            await this.manager.SaveAsync($"{this.filePath}-{DateTime.Now.Ticks}.json");
+            //await this.manager.SaveAsync($"{this.filePath}-{DateTime.Now.Ticks}.json");
             UpdateProgress($"Saved {this.filePath}");
         }
 
@@ -129,7 +129,10 @@ namespace FF.DataUI
             Stats.GetByMilestone(this.manager.AthletesManager.Athletes, basePath);
             Stats.GetByTotalParkruns(this.manager.AthletesManager.Athletes, basePath);
             this.manager.CreateFFLeagueCsv(this.filePath);
-            //await Stats.GetTopTrumps(this.manager.AthletesManager.Athletes, basePath);
+            if (chkTopTrumps.Checked)
+            {
+                await Stats.GetTopTrumps(this.manager.AthletesManager.Athletes, basePath);
+            }
             OpenExplorer();
         }
     }

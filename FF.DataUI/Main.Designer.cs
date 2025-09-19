@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            ucOpenFile1 = new Controls.ucOpenFile();
+            ucOpenFile1 = new FF.DataUI.Controls.ucOpenFile();
             btnRecords = new Button();
             btnRaces = new Button();
             btnSave = new Button();
@@ -38,9 +38,9 @@
             btnStats = new Button();
             label1 = new Label();
             label2 = new Label();
-            //button1 = new Button();
             label3 = new Label();
             label4 = new Label();
+            chkTopTrumps = new CheckBox();
             SuspendLayout();
             // 
             // ucOpenFile1
@@ -117,7 +117,7 @@
             // 
             // btnStats
             // 
-            btnStats.Location = new Point(115, 203);
+            btnStats.Location = new Point(12, 202);
             btnStats.Name = "btnStats";
             btnStats.Size = new Size(75, 23);
             btnStats.TabIndex = 7;
@@ -143,16 +143,6 @@
             label2.TabIndex = 9;
             label2.Text = "Parkrun:";
             // 
-            // button1
-            // 
-            //button1.Location = new Point(22, 203);
-            //button1.Name = "button1";
-            //button1.Size = new Size(87, 23);
-            //button1.TabIndex = 10;
-            //button1.Text = "League CSVs";
-            //button1.UseVisualStyleBackColor = true;
-            //button1.Click += CreateLeagueCsvs_Click;
-            // 
             // label3
             // 
             label3.AutoSize = true;
@@ -171,14 +161,24 @@
             label4.TabIndex = 12;
             label4.Text = "... and updates Athletes json and RaceData";
             // 
+            // chkTopTrumps
+            // 
+            chkTopTrumps.AutoSize = true;
+            chkTopTrumps.Location = new Point(93, 206);
+            chkTopTrumps.Name = "chkTopTrumps";
+            chkTopTrumps.Size = new Size(89, 19);
+            chkTopTrumps.TabIndex = 13;
+            chkTopTrumps.Text = "Top Trumps";
+            chkTopTrumps.UseVisualStyleBackColor = true;
+            // 
             // Main
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(601, 304);
+            Controls.Add(chkTopTrumps);
             Controls.Add(label4);
             Controls.Add(label3);
-            //Controls.Add(button1);
             Controls.Add(label2);
             Controls.Add(label1);
             Controls.Add(btnStats);
@@ -211,5 +211,6 @@
         //private Button button1;
         private Label label3;
         private Label label4;
+        private CheckBox chkTopTrumps;
     }
 }

@@ -15,7 +15,6 @@
     <PackageReference Include="PuppeteerSharp" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="delete-me-uk-parkruns.csv" />
     <EmbeddedResource Include="Resources\topTrump.html" />
   </ItemGroup>
   <ItemGroup>
