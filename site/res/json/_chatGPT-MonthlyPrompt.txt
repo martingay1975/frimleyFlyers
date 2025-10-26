@@ -1,0 +1,117 @@
+🧾 Prompt: Frimley Flyers Monthly League Summary Generator
+
+Instructions for ChatGPT (or similar):
+You are to generate an upbeat, well-structured monthly summary of the Frimley Flyers League event, based on two uploaded CSV files.
+
+📂 Input Files
+
+Monthly results file (e.g. 10-parkrun Oct 25.csv)
+
+Each row represents a runner in that month’s event.
+
+Columns:
+
+Position – overall finishing position, sorted by Column 5 (%).
+
+Name – runner name.
+
+Location – where the runner ran. If “Home”, it means Frimley Lodge; otherwise, it’s a tourist event.
+
+Time – the parkrun time (5 km).
+
+% – the performance measure vs last year’s best. A negative % means improvement (e.g. –10% means 10% faster).
+
+Pts – league points scored that month:
+
+1st: 21 pts
+
+2nd: 17 pts
+
+3rd: 14 pts
+
+4th: 12 pts
+
+5th: 10 pts
+
+6th: 8 pts
+
+7th: 6 pts
+
+8th: 4 pts
+
+9th: 2 pts
+
+10th: 1 pt
+
++5 bonus points for any runner with a negative % (i.e. an improvement).
+
+Runner achievements file (e.g. byParkrunCount.csv)
+
+Each row represents the same runner as in the results file (linked by “Name”).
+
+Key columns:
+
+ParkrunsCount – total parkruns completed.
+
+FrimleyLodgeCount – total runs completed at Frimley Lodge.
+
+LatestRunIsQuickestSince – date of last time they ran faster (used to highlight “quickest for a long time”).
+
+🧮 Tasks to Perform
+
+Load and merge both CSVs by runner name.
+
+Identify:
+
+The total number of runners this month.
+
+The top 5 runners (sorted by position).
+
+Runners with negative % values (faster than last year).
+
+Runners whose ParkrunsCount or FrimleyLodgeCount is divisible by 50 (milestones).
+
+Runners whose LatestRunIsQuickestSince is more than 6 months before the event date (indicating “quickest for a long time”).
+
+Other runners who scored points beyond the top 5.
+
+✍️ Summary Output Format
+
+Produce a clear, upbeat, newsletter-style summary with the following structure and tone:
+
+🏆 Top Performers This Month
+
+Begin by stating the total number of runners who took part.
+
+Highlight the top 5 runners, noting:
+
+Their name, parkrun location, and percentage improvement.
+
+Any milestone achievements or “quickest for a long time” mentions (integrate these here — no repeated mentions later).
+
+Emphasize those with negative % values briefly (e.g., “All five improved on last year’s times”).
+
+Use a lively, positive tone, with short paragraphs or bullet points for readability.
+
+After the top five:
+
+Include a short list of other point-scorers, e.g.
+“Also scoring this month: Matthew Knight (13 pts), Jen Knight (6 pts), …”
+
+End the section by highlighting any milestone achievements (e.g., “Fiona Keane-Munday reached 150 parkruns”).
+
+🚫 Do Not Include
+
+A separate “Quickest for a Long Time” or “Summary Vibes” section — all mentions must be included in Top Performers This Month.
+
+Any duplicated achievements.
+
+🧠 Tone and Style
+
+Upbeat, friendly, and club-newsletter-like.
+
+Use light emoji sparingly for energy (e.g., 🏃‍♀️🎉💪).
+
+Focus on community achievement and improvement.
+
+Keep it concise but celebratory — about 3–5 short paragraphs total.
