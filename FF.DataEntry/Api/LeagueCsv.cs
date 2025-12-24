@@ -10,14 +10,14 @@ namespace FF.DataEntry.Api
     {
         internal static void OneEventCsv(List<RacePersonScoreTime> raceEventResults, string outputPath)
         {
-            var config = new CsvConfiguration(CultureInfo.InvariantCulture)
+            CsvConfiguration config = new CsvConfiguration(CultureInfo.InvariantCulture)
             {
                 // Don't write the header again.
                 HasHeaderRecord = false,
             };
 
-            using var writer = new StreamWriter(outputPath);
-            using var csvWriter = new CsvWriter(writer, config);
+            using StreamWriter writer = new StreamWriter(outputPath);
+            using CsvWriter csvWriter = new CsvWriter(writer, config);
 
             // Row 1
             csvWriter.WriteField("Position");
@@ -28,7 +28,7 @@ namespace FF.DataEntry.Api
             csvWriter.WriteField("Pts");
             csvWriter.NextRecord();
 
-            foreach (var raceEventResult in raceEventResults)
+            foreach (RacePersonScoreTime raceEventResult in raceEventResults)
             {
                 csvWriter.WriteField(raceEventResult.Position);
                 csvWriter.WriteField(raceEventResult.Name);
@@ -43,14 +43,15 @@ namespace FF.DataEntry.Api
 
         private static int GetLastEventRaced(List<RaceEvent> allEvents)
         {
-            for (var idx = 0; idx < allEvents.Count; idx++)
+            for (int idx = 0; idx < allEvents.Count; idx++)
             {
                 if (!HasRaceBeenRun(idx))
                 {
                     return idx - 1;
                 }
             }
-            throw new Exception("No races run");
+            // if the last race in the season has been run.
+            return allEvents.Count > 0 ? allEvents.Count -1 : throw new Exception("No races run");
 
             // local function
             bool HasRaceBeenRun(int raceIdx) => allEvents[raceIdx]?.Results?.Find(res => res.Time.HasValue)?.Time.HasValue ?? false;
@@ -58,11 +59,11 @@ namespace FF.DataEntry.Api
 
         internal static void WholeSeasonLastRaceSpotligtCsv(Root root, List<OverallScores> overallPositions, string outputPath)
         {
-            var finder = new Finder(root);
-            var allEvents = finder.GetAllEvents().ToList();
-            var spotlightEventIdx = GetLastEventRaced(allEvents);
+            Finder finder = new Finder(root);
+            List<RaceEvent> allEvents = finder.GetAllEvents().ToList();
+            int spotlightEventIdx = GetLastEventRaced(allEvents);
 
-            var config = new CsvConfiguration(CultureInfo.InvariantCulture)
+            CsvConfiguration config = new CsvConfiguration(CultureInfo.InvariantCulture)
             {
                 // Don't write the header again.
                 HasHeaderRecord = false,
@@ -70,8 +71,8 @@ namespace FF.DataEntry.Api
 
             try
             {
-                using (var writer = new StreamWriter(outputPath))
-                using (var csvWriter = new CsvWriter(writer, config))
+                using (StreamWriter writer = new StreamWriter(outputPath))
+                using (CsvWriter csvWriter = new CsvWriter(writer, config))
                 {
                     // Row 1
                     csvWriter.WriteField("");
@@ -79,7 +80,7 @@ namespace FF.DataEntry.Api
                     csvWriter.WriteField("");
                     csvWriter.WriteField("");
                     csvWriter.WriteField("");
-                    for (var evtIndex = 0; evtIndex <= spotlightEventIdx; evtIndex++)
+                    for (int evtIndex = 0; evtIndex <= spotlightEventIdx; evtIndex++)
                     {
                         csvWriter.WriteField($"{allEvents[evtIndex].GetDate().ToString("MMMM")}");
                     }
@@ -94,7 +95,7 @@ namespace FF.DataEntry.Api
                     csvWriter.WriteField("Prev Best");
 
                     // Loop around each of the events
-                    for (var evtIndex = 0; evtIndex <= spotlightEventIdx; evtIndex++)
+                    for (int evtIndex = 0; evtIndex <= spotlightEventIdx; evtIndex++)
                     {
                         csvWriter.WriteField("Pts");
                     }
@@ -102,7 +103,7 @@ namespace FF.DataEntry.Api
                     csvWriter.NextRecord();
 
                     // Loop around each athlete
-                    foreach (var overallScore in overallPositions)
+                    foreach (OverallScores overallScore in overallPositions)
                     {
                         csvWriter.WriteField(overallScore.Name);
                         csvWriter.WriteField(overallScore.OverallPoints);
@@ -110,10 +111,10 @@ namespace FF.DataEntry.Api
                         csvWriter.WriteField(overallScore.TouristPoints);
                         csvWriter.WriteField(overallScore.BaseLineTime?.GetTimeSpan().ToString(@"mm\:ss") + "\t");
 
-                        for (var evtIndex = 0; evtIndex <= spotlightEventIdx; evtIndex++)
+                        for (int evtIndex = 0; evtIndex <= spotlightEventIdx; evtIndex++)
                         {
-                            var evt = allEvents[evtIndex];
-                            var racePersonScoreTime = evt?.Results?.Find(rc => rc.Name == overallScore.Name) as RacePersonScoreTime;
+                            RaceEvent evt = allEvents[evtIndex];
+                            RacePersonScoreTime? racePersonScoreTime = evt?.Results?.Find(rc => rc.Name == overallScore.Name) as RacePersonScoreTime;
                             csvWriter.WriteField(racePersonScoreTime?.Points.ToString(CultureInfo.InvariantCulture) ?? "");
                         }
 
@@ -128,10 +129,10 @@ namespace FF.DataEntry.Api
 
         internal static void WholeSeasonCsv(Root root, List<OverallScores> overallPositions, string outputPath)
         {
-            var finder = new Finder(root);
-            var allEvents = finder.GetAllEvents().ToList();
+            Finder finder = new Finder(root);
+            List<RaceEvent> allEvents = finder.GetAllEvents().ToList();
 
-            var config = new CsvConfiguration(CultureInfo.InvariantCulture)
+            CsvConfiguration config = new CsvConfiguration(CultureInfo.InvariantCulture)
             {
                 // Don't write the header again.
                 HasHeaderRecord = false,
@@ -139,8 +140,8 @@ namespace FF.DataEntry.Api
 
             try
             {
-                using (var writer = new StreamWriter(outputPath))
-                using (var csvWriter = new CsvWriter(writer, config))
+                using (StreamWriter writer = new StreamWriter(outputPath))
+                using (CsvWriter csvWriter = new CsvWriter(writer, config))
                 {
                     // Row 1
                     csvWriter.WriteField("");
@@ -148,7 +149,7 @@ namespace FF.DataEntry.Api
                     csvWriter.WriteField("");
                     csvWriter.WriteField("");
                     csvWriter.WriteField("");
-                    for (var evtIndex = 0; evtIndex < allEvents.Count(); evtIndex++)
+                    for (int evtIndex = 0; evtIndex < allEvents.Count(); evtIndex++)
                     {
                         csvWriter.WriteField($"{allEvents[evtIndex].GetDate().ToString("MMMM")}");
                         csvWriter.WriteField("");
@@ -164,7 +165,7 @@ namespace FF.DataEntry.Api
                     csvWriter.WriteField("Tourist Pts");
                     csvWriter.WriteField("Prev Best");
 
-                    for (var evtIndex = 0; evtIndex < allEvents.Count(); evtIndex++)
+                    for (int evtIndex = 0; evtIndex < allEvents.Count(); evtIndex++)
                     {
                         csvWriter.WriteField("Location");
                         csvWriter.WriteField("Time");
@@ -173,7 +174,7 @@ namespace FF.DataEntry.Api
                     }
                     csvWriter.NextRecord();
 
-                    foreach (var overallScore in overallPositions)
+                    foreach (OverallScores overallScore in overallPositions)
                     {
                         csvWriter.WriteField(overallScore.Name);
                         csvWriter.WriteField(overallScore.OverallPoints);
@@ -181,10 +182,10 @@ namespace FF.DataEntry.Api
                         csvWriter.WriteField(overallScore.TouristPoints);
                         csvWriter.WriteField(overallScore.BaseLineTime?.GetTimeSpan().ToString(@"mm\:ss") + "\t");
 
-                        for (var evtIndex = 0; evtIndex < allEvents.Count(); evtIndex++)
+                        for (int evtIndex = 0; evtIndex < allEvents.Count(); evtIndex++)
                         {
-                            var evt = allEvents[evtIndex];
-                            var racePersonScoreTime = evt.Results.FirstOrDefault(rc => rc.Name == overallScore.Name) as RacePersonScoreTime;
+                            RaceEvent evt = allEvents[evtIndex];
+                            RacePersonScoreTime? racePersonScoreTime = evt.Results.FirstOrDefault(rc => rc.Name == overallScore.Name) as RacePersonScoreTime;
 
                             if (racePersonScoreTime != null)
                             {
