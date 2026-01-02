@@ -18,8 +18,6 @@ namespace FF.DataEntry.Api
                 {"Value2", athleteStats.FrimleyLodgeCount.ToString()},
                 {"Value3", athleteStats.FirstParkrun},
                 {"Value4", athleteStats.PB.ToString()},
-                {"Value5", athleteStats.PBDate},
-                {"Value6", athleteStats.PBLocation},
                 {"Value7", athleteStats.ParkrunVenueCount.ToString()},
                 {"Value8", $"{athleteStats.Alphabeteer}%"},
                 {"Value9", athleteStats.NendyParkrun},
@@ -33,10 +31,10 @@ namespace FF.DataEntry.Api
                 {"Value17", $"{athleteStats.CompassClub}%" },
                 {"Value18", athleteStats.WilsonIndex.ToString()},
                 {"Value19", athleteStats.WilsonFloatingIndex.ToString()},
-                {"Value20", athleteStats.LastParkrunTime.ToString()},
+                {"Value20", athleteStats.LastParkrun},
                 {"Value21", athleteStats.LatestRunIsQuickestSince},
-                {"Value22", athleteStats.BestTimeCurrentYear.ToString()},
-                {"Value23", athleteStats.BestLocationCurrentYear},
+                {"Value22", athleteStats.BestTimeLastYear},
+                {"Value23", athleteStats.BestTimeCurrentYear},
             };
 
             using Stream? resource = Assembly.GetExecutingAssembly().GetManifestResourceStream("FF.DataEntry.Resources.topTrump.html");

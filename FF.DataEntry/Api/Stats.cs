@@ -26,11 +26,15 @@ namespace FF.DataEntry.Api
 
         public static async Task GetTopTrumps(List<Athlete> athletes, string basePath)
         {
+            List<Task> taskList = [];
+
             List<AthleteStats> rows = GetStats(athletes);
             foreach (AthleteStats athleteStats in rows)
             {
-                await athleteStats.BuildTopTrump(basePath);
+                taskList.Add(athleteStats.BuildTopTrump(basePath));
             }
+
+            await Task.WhenAll(taskList);
         }
 
         private static List<AthleteStats> GetStats(IEnumerable<Athlete> athletes)
@@ -46,15 +50,14 @@ namespace FF.DataEntry.Api
                 (int index, int floating) wilsonIndex = WilsonIndex(athlete.ParkrunRunList);
                 if (quickestParkurnLastYear != null)
                 {
-                    AthleteStats athleteStats = new()
+                    AthleteStats athleteStats = new AthleteStats()
                     {
                         Name = athlete.Name,
                         ParkrunsCount = athlete.ParkrunRunList.Count,
                         FrimleyLodgeCount = FrimleyLodgeCount(athlete.ParkrunRunList),
-                        FirstParkrun = (athlete.ParkrunRunList.OrderBy(pr => pr.Date).First()).Date.ToShortDateString(),
-                        PB = quickestParkrun.RaceTime,
-                        PBDate = quickestParkrun.Date.ToShortDateString(),
-                        PBLocation = quickestParkrun.Event,
+                        FirstParkrun = GetParkrunInfoString((athlete.ParkrunRunList.OrderBy(pr => pr.Date).First())),
+
+                        PB = GetParkrunInfoString(quickestParkrun),
 
                         // Tourist
                         ParkrunVenueCount = parkRunEvents.Count,
@@ -70,14 +73,12 @@ namespace FF.DataEntry.Api
 
 
                         // This year
-                        LastParkrunTime = athlete.GetOrderedByDateDescending().First().RaceTime,
-                        LatestRunIsQuickestSince = latestRunIsQuickestSince?.Date.ToShortDateString() ?? string.Empty,
-                        BestTimeCurrentYear = quickestParkurnThisYear.RaceTime,
-                        BestLocationCurrentYear = quickestParkurnThisYear.Event,
+                        LastParkrun = $"{GetParkrunInfoString(athlete.GetOrderedByDateDescending().First())}",
+                        LatestRunIsQuickestSince = GetParkrunInfoString(latestRunIsQuickestSince),
+                        BestTimeCurrentYear = GetParkrunInfoString(quickestParkurnThisYear),
 
-                        BestTimeLastYear = quickestParkurnLastYear.RaceTime,
-                        BestLocationLastYear = quickestParkurnLastYear.Event,
-                        HomeForThisYear = athlete.HomePakrunName,
+                        BestTimeLastYear = GetParkrunInfoString(quickestParkurnLastYear),
+                        HomeForThisYear = athlete.HomePakrunName
                     };
 
                     (athleteStats.NendyParkrun, athleteStats.NendyDistanceMiles, athleteStats.NendyClosestNCompleted, athleteStats.FurthestParkrun, athleteStats.FurthestDistanceMiles) 
@@ -87,6 +88,16 @@ namespace FF.DataEntry.Api
             }
 
             return rows;
+        }
+
+        private static string GetParkrunInfoString(ParkrunRun? parkrun)
+        {
+            if (parkrun == null)
+            {
+                return string.Empty;
+            }
+
+            return $"{parkrun.RaceTime} on {parkrun.Date.ToShortDateString()} at {parkrun.Event}";
         }
 
 
@@ -227,20 +238,18 @@ namespace FF.DataEntry.Api
             public int ParkrunsCount { get; set; }
             public int FrimleyLodgeCount { get; set; }
             public string FirstParkrun { get; set; }
-            public TimeSpan PB { get; set; }
-            public string PBDate { get; set; }
-            public string PBLocation { get; set; }
+            public string PB { get; set; }
 
             // Tourist
             public int ParkrunVenueCount { get; set; }
             public int Alphabeteer { get; set; }
-            public string NendyParkrun { get; set; }
+            public string? NendyParkrun { get; set; }
             public int NendyDistanceMiles { get; set; }
             public int NendyClosestNCompleted { get; set; }
-            public string FurthestParkrun { get; set; }
+            public string? FurthestParkrun { get; set; }
             public int FurthestDistanceMiles { get; set; }
             public int InternationalsCount { get; set; }
-            public string InternationalBreakdown { get; set; }
+            public string? InternationalBreakdown { get; set; }
 
             // Challenges
             public int StopWatchBingo { get; set; }
@@ -249,18 +258,13 @@ namespace FF.DataEntry.Api
             public int WilsonFloatingIndex { get; set; }
 
             // This Year
-            public TimeSpan LastParkrunTime { get; set; }
+            public string LastParkrun { get; set; }
             public string LatestRunIsQuickestSince { get; set; }
-            public TimeSpan BestTimeCurrentYear { get; set; }
-            public string BestLocationCurrentYear { get; set; }
-
+            public string BestTimeCurrentYear { get; set; }
 
             //Hidden
-            public string HomeForThisYear { get; set; }
-            public TimeSpan BestTimeLastYear { get; set; }
-            public string BestLocationLastYear { get; set; }
-
-
+            public string? HomeForThisYear { get; set; }
+            public string BestTimeLastYear { get; set; }
         }
     }
 }

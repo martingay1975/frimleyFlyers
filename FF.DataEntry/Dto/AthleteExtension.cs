@@ -26,8 +26,8 @@ namespace FF.DataEntry.Dto
             return athlete.ParkrunRunList.Where(parkrunRun => parkrunRun.Date >= startTime && parkrunRun.Date <= endTime);
         }
 
-        public static ParkrunRun GetQuickestParkrun(this Athlete athlete, int? year = null) =>
-             athlete.GetParkrunListInDate(year).OrderBy(parkrunRun => parkrunRun.RaceTime).First();
+        public static ParkrunRun? GetQuickestParkrun(this Athlete athlete, int? year = null) =>
+             athlete.GetParkrunListInDate(year).OrderBy(parkrunRun => parkrunRun.RaceTime).FirstOrDefault();
 
 
         public static IEnumerable<ParkrunRun> GetOrderedByDateDescending(this Athlete athlete)

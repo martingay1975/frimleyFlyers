@@ -5,7 +5,7 @@ namespace FF.DataEntry.Api
 {
     public partial class Manager
     {
-        public const int Year = 2025;
+        public static readonly int Year = DateTime.UtcNow.Year;
         private RootParkrunsOnly root;
         private Finder RaceFinder;
         private string basePath;
@@ -16,7 +16,7 @@ namespace FF.DataEntry.Api
 
         public string GetBasePath(string seasonFilePath)
         {
-            var fileInfo = new FileInfo(seasonFilePath);
+            FileInfo fileInfo = new FileInfo(seasonFilePath);
             this.basePath = fileInfo.Directory?.FullName ?? throw new InvalidOperationException();
             return this.basePath;
         }
@@ -54,7 +54,7 @@ namespace FF.DataEntry.Api
                 throw new Exception($"Unable to set the root object from '{seasonFilePath}'");
             }
 
-            var raceFinder = new Finder(this.root);
+            Finder raceFinder = new Finder(this.root);
             this.RaceManager = new RaceManager(raceFinder);
             this.RecordsManager = new RecordsManager(this.root.Records);
             this.RaceFinder = new Finder(this.root);

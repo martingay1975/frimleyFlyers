@@ -9,40 +9,69 @@ namespace FF.DataEntry.Utils
         {
             updateProgressAction?.Invoke("Getting parkrun page");
 
-            var url = $"https://www.parkrun.org.uk/parkrunner/{parkrunId}/all/";
-            var httpClient = HttpClientFactory.Create();
-            var request = new HttpRequestMessage(HttpMethod.Get, url);
+            string url = $"https://www.parkrun.org.uk/parkrunner/{parkrunId}/all/";
+            HttpClient httpClient = HttpClientFactory.Create();
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, url);
 
-            request.Headers.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
-            request.Headers.Add("Accept-Language", "en-US,en;q=0.9");
-            request.Headers.Add("Cache-Control", "no-cache");
-            request.Headers.Add("Connection", "keep-alive");
-            request.Headers.Add("Pragma", "no-cache");
-            request.Headers.Add("Upgrade-Insecure-Requests", "1");
-            request.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36");
+            // Core headers
+            request.Headers.TryAddWithoutValidation(
+                "Accept",
+                "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7"
+            );
 
-            var httpResponseMessage = await httpClient.SendAsync(request);
+            request.Headers.TryAddWithoutValidation(
+                "Accept-Language",
+                "en-GB,en-US;q=0.9,en;q=0.8"
+            );
+
+            request.Headers.TryAddWithoutValidation("Cache-Control", "no-cache");
+            request.Headers.TryAddWithoutValidation("Pragma", "no-cache");
+            request.Headers.TryAddWithoutValidation("Upgrade-Insecure-Requests", "1");
+            request.Headers.TryAddWithoutValidation("Priority", "u=0, i");
+
+            // User-Agent
+            request.Headers.TryAddWithoutValidation(
+                "User-Agent",
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"
+            );
+
+            // Sec-CH headers
+            request.Headers.TryAddWithoutValidation(
+                "Sec-CH-UA",
+                "\"Google Chrome\";v=\"143\", \"Chromium\";v=\"143\", \"Not A(Brand\";v=\"24\""
+            );
+            request.Headers.TryAddWithoutValidation("Sec-CH-UA-Mobile", "?0");
+            request.Headers.TryAddWithoutValidation("Sec-CH-UA-Platform", "\"Windows\"");
+
+            // Fetch metadata headers
+            request.Headers.TryAddWithoutValidation("Sec-Fetch-Dest", "document");
+            request.Headers.TryAddWithoutValidation("Sec-Fetch-Mode", "navigate");
+            request.Headers.TryAddWithoutValidation("Sec-Fetch-Site", "none");
+            request.Headers.TryAddWithoutValidation("Sec-Fetch-User", "?1");
+
+
+            HttpResponseMessage httpResponseMessage = await httpClient.SendAsync(request);
             httpResponseMessage.EnsureSuccessStatusCode();
-            var html = await httpResponseMessage.Content.ReadAsStringAsync();
-            var parkrunRunList = new List<ParkrunRun>();
+            string html = await httpResponseMessage.Content.ReadAsStringAsync();
+            List<ParkrunRun> parkrunRunList = new List<ParkrunRun>();
 
-            var htmlDoc = new HtmlDocument();
+            HtmlDocument htmlDoc = new HtmlDocument();
             htmlDoc.LoadHtml(html);
 
-            var htmlTBodyList = htmlDoc.DocumentNode.SelectNodes("//tbody");
-            var htmlTBody = htmlTBodyList[2];
+            HtmlNodeCollection htmlTBodyList = htmlDoc.DocumentNode.SelectNodes("//tbody");
+            HtmlNode htmlTBody = htmlTBodyList[2];
             if (htmlTBody == null)
             {
                 throw new InvalidOperationException("Unable to see the parkrunners content");
             }
 
-            var rows = htmlTBody.Elements("tr").ToList();
-            for (var rowIndex = 0; rowIndex < rows.Count(); rowIndex++)
+            List<HtmlNode> rows = htmlTBody.Elements("tr").ToList();
+            for (int rowIndex = 0; rowIndex < rows.Count(); rowIndex++)
             {
-                var row = rows[rowIndex];
+                HtmlNode row = rows[rowIndex];
                 updateProgressAction?.Invoke($" {rowIndex + 1} of {rows.Count()}");
-                var columns = row.Elements("td").ToList();
-                var parkrunRun = new ParkrunRun();
+                List<HtmlNode> columns = row.Elements("td").ToList();
+                ParkrunRun parkrunRun = new ParkrunRun();
 
                 try
                 {
