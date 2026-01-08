@@ -33,7 +33,7 @@ namespace FF.DataEntry.Utils
 				//createAthlete(20, "Emma Malcolm", "1717915", "344643"),
 				//createAthlete(21, "Elinor Boese", "", "125634"),
 				createAthlete(22, "Adrian Keane-Munday", "", "2272640"),
-                //createAthlete(23, "Oli Peddle", "13197801", "953039"),
+                createAthlete(23, "Oli Peddle", "13197801", "953039"),
                 createAthlete(24, "Lewis Whatley", "", "911642"),
 				//createAthlete(24, "Dave Bartlett", "", "2087676"),
 				createAthlete(25, "Tom Churchill", "1125412", "91676"),
@@ -82,6 +82,8 @@ namespace FF.DataEntry.Utils
                 createAthlete(68, "Charlotte Knight", "", "4988692"),
                 createAthlete(69, "Leonie Harvey", "", "77854", "Rother Valley"),
                 //createAthlete(70, "Richard Jackson", "", "848919"),
+                createAthlete(71, "Phoebe Harvey", "", "77852"),
+                createAthlete(72, "Rufus Frew", "", "734089"),
             };
 
             Athlete createAthlete(int id, string name, string stravaId, string parkrunId, string homeParkrun = ParkrunLocation.FRIMLEYLODGE_EVENTNAME)
