@@ -16,7 +16,7 @@ namespace FF.DataEntry.Utils
                 createAthlete(3, "Chris Peddle", "7597223", "399793"),
                 createAthlete(4, "David Peddle", "3927231", "79200"),
                 createAthlete(5, "Duncan Ball", "12896333", "56739"),
-                createAthlete(6, "Bob Turner", "381428", "289659"),
+                //createAthlete(6, "Bob Turner", "381428", "289659"),
                 createAthlete(7, "Alasdair Nuttall", "1106175", "220582"),
 				//createAthlete(8, "Sarah Erskine", "4751449", "569008"),
 				//createAthlete(9, "Alex Halfacre", "7880452", "912484"),
@@ -36,9 +36,9 @@ namespace FF.DataEntry.Utils
                 createAthlete(23, "Oli Peddle", "13197801", "953039"),
                 createAthlete(24, "Lewis Whatley", "", "911642"),
 				//createAthlete(24, "Dave Bartlett", "", "2087676"),
-				createAthlete(25, "Tom Churchill", "1125412", "91676"),
+				//createAthlete(25, "Tom Churchill", "1125412", "91676"),
                 //createAthlete(26, "Rich Howden", "1750767", "414051"),
-                createAthlete(27, "Ben Gay", "", "430946", "Leamington"),
+                //createAthlete(27, "Ben Gay", "", "430946", "Leamington"),
 				//createAthlete(28, "Julia Boese", "", "293582"),
 				createAthlete(29, "Alan Bush", "19641672", "1520236"),
                 createAthlete(30, "Andy Poulter", "", "2306222"),
@@ -63,7 +63,7 @@ namespace FF.DataEntry.Utils
                 //createAthlete(49, "Hannah Williams", "", "780142"),
                 createAthlete(50, "Fiona Keane-Munday", "", "4607674"),
                 //createAthlete(51, "Emily Benson", "", "4022877"),
-                createAthlete(52, "Rebecca Williams", "", "10354407"),  // old profile: 59915
+                //createAthlete(52, "Rebecca Williams", "", "10354407"),  // old profile: 59915
                 //createAthlete(53, "Jess Raynsford", "", "3912467"),
                 //createAthlete(54, "Mary Williams", "", "780136"),
                 createAthlete(55, "Simon Harvey", "", "76882"),
@@ -80,10 +80,13 @@ namespace FF.DataEntry.Utils
                 createAthlete(66, "Matthew Knight", "", "4988701"),
                 createAthlete(67, "Jen Knight", "", "4988676"),
                 createAthlete(68, "Charlotte Knight", "", "4988692"),
-                createAthlete(69, "Leonie Harvey", "", "77854", "Rother Valley"),
+                //createAthlete(69, "Leonie Harvey", "", "77854", "Rother Valley"),
                 //createAthlete(70, "Richard Jackson", "", "848919"),
                 createAthlete(71, "Phoebe Harvey", "", "77852"),
-                createAthlete(72, "Rufus Frew", "", "734089"),
+                //createAthlete(72, "Rufus Frew", "", "734089"),
+                createAthlete(73, "Simon Bass", "", "1506165"),
+                createAthlete(74, "Dan Poulter", "", "4855843", "Hogmoor Inclosure"),
+
             };
 
             Athlete createAthlete(int id, string name, string stravaId, string parkrunId, string homeParkrun = ParkrunLocation.FRIMLEYLODGE_EVENTNAME)
