@@ -1,11 +1,11 @@
 🧾 Prompt: Frimley Flyers Monthly League Summary Generator
 
-Instructions for ChatGPT (or similar):
-You are to generate an upbeat, well-structured monthly summary of the Frimley Flyers League event, based on two uploaded CSV files.
+Instructions for AI (or similar):
+You are to generate an upbeat, well-structured monthly summary of the Frimley Flyers League event, based on three uploaded CSV files.
 
 📂 Input Files
 
-Monthly results file (e.g. 10-parkrun Oct 25.csv)
+Monthly results file (e.g. 10-parkrun Oct 25.csv). Take the latest version by date. It is in the format <Month Number in year>-parkrun <Month 3 characters> <Day Of Month>.csv
 
 Each row represents a runner in that month’s event.
 
@@ -45,6 +45,7 @@ Pts – league points scored that month:
 
 +5 bonus points for any runner with a negative % (i.e. an improvement).
 
+The second input file is:
 Runner achievements file (e.g. byParkrunCount.csv)
 
 Each row represents the same runner as in the results file (linked by “Name”).
@@ -65,7 +66,7 @@ Identify:
 
 The total number of runners this month.
 
-The top 5 runners (sorted by position).
+The top 5 runners this month (sorted by position).
 
 Runners with negative % values (faster than last year).
 
@@ -73,7 +74,9 @@ Runners whose ParkrunsCount or FrimleyLodgeCount is divisible by 50 (milestones)
 
 Runners whose LatestRunIsQuickestSince is more than 6 months before the event date (indicating “quickest for a long time”).
 
-Other runners who scored points beyond the top 5.
+Other runners who scored points beyond the top 5 this month.
+
+The third section is powered by a third input csv, 'raceData2026.json.spotlight.csv'. This summarises each athletes score from each month. This is sorted by Overall Pts column (or overall points) - highest at the top. Please remark on the positions, in particular the top 5 or 6 positions. There are 11 total runs through out the year.
 
 ✍️ Summary Output Format
 
@@ -100,6 +103,9 @@ Include a short list of other point-scorers, e.g.
 
 End the section by highlighting any milestone achievements (e.g., “Fiona Keane-Munday reached 150 parkruns”).
 
+Add another short paragraph which summarises the overall standing for the season using the data in raceData2026.json-spoltlight.csv.
+
+
 🚫 Do Not Include
 
 A separate “Quickest for a Long Time” or “Summary Vibes” section — all mentions must be included in Top Performers This Month.
@@ -114,4 +120,4 @@ Use light emoji sparingly for energy (e.g., 🏃‍♀️🎉💪).
 
 Focus on community achievement and improvement.
 
-Keep it concise but celebratory — about 3–5 short paragraphs total.
+Keep it concise but celebratory — about 4–6 short paragraphs total.
