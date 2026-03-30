@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3:*)",
+      "Bash(python:*)",
+      "Bash(PYTHONUTF8=1 python eval-viewer/generate_review.py \"R:/git/frimleyFlyers/frimley-monthly-report-workspace/iteration-1\" --skill-name \"frimley-monthly-report\" --benchmark \"R:/git/frimleyFlyers/frimley-monthly-report-workspace/iteration-1/benchmark.json\" --static \"R:/git/frimleyFlyers/frimley-monthly-report-workspace/iteration-1/review.html\")",
+      "Bash(start:*)",
+      "Bash(sort -t'\\(' -k2 -n)",
+      "Bash(pip install:*)",
+      "Bash(PYTHONUTF8=1 python -m scripts.run_loop --eval-set \"R:/git/frimleyFlyers/frimley-monthly-report-workspace/eval_set.json\" --skill-path \"R:/git/frimleyFlyers/frimley-monthly-report\" --model \"claude-opus-4-6\" --max-iterations 5 --verbose)",
+      "Bash(pip list:*)"
+    ]
+  }
+}

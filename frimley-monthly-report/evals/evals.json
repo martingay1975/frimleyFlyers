@@ -1,0 +1,19 @@
+{
+  "skill_name": "frimley-monthly-report",
+  "evals": [
+    {
+      "id": 0,
+      "name": "full-run",
+      "prompt": "Generate this month's Frimley Flyers monthly report please",
+      "expected_output": "Two formatted .xlsx files (last-month-only-formatted.xlsx and last-month-all-formatted.xlsx) plus a social media summary in the conversation",
+      "files": []
+    },
+    {
+      "id": 1,
+      "name": "summary-only",
+      "prompt": "Give me the social media summary for this month's parkrun league results",
+      "expected_output": "A social media summary covering top 5 performers, milestones, other point-scorers, and season standings",
+      "files": []
+    }
+  ]
+}
