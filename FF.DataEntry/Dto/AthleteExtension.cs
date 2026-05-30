@@ -73,9 +73,9 @@ namespace FF.DataEntry.Dto
                         Athlete? loadedAthlete = await JsonSerializer.DeserializeAsync<Athlete>(stream, JsonSerializerDefaultOptions.Options);
                         athlete.ParkrunRunList = loadedAthlete?.ParkrunRunList.Where(parkrun => parkrun.Event.IndexOf("junior") == -1).ToList() ?? throw new InvalidOperationException();
                     }
-                    catch (Exception)
+                    catch (Exception e)
                     {
-                        Debug.WriteLine($"{athlete.Name} - Getting parkrun data from disk (not parkrun site) {athletePath}.");
+                        Debug.WriteLine($"{athlete.Name} - Getting parkrun data from disk (not parkrun site) {athletePath}. {e}");
                         throw;
                     }
                 }
