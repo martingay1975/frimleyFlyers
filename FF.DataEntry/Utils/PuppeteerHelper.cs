@@ -4,11 +4,22 @@ namespace FF.DataEntry.Utils
 {
     internal class PuppeteerHelper : IDisposable
     {
+        // Concurrent instances must not race on downloading the same Chrome zip.
+        private static readonly SemaphoreSlim downloadGate = new SemaphoreSlim(1, 1);
+
         private IBrowser browser;
 
         public async Task StartAsync()
         {
-            await new BrowserFetcher().DownloadAsync();
+            await downloadGate.WaitAsync();
+            try
+            {
+                await new BrowserFetcher().DownloadAsync();
+            }
+            finally
+            {
+                downloadGate.Release();
+            }
             Console.WriteLine("Got Chrome Driver");
 
             // Create an instance of the browser and configure launch options
