@@ -98,8 +98,15 @@ def fmt_pct(s):
     return s
 
 
+def latest_monthly_csv():
+    candidates = [p for p in ROOT.glob("*-parkrun *.csv")
+                  if p.name[:2].isdigit()]
+    return max(candidates, key=lambda p: int(p.name[:2]))
+
+
 def render_monthly():
-    src = ROOT / "04-parkrun Apr 25.csv"
+    src = latest_monthly_csv()
+    print(f"Using monthly CSV: {src.name}")
     rows = []
     with open(src, newline="", encoding="utf-8") as f:
         reader = csv.DictReader(f)
