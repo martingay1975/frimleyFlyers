@@ -26,15 +26,31 @@ namespace FF.DataEntry.Api
 
         public static async Task GetTopTrumps(List<Athlete> athletes, string basePath)
         {
+            // Each card render launches a headless Chrome; unbounded concurrency
+            // overwhelms the machine and causes navigation timeouts.
+            using SemaphoreSlim throttle = new SemaphoreSlim(4, 4);
             List<Task> taskList = [];
 
             List<AthleteStats> rows = GetStats(athletes);
             foreach (AthleteStats athleteStats in rows)
             {
-                taskList.Add(athleteStats.BuildTopTrump(basePath));
+                taskList.Add(BuildThrottled(athleteStats));
             }
 
             await Task.WhenAll(taskList);
+
+            async Task BuildThrottled(AthleteStats athleteStats)
+            {
+                await throttle.WaitAsync();
+                try
+                {
+                    await athleteStats.BuildTopTrump(basePath);
+                }
+                finally
+                {
+                    throttle.Release();
+                }
+            }
         }
 
         private static List<AthleteStats> GetStats(IEnumerable<Athlete> athletes)
