@@ -15,7 +15,24 @@ All paths are relative to the working directory (`R:\git\frimleyFlyers`).
 
 ---
 
-## Step 0: Identify the latest monthly CSV
+## Step 0: Refresh the data with FF.Console
+
+Run the one-shot console workflow to regenerate everything in `site/res/json`
+(fetches live parkrun data per athlete, writes the stats/league CSVs, renders top
+trumps, re-saves the season json):
+
+```
+run-monthly-stats.bat
+```
+
+- Run from the repo root; allow several minutes (parkrun fetch + top trump rendering).
+- Exit code 0 = success. Non-zero (e.g. "Season file not found") — stop and report; do
+  not continue with stale data.
+- Optional pass-through args if the user asks: `--skip-toptrumps`, `--skip-fetch`.
+
+All later steps read the files this run just refreshed.
+
+## Step 1: Identify the latest monthly CSV
 
 Monthly result files live in `site/res/json/` and follow the naming pattern:
 
@@ -29,11 +46,11 @@ Pick the file with the highest month number (MM). This is the current month's da
 
 ---
 
-## Step 1: Create last-month-only-formatted.jpg
+## Step 2: Create last-month-only-formatted.jpg
 
 Render the monthly results as a table image using Python (matplotlib or PIL).
 
-- **Data source:** the latest monthly CSV identified in Step 0
+- **Data source:** the latest monthly CSV identified in Step 1
 - **Output:** `site/res/json/last-month-only-formatted.jpg`
 
 ### Table columns
@@ -52,7 +69,7 @@ Render the monthly results as a table image using Python (matplotlib or PIL).
 
 ---
 
-## Step 2: Create last-month-all-formatted.jpg
+## Step 3: Create last-month-all-formatted.jpg
 
 Render the overall season standings as a table image using Python (matplotlib or PIL).
 
@@ -69,8 +86,8 @@ Two header rows:
 
 ### Styling
 
-- Include a position column (1, 2, 3...) as the first column, same as Step 1
-- Same styling as Step 1 (dark header, alternating white/light green rows, bold Name and Pts)
+- Include a position column (1, 2, 3...) as the first column, same as Step 2
+- Same styling as Step 2 (dark header, alternating white/light green rows, bold Name and Pts)
 - Only include month columns up to and including the current month (no empty future months)
 - Centre-align numeric columns
 - Column header is "2025 Best" (not "Prev Best")
@@ -78,13 +95,13 @@ Two header rows:
 
 ---
 
-## Step 3: Generate the social media summary
+## Step 4: Generate the social media summary
 
 This is output directly in the conversation (not saved to file). It merges data from three sources:
 
 ### Input files
 
-1. **Monthly results CSV** (from Step 0) — columns: Position, Name, Location, Time, %, Pts
+1. **Monthly results CSV** (from Step 1) — columns: Position, Name, Location, Time, %, Pts
 2. **Runner stats:** `site/res/json/byParkrunCount.csv` — linked by Name
 3. **Season standings:** `site/res/json/raceData2026.json-spotlight.csv` — sorted by overall Pts
 
