@@ -144,7 +144,8 @@ def render_overall():
     month_names = []
     for i in range(5, len(section_row)):
         if section_row[i].strip():
-            month_names.append(section_row[i].strip())
+            # 3-char abbreviation: full names overlap in the narrow month columns.
+            month_names.append(section_row[i].strip()[:3])
 
     # Filter month columns to those with at least one non-empty value
     month_cols = list(range(5, 5 + len(month_names)))
