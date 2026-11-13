@@ -1,6 +1,6 @@
 ---
 name: frimley-monthly-report
-description: Generate the monthly Frimley Flyers League report from parkrun CSV data — produces two formatted Excel spreadsheets (last-month-only-formatted.xlsx and last-month-all-formatted.xlsx) plus a social media summary for Messenger. Use this skill whenever the user asks for the monthly report, league results, parkrun summary, race report, Frimley Flyers report, formatted spreadsheets from race data, or a newsletter/social media post based on monthly parkrun results. Also trigger when they mention "the monthly league thing", posting results to the group, or processing the latest parkrun CSV into Excel and a summary. Do NOT trigger for: general CSV manipulation, building web pages, editing templates, or one-off data queries about runners.
+description: Generate the monthly Frimley Flyers League report from parkrun CSV data — produces two formatted table images (last-month-only-formatted.jpg and last-month-all-formatted.jpg) plus a social media summary for Messenger. Use this skill whenever the user asks for the monthly report, league results, parkrun summary, race report, Frimley Flyers report, formatted results tables from race data, or a newsletter/social media post based on monthly parkrun results. Also trigger when they mention "the monthly league thing", posting results to the group, or processing the latest parkrun CSV into table images and a summary. Do NOT trigger for: general CSV manipulation, building web pages, editing templates, or one-off data queries about runners.
 ---
 
 # Frimley Flyers Monthly League Report
@@ -46,9 +46,17 @@ Pick the file with the highest month number (MM). This is the current month's da
 
 ---
 
-## Step 2: Create last-month-only-formatted.jpg
+## Steps 2-3: Render both table images
 
-Render the monthly results as a table image using Python (matplotlib or PIL).
+Both images are drawn by `render_tables.py` (alongside this SKILL.md). Run it once from the repo root:
+
+```
+python .claude/skills/frimley-monthly-report/render_tables.py
+```
+
+It picks the latest monthly CSV itself and writes both jpgs to `site/res/json/`. View both images afterwards to check they rendered correctly. The specs below describe what the script produces; change the script, not this text, if the layout needs to change.
+
+## Step 2: last-month-only-formatted.jpg
 
 - **Data source:** the latest monthly CSV identified in Step 1
 - **Output:** `site/res/json/last-month-only-formatted.jpg`
@@ -69,9 +77,7 @@ Render the monthly results as a table image using Python (matplotlib or PIL).
 
 ---
 
-## Step 3: Create last-month-all-formatted.jpg
-
-Render the overall season standings as a table image using Python (matplotlib or PIL).
+## Step 3: last-month-all-formatted.jpg
 
 - **Data source:** `site/res/json/raceData2026.json-spotlight.csv`
 - **Output:** `site/res/json/last-month-all-formatted.jpg`
@@ -80,7 +86,7 @@ Render the overall season standings as a table image using Python (matplotlib or
 
 Two header rows:
 
-**Row 1 (section headers):** blank | "Overall" spanning cols 2-5 | month names (January, February, etc.)
+**Row 1 (section headers):** blank | "Overall" spanning cols 2-5 | 3-letter month names (Jan, Feb, etc. — full names overlap in the narrow columns)
 
 **Row 2 (column headers):** (position) | Name | Pts | Home Pts | Tourist Pts | 2025 Best | Pts (per month...)
 
@@ -134,7 +140,10 @@ Best 5 home scores + best 2 tourist scores = overall total. 11 rounds total (Jan
    - Top 5 runners (by Position column)
    - Runners with negative % (faster than previous year's best)
    - Milestone runners (from byParkrunCount.csv only, never byMilestone.csv):
-     - **Just passed**: ParkrunsCount or FrimleyLodgeCount is divisible by 50 (e.g. 500, 250) — celebrate it
+     - **Just passed**: a multiple of 50 was crossed since the previous league round — celebrate it. Runners do several parkruns a month, so the current count is often a few past the milestone (e.g. 702 for the 700th). Check it like this:
+       - Previous round date = date in the second-highest-numbered monthly CSV filename.
+       - From `site/res/json/athletes/{Name}.json` (`parkrunRunList`, each run has `date` and `event`), count runs dated after the previous round date (for FrimleyLodgeCount, only runs where `event` is "Frimley Lodge").
+       - Milestone crossed if `floor(count / 50) > floor((count - runsSince) / 50)`. Name the milestone itself (700th), not the current count.
      - **About to reach**: ParkrunsCount or FrimleyLodgeCount is 1 less than a multiple of 50 (e.g. 499, 249) — mention they'll reach it next time
    - "Quickest for a long time": where LatestRunIsQuickestSince is more than 6 months before the event date
    - Other point-scorers (positions 6-10)
@@ -156,7 +165,7 @@ Produce one cohesive summary in this structure:
 A single line listing remaining point-scorers, e.g. "Also scoring this month: Name (X pts), Name (Y pts), ..."
 
 **Milestones:**
-If any runner hit or is about to hit a milestone, mention it briefly after the point-scorers. Use byParkrunCount.csv only (never byMilestone.csv). Check for both "just passed" (divisible by 50) and "about to reach" (1 away from a multiple of 50, e.g. 499 → "will reach 500 next time").
+If any runner hit or is about to hit a milestone, mention it briefly after the point-scorers. Use byParkrunCount.csv only (never byMilestone.csv). Check for both "just passed" (crossed a multiple of 50 since the previous round — see Analysis) and "about to reach" (1 away from a multiple of 50, e.g. 499 → "will reach 500 next time").
 
 **Season standings paragraph:**
 A short paragraph summarising the overall standings from the spotlight CSV — who leads, who's close behind, any interesting battles. Reference the "best 5 home + best 2 tourist" scoring system if relevant.
