@@ -29,6 +29,10 @@ current. Notes from 2026:
 - To include people not on the active roster (e.g. Bob Turner, Rufus Frew, Tom Churchill,
   Ben Gay in 2026), uncomment them in `FF.DataEntry/Utils/AthletesManager.cs` for the run,
   then put the roster back. Ask Martin who to include.
+- To refresh just one athlete's json (e.g. someone whose file is stale), use
+  `dotnet run --project FF.Console/FF.Console.csproj -c Release -- --only "Ben Gay"`.
+  It fetches only that person and leaves the shared stats/league/season files untouched.
+  They still need to be uncommented in the roster for the run.
 - A file whose latest run is weeks older than everyone else's wasn't refreshed: say so rather
   than summarising stale data.
 
