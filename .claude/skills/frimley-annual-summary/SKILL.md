@@ -36,6 +36,29 @@ Definitions the script already applies:
   parkruns and Frimley Lodge runs, where the milestone run itself was this year.
 - Junior parkruns are excluded.
 
+## Step 2b: Pick up other races from the Messenger chat (if asked)
+
+Races beyond parkrun (marathons, halves, 10ks, Hart 4, triathlons, the club handicap) live
+only in the **Flyers Chat Group** on Messenger: https://www.messenger.com/t/988559187867389
+(Martin must be logged in, in Chrome).
+
+- Open it with the Claude in Chrome tools and scroll the message pane back to 1 January
+  using JavaScript: the scroll container is the large `overflow-y:auto` div in the middle
+  pane. Set its `scrollTop = 0` every ~1.2s in an async loop started without `await`
+  (a single awaited loop times out at 45s), accumulating every line that starts with
+  `Enter, Message sent <date> by <name>: <text>` into a `Map`. Stop once the oldest
+  message is from the previous year. Poll progress between `wait` actions.
+- Filter for race words (marathon, half, 10k, mile, Hart 4, relay, triathlon, medal, PB,
+  race names), then read the surrounding messages on each race day to see who ran.
+  Strip URLs before returning text (query strings get blocked), and return small chunks
+  (~2,000 chars per call, larger output gets truncated).
+- Messenger shows first names only. Disambiguate shared names (e.g. two Karens) from
+  @mentions or the athletes' parkrun data (who was at parkrun that day). Flag anything
+  still uncertain rather than guessing.
+- Only credit someone with a race if the chat says they ran it; spectating, marshalling
+  and planned future races don't count. People not on the roster are listed separately.
+- Close the tab afterwards.
+
 ## Step 3: Write the one-liners
 
 One bullet per athlete with runs this year, alphabetical, name in bold:
