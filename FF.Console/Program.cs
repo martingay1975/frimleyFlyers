@@ -8,9 +8,15 @@ using FF.DataEntry.Api;
 string folderPath = @"r:\git\frimleyFlyers\site\res\json";
 bool skipTopTrumps = false;
 bool skipFetch = false;
-foreach (string arg in args)
+string? onlyAthlete = null;
+for (int i = 0; i < args.Length; i++)
 {
-    if (string.Equals(arg, "--skip-toptrumps", StringComparison.OrdinalIgnoreCase))
+    string arg = args[i];
+    if (string.Equals(arg, "--only", StringComparison.OrdinalIgnoreCase) && i + 1 < args.Length)
+    {
+        onlyAthlete = args[++i];
+    }
+    else if (string.Equals(arg, "--skip-toptrumps", StringComparison.OrdinalIgnoreCase))
     {
         skipTopTrumps = true;
     }
@@ -35,6 +41,15 @@ Console.WriteLine($"Loading {filePath}");
 Manager manager = new Manager();
 await manager.InitAsync(filePath);
 string basePath = manager.GetBasePath(filePath);
+
+// Refresh a single athlete's json only; shared stats/league outputs are left untouched.
+if (onlyAthlete != null)
+{
+    Console.WriteLine($"Fetching parkrun data for {onlyAthlete} only");
+    await manager.AthletesManager.PopulateWithParkrunListAsync(basePath, new List<string> { onlyAthlete }, true);
+    Console.WriteLine("Done");
+    return 0;
+}
 
 if (skipFetch)
 {
